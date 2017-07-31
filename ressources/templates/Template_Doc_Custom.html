@@ -1,0 +1,40 @@
+<md-dialog aria-label="Générer un custom">
+  <form ng-cloak ng-submit="generate()" >
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Générer un custom</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content class="md-padding">
+      <div class="md-block" layout="row">
+
+        <md-input-container class="md-block flex-50">
+          <label>Type de document</label>
+          <md-select ng-model="doc.type" placeholder="Choisir un type">
+            <md-option ng-value="-1">Custom</md-option>
+            <md-option ng-value="doct.id" ng-repeat="doct in doctypes">{{doct.nom}} ({{doct.var_name}})</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container class="md-block flex-50">
+          <label>Template custom</label>
+          <input type="text" value="{{uploader.queue[0].file.name}}" placeholder="Choisir un template" style="cursor: pointer;" onclick="$('#HkkRJx').click();" onkeypress="$(this).blur(); return false; ">
+        </md-input-container>
+        <input type="file" nv-file-select uploader="uploader" id="HkkRJx" accept=".docx" style="display: none;" options="{clearInputAfterAddedToQueue: true}">
+      </div>
+      <p style="color:red; text-align: center;">{{error}}</p>
+
+      <md-progress-linear ng-if="uploader.isUploading" md-mode="determinate" value="{{uploader.progress}}"></md-progress-linear>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="close()">Annuler</md-button>
+      <span flex></span>
+      <md-button type="submit" ng-disabled="uploader.isUploading">Enregistrer</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

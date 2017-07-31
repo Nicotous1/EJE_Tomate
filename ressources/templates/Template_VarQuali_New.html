@@ -1,0 +1,38 @@
+<md-dialog aria-label="Nouvelle variable" style="min-width: 700px;">
+  <form ng-cloak ng-submit="save()" >
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2><span ng-if="!(var.nom || var.id)">Nouvelle variable quali</span><span ng-if="(var.nom || var.id)">{{var.nom}}</span></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="column">
+          <div layout="row">
+            <md-input-container class="md-block flex-60">
+              <label>Nom</label>
+              <input type="text" ng-model="var.nom" md-maxlength="50" required>
+            </md-input-container>
+            <md-input-container class="md-block flex">
+              <label>Nom  de variable</label>
+              <input type="text" ng-model="var.var_name" md-maxlength="30" required>
+            </md-input-container>
+          </div>
+          <md-input-container class="md-block flex">
+            <label>Contenu</label>
+            <textarea ng-model="var.content"  rows="4" md-maxlength="500"></textarea>
+          </md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="close()">Annuler</md-button>
+      <span flex></span>
+      <md-button type="submit" ng-disabled="sending">{{sending ? 'Sauvegarde en cours...' : 'Sauvegarder'}}</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

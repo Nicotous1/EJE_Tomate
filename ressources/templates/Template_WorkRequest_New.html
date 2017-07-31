@@ -1,0 +1,35 @@
+<md-dialog aria-label="Postuler à {{etude.nom}}">
+  <form ng-cloak>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Votre candidature pour #{{etude.numero}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-padding">
+        <md-input-container class="md-block">
+          <label>{{!user.cv ? 'Selectionnez votre CV' : 'Votre CV enregistré'}} :</label>
+          <input type="text" value="{{uploaderCV.queue[0] ? uploaderCV.queue[0].file.name : user.cv.nom}}" placeholder="Aucun PDF selectionné"  id="HkhhRdadaJx_TXT" ng-disabled="uploaderL.isUploading || uploaderCV.isUploading" style="cursor: pointer;" onclick="$('#HkhhRdadaJx').click(); return false;" onkeypress="$(this).blur(); return false; ">
+        </md-input-container>
+        <input type="file" nv-file-select uploader="uploaderCV" accept=".pdf" id="HkhhRdadaJx" style="display: none;">
+        <md-progress-linear ng-if="uploaderCV.isUploading" md-mode="determinate" value="{{uploaderCV.progress}}"></md-progress-linear>
+
+        <md-input-container class="md-block" ng-if="user.cv">
+          <label>{{!etude.w ? 'Selectionnez votre lettre de motivation' : 'Votre lettre de motivation enregistrée'}} :</label>
+          <input type="text"  value="{{uploaderL.queue[0] ? uploaderL.queue[0].file.name : etude.w.lettre.nom}}"  id="HkhhRfeJx_TXT" ng-disabled="uploaderL.isUploading || uploaderCV.isUploading" placeholder="Aucun PDF selectionné" style="cursor: pointer;" onclick="$('#HkhhRfeJx').click(); return false;" onkeypress="$(this).blur(); return false; ">
+        </md-input-container>
+        <input type="file" nv-file-select uploader="uploaderL" accept=".pdf" id="HkhhRfeJx" style="display: none;">
+        <md-progress-linear ng-if="uploaderL.isUploading" md-mode="determinate" value="{{uploaderL.progress}}"></md-progress-linear>
+
+        
+        <p>Vos fichiers doivent être au format PDF.</p>
+        <p ng-if="etude.w.statut == '0'">Votre candidature est en attente.</p>
+
+      </div>
+    </md-dialog-content>
+  </form>
+</md-dialog>

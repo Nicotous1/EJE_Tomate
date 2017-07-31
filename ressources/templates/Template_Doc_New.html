@@ -1,0 +1,38 @@
+<md-dialog aria-label="Nouveau document">
+  <form ng-cloak ng-submit="add()" >
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Ajouter un document</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-block md-padding" layout="row">
+
+        <md-input-container class="md-block flex-50">
+          <label>Type de document</label>
+          <md-select ng-model="doc.type" placeholder="Choisir un type" required>
+            <md-option ng-value="doct.id" ng-repeat="doct in doctypes">{{doct.nom}} ({{doct.var_name}})</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container class="md-block flex-50">
+          <label>Document PDF</label>
+          <input type="text" value="{{uploader.queue[0].file.name}}" placeholder="Choisir un template" style="cursor: pointer;" onclick="$('#HkRJx').click();" onkeypress="$(this).blur(); return false; ">
+        </md-input-container>
+        <input type="file" nv-file-select uploader="uploader" accept=".pdf" id="HkRJx" style="display: none;">
+
+      </div>
+      <md-progress-linear ng-if="uploader.isUploading" md-mode="determinate" value="{{uploader.progress}}"></md-progress-linear>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="close()">Annuler</md-button>
+      <span flex></span>
+      <md-button type="submit" ng-disabled="uploader.isUploading">Enregistrer</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,0 +1,71 @@
+<md-dialog aria-label="Nouveau client">
+  <form ng-cloak ng-submit="save()" >
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2><span ng-if="!(e.nom || e.prenom || e.id)">Nouveau client</span><span>{{e.nom}} {{e.prenom}}</span> de chez {{main.getId(main.formEtude.entreprises, e.entreprise).nom}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row">
+          <md-input-container>
+            <md-select ng-model="e.titre" placeholder="Titre" required>  
+                <md-option ng-value="t.id" ng-repeat="t in p.titres track by t.id">{{t.titre}}</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block flex">
+            <label>Nom</label>
+            <input type="text" ng-model="e.nom" md-maxlength="40"  required>
+          </md-input-container>
+          <md-input-container class="md-block flex">
+            <label>Prénom</label>
+            <input type="text" ng-model="e.prenom" md-maxlength="40"  required>
+          </md-input-container>
+        </div>   
+        <div layout="row">
+          <md-input-container class="md-block flex">
+            <label>Adresse</label>
+            <input type="text" ng-model="e.adresse" md-maxlength="200"  required>
+          </md-input-container>
+          <md-input-container class="md-block flex">
+            <label>Code Postal</label>
+            <input type="text" ng-model="e.code_postal" md-maxlength="6"  required>
+          </md-input-container>
+          <md-input-container class="md-block flex">
+            <label>Ville</label>
+            <input type="text" ng-model="e.ville" md-maxlength="50"  required>
+          </md-input-container>
+        </div> 
+        <div layout="row">
+          <md-input-container class="md-block flex">
+            <label>Mobile</label>
+            <input type="text" ng-model="e.mobile" md-maxlength="20"  required>
+          </md-input-container>
+          <md-input-container class="md-block flex">
+            <label>Fixe</label>
+            <input type="text" ng-model="e.fixe" md-maxlength="20"  required>
+          </md-input-container>
+          <md-input-container class="md-block flex">
+            <label>Mail</label>
+            <input type="email" ng-model="e.mail" md-maxlength="130"  required>
+          </md-input-container>
+          <md-input-container>
+            <md-select ng-model="e.last_contact" placeholder="Dernier Contact">  
+              <md-option ng-value="{{contact.id}}" ng-repeat="contact in p.contacts track by contact.id">{{contact.short}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div> 
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="close()">Annuler</md-button>
+      <span flex></span>
+      <md-button type="submit" ng-disabled="sending">{{sending ? 'Sauvegarde en cours...' : 'Sauvegarder'}}</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

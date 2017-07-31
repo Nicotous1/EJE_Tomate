@@ -1,0 +1,14 @@
+REGEX
+RECURSIVE
+RECURSIVE + LARGEUR
+LECTURE PAR OFFSET !! -> OFFSET = CURSEUR DE COMPILATION
+
+RECURSIVITE CEST MIEUX STRLEN EN N -> 3eme essaie stockage !
+
+pos fin pas bonen si entre necessité de parametre pour pos qui donne al fin et non le début
+
+avant pas objet car veut pas garder longue string !!
+
+TOUT objet avec internalisation -> StringPos!! -> plus besoin d'offset, assure calcul unique
+
+remplacer tag par space ??

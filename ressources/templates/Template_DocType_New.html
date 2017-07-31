@@ -1,0 +1,32 @@
+<md-dialog aria-label="Nouveau doctype" style="min-width: 700px;">
+  <form ng-cloak ng-submit="add()" >
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2><span ng-if="!(doctype.nom || doctype.id)">Nouveau type de document</span><span ng-if="(doctype.nom || doctype.id)">{{doctype.nom}}</span></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="column">
+          <md-input-container class="md-block flex">
+            <label>Nom</label>
+            <input type="text" ng-model="doctype.nom" md-maxlength="50" required>
+          </md-input-container>
+          <md-input-container class="md-block flex">
+            <label>Nom de la variable associée</label>
+            <input type="text" ng-model="doctype.var_name" md-maxlength="30" required>
+          </md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="close()">Annuler</md-button>
+      <span flex></span>
+      <md-button type="submit" ng-disabled="sending">Enregistrer</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

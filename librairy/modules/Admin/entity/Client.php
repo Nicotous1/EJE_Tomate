@@ -1,0 +1,41 @@
+<?php
+
+	$handler = new EntitySQLHandler();
+
+	$handler->add((array(
+			"class" => "Client",
+			"atts" => array(
+				array("att" => "nom", "type" => AttSQL::TYPE_STR),
+				array("att" => "prenom", "type" => AttSQL::TYPE_STR),
+				array("att" => "adresse", "type" => AttSQL::TYPE_STR),
+				array("att" => "mobile", "type" => AttSQL::TYPE_STR),
+				array("att" => "fixe", "type" => AttSQL::TYPE_STR),
+				array("att" => "mail", "type" => AttSQL::TYPE_STR),
+				array("att" => "code_postal", "type" => AttSQL::TYPE_STR),
+				array("att" => "ville", "type" => AttSQL::TYPE_STR),
+				array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
+				array("att" => "date_modified", "type" => AttSQL::TYPE_DATE),
+				
+				array("att" => "titre", "type" => AttSQL::TYPE_ARRAY, "list" => User::$titreArray),
+				array("att" => "last_contact", "type" => AttSQL::TYPE_ARRAY, "list" => Client::$last_contactArray),
+				
+				array("att" => "entreprise", "type" => AttSQL::TYPE_DREF, "class"=>"Entreprise"),
+		))))
+	;	
+
+	class Client extends Entity {
+
+		public static $last_contactArray = array(
+			array("id" => 1, "short" => "Email", "long" => "email_l"),
+			array("id" => 2, "short" => "Téléphone", "long" => "tel_l"),
+			array("id" => 3, "short" => "Courrier", "long" => "c_l"),
+		);
+
+		public function var_defaults() {
+			return array(
+				"date_created" => new DateTime(),
+				"date_modified" => new DateTime()
+			);
+		}
+	}
+?>

@@ -1,0 +1,30 @@
+<md-dialog aria-label="Générer un document">
+  <form ng-cloak ng-submit="generate()" >
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Générer un document</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-block md-padding">
+        <md-input-container class="md-block flex">
+          <label>Type de document</label>
+          <md-select ng-model="doc.template" placeholder="Choisir un template">
+            <md-option ng-value="doct.id" ng-repeat="doct in doctemplates | orderBy:'nom' track by doct.id">{{doct.nom}}</md-option>
+          </md-select>
+        </md-input-container>
+        <p style="color:red; text-align: center;">{{error}}</p>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="close()">Annuler</md-button>
+      <span flex></span>
+      <md-button type="submit" ng-disabled="sending">Générer</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
