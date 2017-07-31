@@ -1,5 +1,5 @@
 <?php
-;
+	namespace Core;
 
 	class httpResponse {
 		private $page;

@@ -1,4 +1,6 @@
 <?php
+	namespace Auth;
+	
 	class AuthController extends Controller {
 		/*
 			Handle Register and SignIn

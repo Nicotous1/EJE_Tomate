@@ -1,5 +1,5 @@
 <?php
-;
+namespace Core\PDO\Entity;
 
 	class EntitySQLHandler {
 		const Key = "EntitySQLStore";
@@ -18,6 +18,7 @@
 		public function get($e) {
 			if (!is_string($e)) {$e = get_class($e);}
 			if (!isset($GLOBALS[$this::Key][$e])) {loadClass($e);} //Load class if not already loaded
+			var_dump($e);
 			return $GLOBALS[$this::Key][$e];
 		}
 	}

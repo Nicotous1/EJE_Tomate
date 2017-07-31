@@ -1,5 +1,5 @@
 <?php
-;
+	namespace Core;
 
 	class httpRequest {
 		public function __construct() {

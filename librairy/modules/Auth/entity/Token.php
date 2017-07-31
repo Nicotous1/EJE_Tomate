@@ -1,4 +1,6 @@
 <?php
+	namespace Auth\Entity;
+	
 	class Token {
 
 		private $id;

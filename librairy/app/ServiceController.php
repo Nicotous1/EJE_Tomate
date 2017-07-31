@@ -1,5 +1,5 @@
 <?php
-;
+	namespace Core;
 
 	class ServiceController {
 		public function getPDO() {

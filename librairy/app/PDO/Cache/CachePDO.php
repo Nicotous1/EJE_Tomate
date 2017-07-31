@@ -1,5 +1,5 @@
 <?php
-;
+namespace Core\PDO\Cache;
 
 	class CachePDO {
 

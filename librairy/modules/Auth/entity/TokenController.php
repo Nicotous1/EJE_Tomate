@@ -1,4 +1,6 @@
 <?php
+	namespace Auth\Entity;
+
 	require_once "librairy/plugins/Random/random.php";
 	
 	class TokenController

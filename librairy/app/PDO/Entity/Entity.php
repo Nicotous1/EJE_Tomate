@@ -1,5 +1,5 @@
 <?php
-;
+namespace Core\PDO\Entity;
 
 	abstract class Entity implements \JsonSerializable 
 	{

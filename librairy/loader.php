@@ -1,8 +1,27 @@
 <?php
+	function loadClass($s) {
+		$e = explode("\\", $s);
+		$n = count($e);
+		if ($n < 2) {return false;}
+
+		$path = "librairy/" . (($e[0] == "Core") ? "app" : "modules/" . $e[0]);
+
+		foreach ($e as $i => $file) {
+			if ($i == 0) {continue;}
+			$path .= "/";
+			$path .= ($i + 1 == $n) ? $file . ".php" : strtolower($file);
+		}
+		var_dump($path);
+
+		if (file_exists ($path)) {
+			include $path;
+			return true;
+		}
+	}
+
+	//Dynamique CLass loader
+	spl_autoload_register(function($s) {return loadClass($s);});
+
 	//GENERAL LOADER
-	include('app/loader.php');
 	include('config/loader.php');
-	//include('modules/loader.php');
-	//include('services/loader.php');
-	//include('plugins/loader.php');
 ?>

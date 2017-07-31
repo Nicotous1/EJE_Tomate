@@ -1,4 +1,6 @@
 <?php 
+	namespace Auth\Entity;
+	
 	class UserPDO extends EntityPDO {
 
 		public function getAdmins() {

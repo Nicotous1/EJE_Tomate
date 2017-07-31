@@ -1,5 +1,7 @@
 <?php
-;
+	namespace Core;
+	use Auth\Entity\TokenController;
+	use Auth\Entity\User;
 
 	class Firewall {
 
@@ -66,7 +68,7 @@
 			}
 
 			//Recuperation par Token (remenber)
-			$tokenController = new TokenController;
+			$tokenController = new TokenController();
 			$token = $tokenController->getOfRaw($this->cookies->get("auth_token"));
 			if ($token != null) {
 				if ($token->check()) {
@@ -121,7 +123,7 @@
 
 		private function killOldUserWithNoTrace() {
 			$this->removeCookie()->removeSession(); //Removing Trace
-			$this->currentUser = new User;
+			$this->currentUser = new User();
 			return $this;
 		}
 

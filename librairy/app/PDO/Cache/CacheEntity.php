@@ -1,5 +1,5 @@
 <?php
-;
+namespace Core\PDO\Cache;
 
 /*
 	Pour l'instant pas vraiment utile mais ca peut vite évoluer...

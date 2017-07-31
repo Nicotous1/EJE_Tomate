@@ -1,5 +1,6 @@
 <?php
-;
+	namespace Core\PDO;
+
 	/*
 		Gerer le stock des get null ;)
 	*/

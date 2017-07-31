@@ -1,4 +1,6 @@
 <?php
+	namespace Core;
+
 	class Application {	
 		protected $SC;
 		protected $httpRequest;
