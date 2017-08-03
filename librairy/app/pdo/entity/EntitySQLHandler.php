@@ -10,6 +10,7 @@ namespace Core\PDO\Entity;
 
 		public function add($t) {
 			$e = new EntitySQL();
+			echo "Added";
 			$GLOBALS[$this::Key][$t["class"]] = $e;
 			$e->load($t); //Very important to be after assign array (because IREF can be recursif !)
 			return $this;

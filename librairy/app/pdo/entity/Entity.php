@@ -9,7 +9,7 @@ namespace Core\PDO\Entity;
 		public function __construct($params = null)
 		{
 			$handler = new EntitySQLHandler();
-			$this->structSQL = $handler->get(get_class($this));
+			$this->structSQL = $handler->get($this);
 
 			
 

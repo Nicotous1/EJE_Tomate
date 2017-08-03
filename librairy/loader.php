@@ -3,6 +3,7 @@
 		$e = explode("\\", $s);
 		$n = count($e);
 		if ($n < 2) {return false;}
+		var_dump($s);
 
 		$path = "librairy/" . (($e[0] == "Core") ? "app" : "modules/" . $e[0]);
 
@@ -12,9 +13,8 @@
 			$path .= ($i + 1 == $n) ? $file . ".php" : strtolower($file);
 		}
 		var_dump($path);
-
 		if (file_exists ($path)) {
-			include $path;
+			require_once $path;
 			return true;
 		}
 	}

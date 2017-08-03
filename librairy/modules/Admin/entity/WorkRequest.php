@@ -1,19 +1,9 @@
 <?php
 	namespace Admin\Entity;
 	
-	$handler = new EntitySQLHandler();
-
-	$handler->add((array(
-			"class" => "Admin\Entity\WorkRequest",
-			"table" => "work_request",
-			"atts" => array(
-				array("att" => "etude", "type" => AttSQL::TYPE_DREF, "class" => "Admin\Entity\Etude"),
-				array("att" => "lettre", "type" => AttSQL::TYPE_DREF, "class" => "Admin\Entity\Document"),
-				array("att" => "etudiant", "type" => AttSQL::TYPE_DREF, "class" => "Auth\Entity\User"),
-				array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => WorkRequest::$statutArray),
-				array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
-		))))
-	;	
+	use Core\PDO\Entity\EntitySQLHandler;
+	use Core\PDO\Entity\AttSQL;
+	use Core\PDO\Entity\Entity;
 
 	class WorkRequest extends Entity {
 
@@ -57,4 +47,18 @@
 			return ($this->get("statut")["id"] == 1);
 		}
 	}
+
+	$handler = new EntitySQLHandler();
+
+	$handler->add((array(
+			"class" => "Admin\Entity\WorkRequest",
+			"table" => "work_request",
+			"atts" => array(
+				array("att" => "etude", "type" => AttSQL::TYPE_DREF, "class" => "Admin\Entity\Etude"),
+				array("att" => "lettre", "type" => AttSQL::TYPE_DREF, "class" => "Admin\Entity\Document"),
+				array("att" => "etudiant", "type" => AttSQL::TYPE_DREF, "class" => "Auth\Entity\User"),
+				array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => WorkRequest::$statutArray),
+				array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
+		))))
+	;		
 ?>

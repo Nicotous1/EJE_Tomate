@@ -7,10 +7,6 @@
 
 	require_once "librairy/plugins/Random/random.php";
 
-	$handler = new EntitySQLHandler();
-
-
-
 	class User extends Entity {
 
 		protected $id;
@@ -51,7 +47,7 @@
 		
 		public function var_defaults() {
 			return array(
-				"date_signin" => new DateTime(),
+				"date_signin" => new \DateTime(),
 				"level" => 0, //LEVEL VISITEUR
 				"activated" => true,
 			);
@@ -117,8 +113,9 @@
 		}
 	}
 
-		$handler->add((array(
-			"class" => "User",
+	$handler = new EntitySQLHandler();
+	$handler->add((array(
+			"class" => "Auth\Entity\User",
 			"table" => "etudiant",
 			"atts" => array(
 				array("att" => "mail", "type" => AttSQL::TYPE_STR),
