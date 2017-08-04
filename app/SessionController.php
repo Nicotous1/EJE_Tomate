@@ -17,7 +17,7 @@
 				} else {
 					return session_id() === '' ? FALSE : TRUE;
 				}
-}			
+			}			
 			return FALSE;		
 		}
 
