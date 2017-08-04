@@ -60,9 +60,11 @@
 			
 			$controllerName = $this->route->getController();
 			$methodName = $this->route->getMethod();
-			$clearedName = substr($controllerName, 0, -10);			
+			$clearedName = substr($controllerName, 0, -10);
+
 
 			include("librairy/modules/".$clearedName."/".$controllerName.".php");
+			$controllerName = $clearedName . "\\" . $controllerName;	
 			$controller = new $controllerName($this->httpRequest, $this->httpResponse, $this->firewall);
 
 			//Gestion du retour du controlleur

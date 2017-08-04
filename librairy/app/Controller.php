@@ -1,6 +1,8 @@
 <?php
 	namespace Core;
 
+	use Core\PDO\EntityPDO;
+
 	abstract class Controller	{
 		protected $SC;
 		protected $httpRequest;

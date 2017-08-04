@@ -1,5 +1,7 @@
 <?php
 	namespace Auth;
+	use Core\Controller;
+	use \Exception;
 	
 	class AuthController extends Controller {
 		/*
