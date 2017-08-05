@@ -10,7 +10,7 @@ namespace Core\PDO\Entity;
 		private $atts_d;
 		private $atts_i;
 
-		public function load($p) {
+		public function __construct(array $p) {
 			$this->class = $p["class"];
 			$this->table = (isset($p["table"])) ? $p["table"] : strtolower($this->class);
 			$this->atts = array(); $this->atts_d = array(); $this->atts_i = array();

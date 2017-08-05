@@ -1,7 +1,8 @@
 <?php
 	namespace Core;
+	use \Exception;
 
-	class Routeur extends Singleton{
+	class Routeur {
 
 		private $askedUrl;
 		private $root;
@@ -9,8 +10,18 @@
 		private $route;
 		private $routes;
 
+		// Singleton interface
+		protected static $_instance = null;
+
+		public static function getInstance() {
+			if (self::$_instance === null) {
+				self::$_instance = new self();
+			}
+			return self::$_instance;
+		}
+
 		protected function __construct() {
-			$this->setRoutes()
+			$this->loadRoutes()
 				 ->setUrl($_SERVER['REQUEST_URI'])
 			     ->setRoute()
 			     ->setGET();
@@ -22,15 +33,18 @@
 		*/
 
 		//RECUPERE LES ROUTES PARAMETREES
-		private function setRoutes(array $routes) {
+		private function loadRoutes() {
 			$this->routes = array();
-			foreach($routes as $route) {
-				$this->routes[] = new Route($route);
-			}
 			
+			## Get only routes config in modules (not in main) 
+			foreach (ConfigHandler::getInstance()->get_matches("^(.+)\.routes") as $config) {
+				foreach ($config->getData() as $route) {
+					$route["module"] = $config->getModule();
+					$this->routes[] = new Route($route);
+				}
+			}
 			return $this;
 		}
-
 		//SET ET FILTRE L'URL
 		private function setUrl($url) {
 			$this->askedUrl = $this->generalFilter($url);

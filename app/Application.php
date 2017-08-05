@@ -1,17 +1,30 @@
 <?php
 	namespace Core;
 
-	class Application extends Singleton {	
+	class Application {
+
+
 		protected $SC;
 		protected $httpRequest;
 		protected $httpResponse;
 		protected $route;
 		protected $firewall;
 
-		private function __construct() {			
+		// Singleton interface
+		protected static $_instance = null;
+
+		public static function getInstance() {
+			if (self::$_instance === null) {
+				self::$_instance = new self();
+			}
+			return self::$_instance;
+		}
+
+		protected function __construct() {			
 			$this->httpRequest = httpRequest::getInstance();
 			$this->httpResponse = httpResponse::getInstance();
 			$this->firewall = Firewall::getInstance();
+			var_dump($this->httpRequest);
 			$this->route = null;
 		}
 
@@ -27,7 +40,7 @@
 			TROUVE LA ROUTE DEMANDER SINON RENVOIE 404
 		*/
 		private function runRouteur() {
-			$this->route = $this->SC->getRouteur()->getRoute();
+			$this->route = Routeur::getInstance()->getRoute();
 			if($this->route == null) {$this->httpResponse->setCode(404); $this->end();}
 			return $this;
 		}
@@ -59,9 +72,6 @@
 			$methodName = $this->route->getMethod();
 			$clearedName = substr($controllerName, 0, -10);
 
-
-			include("library/modules/".$clearedName."/".$controllerName.".php");
-			$controllerName = $clearedName . "\\" . $controllerName;	
 			$controller = new $controllerName($this->httpRequest, $this->httpResponse, $this->firewall);
 
 			//Gestion du retour du controlleur

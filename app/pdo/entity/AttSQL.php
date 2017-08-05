@@ -66,8 +66,7 @@ namespace Core\PDO\Entity;
 					if (!isset($params["att_ref"])) {throw new Exception("A reference attribut need the att_ref of the reference to be handle !", 1);}
 
 					$this->class =  $params["class"];
-					$handler = new EntitySQLHandler();
-					$this->att_ref =  $handler->get($this->class)->getAtt($params["att_ref"]);
+					$this->att_ref =  ($this->class)::getEntitySQL()->getAtt($params["att_ref"]);
 					$this->table = $this->att_ref->getTable();
 					$this->col = $this->att_ref->getCol();
 					break;
@@ -164,8 +163,7 @@ namespace Core\PDO\Entity;
 		}
 
 		public function getClassSQL() {
-			$s = new EntitySQLHandler();
-			return $s->get($this->class);
+			return ($this->class)::getEntitySQL();
 		}
 	}
 ?>

@@ -1,13 +1,46 @@
 <?php
 	namespace Auth\Entity;
 
-	use Core\PDO\Entity\EntitySQLHandler;
+	use Core\PDO\Entity\EntitySQL;
 	use Core\PDO\Entity\AttSQL;
 	use Core\PDO\Entity\Entity;
 
-	require_once "library/plugins/Random/random.php";
+	require_once "plugins/Random/random.php";
 
 	class User extends Entity {
+
+
+		public static function getEntitySQL() {
+			return new EntitySQL(array(
+				"class" => "Auth\Entity\User",
+				"table" => "etudiant",
+				"atts" => array(
+					array("att" => "mail", "type" => AttSQL::TYPE_STR),
+					array("att" => "hash", "type" => AttSQL::TYPE_STR),
+					array("att" => "level", "type" => AttSQL::TYPE_INT),
+					array("att" => "date_signin", "type" => AttSQL::TYPE_DATE),
+					array("att" => "activated", "type" => AttSQL::TYPE_INT),
+					array("att" => "activation", "type" => AttSQL::TYPE_STR),
+					array("att" => "nom", "type" => AttSQL::TYPE_STR),
+					array("att" => "prenom", "type" => AttSQL::TYPE_STR),
+					array("att" => "adresse", "type" => AttSQL::TYPE_STR),
+					array("att" => "code_postal", "type" => AttSQL::TYPE_STR),
+					array("att" => "ville", "type" => AttSQL::TYPE_STR),
+					array("att" => "fixe", "type" => AttSQL::TYPE_STR),
+					array("att" => "mobile", "type" => AttSQL::TYPE_STR),
+					array("att" => "date_birth", "type" => AttSQL::TYPE_DATE),
+					array("att" => "nationality", "type" => AttSQL::TYPE_STR),
+					array("att" => "secu", "type" => AttSQL::TYPE_STR),
+
+					array("att" => "annee", "type" => AttSQL::TYPE_ARRAY, "list" => User::$anneeArray),
+					array("att" => "titre", "type" => AttSQL::TYPE_ARRAY, "list" => User::$titreArray),
+
+					array("att" => "cv", "type" => AttSQL::TYPE_DREF, "class" => "Document"),
+					
+					array("att" => "work_requests", "type" => AttSQL::TYPE_IREF, "class" => "Admin\Entity\WorkRequest", "att_ref" => "etudiant"),
+				),
+			));
+		}
 
 		protected $id;
 		protected $mail;
@@ -112,38 +145,4 @@
 			return $r;
 		}
 	}
-
-	$handler = new EntitySQLHandler();
-	$handler->add((array(
-			"class" => "Auth\Entity\User",
-			"table" => "etudiant",
-			"atts" => array(
-				array("att" => "mail", "type" => AttSQL::TYPE_STR),
-				array("att" => "hash", "type" => AttSQL::TYPE_STR),
-				array("att" => "level", "type" => AttSQL::TYPE_INT),
-				array("att" => "date_signin", "type" => AttSQL::TYPE_DATE),
-				array("att" => "activated", "type" => AttSQL::TYPE_INT),
-				array("att" => "activation", "type" => AttSQL::TYPE_STR),
-				array("att" => "nom", "type" => AttSQL::TYPE_STR),
-				array("att" => "prenom", "type" => AttSQL::TYPE_STR),
-				array("att" => "adresse", "type" => AttSQL::TYPE_STR),
-				array("att" => "code_postal", "type" => AttSQL::TYPE_STR),
-				array("att" => "ville", "type" => AttSQL::TYPE_STR),
-				array("att" => "fixe", "type" => AttSQL::TYPE_STR),
-				array("att" => "mobile", "type" => AttSQL::TYPE_STR),
-				array("att" => "date_birth", "type" => AttSQL::TYPE_DATE),
-				array("att" => "nationality", "type" => AttSQL::TYPE_STR),
-				array("att" => "secu", "type" => AttSQL::TYPE_STR),
-
-				array("att" => "annee", "type" => AttSQL::TYPE_ARRAY, "list" => User::$anneeArray),
-				array("att" => "titre", "type" => AttSQL::TYPE_ARRAY, "list" => User::$titreArray),
-
-				array("att" => "cv", "type" => AttSQL::TYPE_DREF, "class" => "Document"),
-				
-				array("att" => "work_requests", "type" => AttSQL::TYPE_IREF, "class" => "Admin\Entity\WorkRequest", "att_ref" => "etudiant"),
-
-				//array("att" => "etudes", "type" => AttSQL::TYPE_MREF, "class" => "Etude", "table" => "admin_etude", "ref_col" => "admin_id"),
-			),
-		)))
-	;
 ?>

@@ -2,45 +2,66 @@
 	namespace Core;
 	use \Exception;
 
-	class ConfigHandler extends Singleton
+	class ConfigHandler
 	{
 		private static $params;
+		private static $files;
 
-		protected function __construct() {
-			self::$params = array();
+		// Singleton interface
+		protected static $_instance = null;
+
+		public static function getInstance() {
+			if (self::$_instance === null) {
+				self::$_instance = new self();
+			}
+			return self::$_instance;
 		}
 
-		// Without "." return main config else go to modules
-		protected function load($name) {
-			echo "loading";
-			$path = "";
-			$ext = ".config";
-
-			$params = explode(".", $name);
-			$n = count($params);
-			switch ($n) {
-				case 1:
-					$path .= "config/" . $name;
-					break;
-				case 2:
-					$path .= "modules/" . $params[0] . "/config/" . $params[1];
-					break;
-				default:
-					throw new Exception("'$name' does not match any pattern :\n 'name' or 'module.name'", 1);
-			}
-			$path .= $ext;
-			if (!file_exists($path)) {throw new Exception("'$name' does not match any file ! ('$path')", 1);}
-
-			$param =  require($path);
-
-			self::$params[$name] = $param;
-			return $this;
+		protected function __construct() {
+			$this->load_files();
 		}
 
 		public function get($name)  {
-			if (!isset(self::$params[$name])) {
-				$this->load($name);
+			if (!isset(self::$files[$name])) {
+				throw new Exception("The name '$name' do not match any config files !", 1);
 			}
-			return self::$params[$name];
+			return self::$files[$name];
+		}
+
+		public function get_matches($regex) {
+			$res = array();
+			foreach (self::$files as $file) {
+				if(preg_match("#" . $regex . "#", $file->getId()))
+				{
+					$res[] = $file;
+				}		
+			}
+			return $res;
+		}
+
+		private function get_folders() {
+			$folders = array("config/");
+			$path = "modules/";
+			foreach (scandir($path) as $result) {
+			    if ( !($result === '.' or $result === '..') && (is_dir($path . $result)) ) {
+			    	$folders[] = $path. $result . "/config/";
+			    }			    
+			}	
+			return $folders;
+		}
+
+		private function load_files() {
+			self::$files = array();
+			foreach ($this->get_folders() as $folder) {
+				foreach (scandir($folder) as $file) {
+					if(preg_match('/.config$/', $file))
+					{
+						$path = $folder . $file;
+						$configFile = new ConfigFile($path);
+						self::$files[$configFile->getId()] = $configFile;
+					}
+				}
+			}
+			return $this;
 		}
 	}

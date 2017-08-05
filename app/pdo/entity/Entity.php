@@ -4,15 +4,9 @@ namespace Core\PDO\Entity;
 	abstract class Entity implements \JsonSerializable 
 	{
 		protected $id;
-		protected $structSQL;
 
 		public function __construct($params = null)
 		{
-			$handler = new EntitySQLHandler();
-			$this->structSQL = $handler->get($this);
-
-			
-
 			//Particulary handle of id because we need to know after if it has one or no
 			if ((isset($params["id"]))) {
 				$this->set("id",$params["id"]);

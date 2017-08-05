@@ -12,18 +12,39 @@
 		private $level;
 		private $controller;
 
-		public function __construct(array $param) {
+		public function __construct(array $params) {
+			//CHECK ONLY COMPULSORY VARIABLE -> NAME, MODULE
+			if (!isset($params["module"]) || $params["module"] == null) {throw new Exception('A road has no module set !');};
+			if (!isset($params["name"]) || $params["name"] == null) {throw new Exception('A road has no name in module : '. $params["module"]);};
+
+			$defaults = array(
+				"prefix_url" => "",
+				"prefix_name" => ucfirst($params["module"]),
+				"method" => $params["name"],
+				"pattern" => $params["name"],
+				"level" => 0,
+				"controller" => ucfirst($params["module"]),
+			);
+			$params = array_merge($defaults, $params);
+
+			// Set constructor after (can't be set in default)
+			$params["constructor"] = (isset($params["constructor"])) ? $params["prefix_url"] . $params["constructor"] : $params["pattern"];
+			
+			//FORMATAGE params
+			$params["pattern"] = $params["prefix_url"] . $params["pattern"];
+			$params["name"] = $params["prefix_name"] . $params["name"];
+
 
 			//OBLIGATOIRE
-			$this->name = $param['name'];
-			$this->pattern = "#^" . $param['pattern'] . "$#i";
-			$this->method = $param['method'];
-			$this->constructor = $param['constructor'];
-			$this->controller = $param['controller'];
+			$this->name = $params['name'];
+			$this->pattern = "#^" . $params['pattern'] . "$#i";
+			$this->method = $params['method'];
+			$this->constructor = $params['constructor'];
+			$this->controller = $params["module"] . "\\" . $params['controller'] . "Controller";
 			
 			//FACULTATIF
-			$this->vars = (isset($param['vars'])) ? explode(',', $param['vars']) : array();
-			$this->level = (isset($param['level'])) ? $param['level'] : 0;
+			$this->vars = (isset($params['vars'])) ? explode(',', $params['vars']) : array();
+			$this->level = (isset($params['level'])) ? $params['level'] : 0;
 		}
 
 		public function match($url) {

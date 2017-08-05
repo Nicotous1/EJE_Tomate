@@ -1,8 +1,19 @@
 <?php
 	namespace Core;
 
-	class httpRequest extends Singleton {
-		private function __construct() {
+	class httpRequest {
+
+		// Singleton interface
+		protected static $_instance = null;
+
+		public static function getInstance() {
+			if (self::$_instance === null) {
+				self::$_instance = new self();
+			}
+			return self::$_instance;
+		}
+
+		protected function __construct() {
 			if (empty($_POST)) {
 				$postdata = file_get_contents("php://input");
 				$GLOBALS["_POST"] = json_decode($postdata, true);

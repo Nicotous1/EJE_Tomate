@@ -308,10 +308,5 @@
 			if (is_a($e, "Entity")) {return $e->getId();} //ADD CHECK IF NULL AND RAISE EXCEPTION -> SAVE BEFORE
 			throw new Exception("Convertion impossible en Id !", 1);
 		}
-
-		public function structOf($e) {
-			$handler = new EntitySQLHandler();
-			return $handler->get($e);
-		}
 	}
 ?>

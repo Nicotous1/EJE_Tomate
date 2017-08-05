@@ -4,19 +4,29 @@
 	use Auth\Entity\User;
 	use \Exception;
 
-	class Firewall extends Singleton {
+	class Firewall {
 
 		private $routeur;
 		private $currentUser;
 		private $params;
+
+		// Singleton interface
+		protected static $_instance = null;
+
+		public static function getInstance() {
+			if (self::$_instance === null) {
+				self::$_instance = new self();
+			}
+			return self::$_instance;
+		}
 
 		protected function __construct() {
 			$this->currentUser = null;
 			$this->cookies = new CookieController();
 			$this->routeur = Routeur::getInstance();
 
-			$configs = ConfigHandler::getInstance()
-			$this->params = $configs->get('firewall');
+			$configs = ConfigHandler::getInstance();
+			$this->params = $configs->get('.firewall');
 		}
 
 		/*
@@ -33,7 +43,7 @@
 			$sessions->set("current_user-id",$user->getId());
 
 			if ($remenber) {
-				$tokenController = new TokenController;
+				$tokenController = new TokenController();
 				$token = $tokenController->generate($user); //Genere et sauvegarde en BDD ou autre lui seul sait !
 				if ($token != null) {
 					$this->cookies->set("auth_token", $token->serialize(), Token::TOKEN_LIFE);

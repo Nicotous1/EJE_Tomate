@@ -136,7 +136,6 @@
 		}
 
 		private function convertTag($tag, $prefix = null) {
-			$s = new EntitySqlHandler();
 			$type = substr($tag, 0, 1);
 			//Gestion du dernier caractère de format
 			$format = substr($tag, strlen($tag)-1);
@@ -162,7 +161,7 @@
 				}
 
 				elseif (is_a($att, "Entity") || is_a($att, "EntitySQL")) {
-					$strct = (is_a($att, "EntitySQL")) ? $att : $s->get($att);
+					$strct = (is_a($att, "EntitySQL")) ? $att : $att::getEntitySQL();
 					if ($format == "^") {return $prefix . $strct->getTable();}
 					if ($format == "~") {return $this->equalAtts($this->getRefValue($ref), $prefix);}
 					//Default
@@ -182,7 +181,7 @@
 				if (is_a($val, "Entity")) {
 					if ($format == "^") {return $this->addToBind($val->getId());}
 					$res = "";
-					foreach ($s->get($val)->getDAtts() as $a) {
+					foreach ($val::getEntitySQL()->getDAtts() as $a) {
 						$res .= $this->addToBind($val->get($a), $a) . ",";
 					}
 					return substr($res, 0, -1);
@@ -197,8 +196,7 @@
 
 		private function equalAtts(Entity $e, $prefix = null) {
 			$res = "";
-			$s = new EntitySqlHandler();
-			foreach ($s->get($e)->getDAtts() as $a) {
+			foreach ($e->getEntitySQL()->getDAtts() as $a) {
 				if ($a->isUnique()) {continue;} //Unique can't be update (id)
 				$res .= $prefix . $a->getCol() . " = " . $this->addToBind($e->get($a), $a) . ",";
 			}
@@ -229,8 +227,6 @@
 		}
 
 		private function getRefSql($ref, $error = true) {
-
-			$s = new EntitySqlHandler();
 			$p = $this->data ;
 			foreach (explode(".", $ref) as $i => $key) {
 				if ($i == 0 && isset($this->overData[$key])) {$p = $this->overData[$key]; continue;} //Overwrite
@@ -243,7 +239,8 @@
 					$p = $p->getStruct()->getAtt($key);
 				}
 				elseif(is_a($p, "AttSQL") && $p->isRef()) {
-					$p = $s->get($p->getClass())->getAtt($key);
+					$class = $p->getClass();
+					$p = $class::getEntitySQL()->getAtt($key);
 				}
 				elseif(is_a($p, "EntitySQL")) {
 					$p = $p->getAtt($key);
@@ -255,14 +252,13 @@
 			
 
 			//Mise en forme sql
-			if (is_a($p, "Entity")) {$p = $s->get($p);}
+			if (is_a($p, "Entity")) {$p = $p->getEntitySQL();}
 			return (is_a($p, "EntitySQL") || is_a($p, "AttSQL")) ? $p : false;		
 		}
 
 		private function getRefValue($ref) {
 			$p = $this->data;
 			$keys = explode(".", $ref);
-			$s = new EntitySqlHandler();
 			foreach ($keys as $i => $key) {		
 				if ($i == 0 && isset($this->overData[$key])) {return $this->overData[$key];}
 				if ($key == "") {continue;}		
