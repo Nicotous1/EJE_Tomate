@@ -4,15 +4,17 @@
 	class CookieController
 	{
 
-		private $cookies;
+		private static $cookies = null;
 
 		public function __construct()
 		{
-			$this->cookies = array();
+			if (self::$cookies === null) {
+				self::$cookies = array();
+			}
 		}
 
 		public function set($id, $value, $days) {
-			$this->cookies[$id] = array(
+			self::$cookies[$id] = array(
 					'value' => $value,
 					'time' => time() + $days*86400,
 				);
@@ -26,14 +28,14 @@
 
 		public function remove($id) {
 			if (isset($_COOKIE[$id])) {
-				$this->cookies[$id] = array("value" => null, "time" => time());
+				self::$cookies[$id] = array("value" => null, "time" => time());
 				unset($_COOKIE[$id]);
 			}
 			return $this;
 		}
 
 		public function flushCookies() {
-			foreach($this->cookies as $id => $cookie) {
+			foreach(self::$cookies as $id => $cookie) {
 				setcookie($id, $cookie['value'], $cookie['time']);
 			}
 			return $this;

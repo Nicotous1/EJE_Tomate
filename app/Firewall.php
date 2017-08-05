@@ -2,19 +2,21 @@
 	namespace Core;
 	use Auth\Entity\TokenController;
 	use Auth\Entity\User;
+	use \Exception;
 
-	class Firewall {
+	class Firewall extends Singleton {
 
 		private $routeur;
 		private $currentUser;
 		private $params;
 
-		public function __construct() {
-			$sc = new ServiceController();
+		protected function __construct() {
 			$this->currentUser = null;
-			$this->cookies = $sc->getCookies();
-			$this->routeur = $sc->getRouteur();
-			$this->params = $sc->getParam('firewall');
+			$this->cookies = new CookieController();
+			$this->routeur = Routeur::getInstance();
+
+			$configs = ConfigHandler::getInstance()
+			$this->params = $configs->get('firewall');
 		}
 
 		/*

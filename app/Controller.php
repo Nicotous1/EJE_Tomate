@@ -4,17 +4,18 @@
 	use Core\PDO\EntityPDO;
 
 	abstract class Controller	{
-		protected $SC;
 		protected $httpRequest;
 		protected $httpResponse;
+		protected $firewall;
+		protected $user;
+		protected $pdo;
 
-		public function __construct(httpRequest $httpRequest, httpResponse $httpResponse, Firewall $firewall) {
-			$this->SC = new ServiceController();
-			
-			$this->httpRequest = $httpRequest;
-			$this->httpResponse = $httpResponse;
-			$this->firewall = $firewall;
-			$this->user = $firewall->getuser();
+		public function __construct() {
+			## Shortcut
+			$this->httpRequest = httpRequest::getInstance();
+			$this->httpResponse = httpResponse::getInstance();
+			$this->firewall = Firewall::getInstance();
+			$this->user = $this->firewall->getuser();
 			$this->pdo = new EntityPDO();
 		}
 

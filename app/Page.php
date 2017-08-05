@@ -1,5 +1,6 @@
 <?php
 	namespace Core;
+	use \Exception;
 
 	class Page {
 
@@ -9,8 +10,7 @@
 
 		public function __construct($content = null) {
 			$this->files = array();
-			$SC = new ServiceController();
-			$this->vars = array('SC' => $SC, "routeur" => $SC->getRouteur(), 'firewall' => $SC->getFirewall(), "user" => $SC->getFirewall()->getUser());
+			$this->vars = array("routeur" => Routeur::getInstance(), 'firewall' => Firewall::getInstance(), "user" => Firewall::getInstance()->getUser());
 			$this->content = $content;
 		}
 

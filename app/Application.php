@@ -1,20 +1,17 @@
 <?php
 	namespace Core;
 
-	class Application {	
+	class Application extends Singleton {	
 		protected $SC;
 		protected $httpRequest;
 		protected $httpResponse;
 		protected $route;
 		protected $firewall;
 
-		public function __construct() {
-			$this->SC = new ServiceController();
-			$this->SC->setApp($this);
-			
-			$this->httpRequest = new httpRequest();
-			$this->httpResponse = new httpResponse();
-			$this->firewall = $this->SC->getFirewall();
+		private function __construct() {			
+			$this->httpRequest = httpRequest::getInstance();
+			$this->httpResponse = httpResponse::getInstance();
+			$this->firewall = Firewall::getInstance();
 			$this->route = null;
 		}
 

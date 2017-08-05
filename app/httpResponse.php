@@ -1,13 +1,13 @@
 <?php
 	namespace Core;
 
-	class httpResponse {
+	class httpResponse extends Singleton{
 		private $page;
 		private $header;
 		private $no_render;
 		private $file;
 
-		public function __construct() {
+		private function __construct() {
 			$this->headers = array();
 			$this->page = new Page();
 			$this->file = null;

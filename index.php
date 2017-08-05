@@ -14,7 +14,7 @@
 		$n = count($e);
 		if ($n < 2) {return false;}
 
-		$path = "library/" . (($e[0] == "Core") ? "app" : "modules/" . $e[0]);
+		$path = ($e[0] == "Core") ? "app" : "modules/" . $e[0];
 
 		foreach ($e as $i => $file) {
 			if ($i == 0) {continue;}
@@ -32,7 +32,8 @@
 	spl_autoload_register(function($s) {return loadClass($s);});
 
 
+	use Core\Application;
 
-    $GA = new Core\Application();
+    $GA = new Application();
     $GA->RunAndDie();
 ?>a

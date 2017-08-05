@@ -13,7 +13,7 @@
 		public static function getInstance() {
 
 		 if(is_null(self::$_instance)) {
-		   self::$_instance = $this::loadInstance();  
+		   self::$_instance = self::loadInstance();  
 		 }
 
 		 return self::$_instance;

@@ -1,7 +1,7 @@
 <?php
 	namespace Core;
 
-	class Routeur {
+	class Routeur extends Singleton{
 
 		private $askedUrl;
 		private $root;
@@ -9,8 +9,8 @@
 		private $route;
 		private $routes;
 
-		public function __construct(array $routes) {
-			$this->setRoutes($routes)
+		protected function __construct() {
+			$this->setRoutes()
 				 ->setUrl($_SERVER['REQUEST_URI'])
 			     ->setRoute()
 			     ->setGET();

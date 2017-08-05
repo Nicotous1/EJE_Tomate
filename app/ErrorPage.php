@@ -1,5 +1,6 @@
 <?php
 	namespace Core;
+	use \Exception;
 
 	class ErrorPage extends Page{
 
