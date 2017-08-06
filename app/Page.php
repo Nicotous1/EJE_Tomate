@@ -51,7 +51,7 @@
 			echo $this->content;
 			foreach ($this->files as $file) {
 				extract($file['vars']);
-				include "library/modules/" . $file['file'];
+				require $file['file'];
 			}
 			return $this;
 		}

@@ -1,5 +1,5 @@
 <?php
-	include('library/templates/Template_Header.php');
+	include('templates/Template_Header.php');
 ?>
             <div style="text-align: center">
                 <h1 class="error-number">404</h1>
@@ -7,5 +7,5 @@
                 <p><a href="#" onclick="history.back()">Retour</a></p>
             </div>
 <?php
-	include('library/templates/Template_Footer.php');
+	include('templates/Template_Footer.php');
 ?>

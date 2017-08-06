@@ -1,5 +1,5 @@
 <?php
-	require_once "library/plugins/Random/random.php";
+	require_once "plugins/Random/random.php";
 
 	$handler = new EntitySQLHandler();
 

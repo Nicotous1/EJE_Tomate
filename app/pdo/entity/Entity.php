@@ -20,6 +20,8 @@ use \Exception;
 	        return $entity_sqls[$calledClass];
 	    }
 
+	    abstract static protected function get_array_EntitySQL();
+
 		public function __construct($params = null)
 		{
 			//Particulary handle of id because we need to know after if it has one or no
@@ -27,6 +29,9 @@ use \Exception;
 				$this->set("id",$params["id"]);
 				unset($params["id"]);
 			}
+
+			//Shortcut
+			$this->structSQL = self::getEntitySQL();
 			
 			//Set to default all attribute SQL to put to default value (ex : array and not null ;))
 			$defaults = array();

@@ -13,6 +13,18 @@
 			2 => array("id" => 2, "name" => "Acceptée"),
 		);
 
+		static protected function get_array_EntitySQL() {
+			return array(
+				"class" => "Admin\Entity\WorkRequest",
+				"table" => "work_request",
+				"atts" => array(
+					array("att" => "etude", "type" => AttSQL::TYPE_DREF, "class" => "Admin\Entity\Etude"),
+					array("att" => "lettre", "type" => AttSQL::TYPE_DREF, "class" => "Admin\Entity\Document"),
+					array("att" => "etudiant", "type" => AttSQL::TYPE_DREF, "class" => "Auth\Entity\User"),
+					array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => WorkRequest::$statutArray),
+					array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
+			));
+		}
 
 
 		public function var_defaults() {
@@ -46,19 +58,5 @@
 		public function isRefused() {
 			return ($this->get("statut")["id"] == 1);
 		}
-	}
-
-	$handler = new EntitySQLHandler();
-
-	$handler->add((array(
-			"class" => "Admin\Entity\WorkRequest",
-			"table" => "work_request",
-			"atts" => array(
-				array("att" => "etude", "type" => AttSQL::TYPE_DREF, "class" => "Admin\Entity\Etude"),
-				array("att" => "lettre", "type" => AttSQL::TYPE_DREF, "class" => "Admin\Entity\Document"),
-				array("att" => "etudiant", "type" => AttSQL::TYPE_DREF, "class" => "Auth\Entity\User"),
-				array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => WorkRequest::$statutArray),
-				array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
-		))))
-	;		
+	}	
 ?>

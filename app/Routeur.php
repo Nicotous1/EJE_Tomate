@@ -15,7 +15,10 @@
 				 ->setUrl($_SERVER['REQUEST_URI'])
 			     ->setRoute()
 			     ->setGET();
-			//var_dump($this); //DEBUG -> MAKE BUG HEADER (COOKIE, REDIRECT)
+
+			//DEBUG -> MAKE BUG HEADER (COOKIE, REDIRECT)
+			// var_dump($this); 
+			// die();
 		}
 
 		/*

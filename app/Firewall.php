@@ -16,7 +16,7 @@
 			$this->routeur = Routeur::getInstance();
 
 			$configs = ConfigHandler::getInstance();
-			$this->params = $configs->get('.firewall');
+			$this->params = $configs->get('.firewall')->getData();
 		}
 
 		/*

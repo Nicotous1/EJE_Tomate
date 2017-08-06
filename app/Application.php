@@ -14,7 +14,6 @@
 			$this->httpRequest = httpRequest::getInstance();
 			$this->httpResponse = httpResponse::getInstance();
 			$this->firewall = Firewall::getInstance();
-			var_dump($this->httpRequest);
 			$this->route = null;
 		}
 
@@ -66,7 +65,7 @@
 
 			//Gestion du retour du controlleur
 			$res = $controller->$methodName();
-			if(is_a($res, 'Page')) { //Une page -> standard
+			if(is_a($res, 'Core\Page')) { //Une page -> standard
 				$this->httpResponse->setPage($res);
 			}
 			if(is_array($res)) { //Un tableau -> on l'encode en json

@@ -1,5 +1,5 @@
 <?php
-	include_once("library/plugins/WordTemplate/loader.php");
+	include_once("plugins/WordTemplate/loader.php");
 	
 	class AjaxController extends Controller {
 
@@ -276,7 +276,7 @@
 
 		public function TemplateGet() {
 			$n = $this->httpRequest->get("id");
-			$path = "library/plugins/WordTemplate/Generation/Gen_".$n.".docx";
+			$path = "plugins/WordTemplate/Generation/Gen_".$n.".docx";
 	        if (!file_exists($path)) { return 404;}
 
 			return $this->httpResponse->setFile("Tomate_Gen", "docx", $path);
@@ -345,7 +345,7 @@
 
 
 		private function DocEtudeGenerate(DocEtude $de) {
-			$pathPlugin = "library/plugins/WordTemplate/";
+			$pathPlugin = "plugins/WordTemplate/";
 
 			$pdo = new EntityPDO();
 			$etude = $de->get("etude");

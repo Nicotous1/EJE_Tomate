@@ -1,16 +1,15 @@
 <?php
 	namespace Core\PDO;
+	use Core\PDO\cache\CachePDO;
 
 	/*
 		Gerer le stock des get null ;)
 	*/
 	class EntityPDO
 	{
-		private $SC;
 		private $cache;
 
 		public function __construct() {
-			$this->SC = new ServiceController();
 			$this->cache = new CachePDO();
 		}
 

@@ -1,5 +1,5 @@
 <?php
-	include('library/templates/Template_Header.php');
+	include('templates/Template_Header.php');
 	if(!isset($errorMSG)) { $errorMSG = "Une erreur s'est produite !<br>Veuillez nous excusez !";}
 ?>
 	<section>
@@ -14,5 +14,5 @@
 		</div>
 	</section>
 <?php
-	include('library/templates/Template_Footer.php');
+	include('templates/Template_Footer.php');
 ?>

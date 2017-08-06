@@ -66,7 +66,7 @@
 		public function send() {
 			$sc = new ServiceController();
 			$sc->getCookies()->flushCookies();
-
+			
 			$this->flushHeader();
 
 			if ($this->file !== null) {

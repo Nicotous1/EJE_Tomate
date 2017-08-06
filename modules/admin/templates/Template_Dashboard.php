@@ -1,4 +1,4 @@
-<?php include("library/templates/Template_Header.php"); ?>
+<?php include("templates/Template_Header.php"); ?>
 
   <div ng-controller="DashboardController">
 
@@ -28,7 +28,7 @@
 
 
 <?php
-  include("library/templates/Template_Footer_1.php"); ?>
+  include("templates/Template_Footer_1.php"); ?>
 
 <script type="text/javascript">
 var url = "";
@@ -45,4 +45,4 @@ var url = "";
     }
   });
 </script>
-<?php include("library/templates/Template_Footer_2.php"); ?>
+<?php include("templates/Template_Footer_2.php"); ?>

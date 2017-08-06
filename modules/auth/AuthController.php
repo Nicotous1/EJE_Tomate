@@ -1,7 +1,11 @@
 <?php
 	namespace Auth;
+	
 	use Core\Controller;
+	use Core\Page;
+
 	use \Exception;
+
 	
 	class AuthController extends Controller {
 		/*
@@ -16,7 +20,7 @@
 
 			//AFFICHAGE
 			$page = new Page();
-		    $page->addFile("Auth/templates/Template_SignIn.php")
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_SignIn.php")
 		    	 ->addVar("HeaderTitre", "Sign in");
 		    return $page;
 		}

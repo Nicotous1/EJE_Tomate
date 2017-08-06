@@ -32,12 +32,6 @@
 	//Dynamique CLass loader
 	spl_autoload_register(function($s) {return loadClass($s);});
 
-	use Auth\Entity\User;
-	$u = User::getEntitySQL();
-	var_dump($u);
-
-	die();
-
 	// Run the application
 	use Core\Application;
     $GA = Application::getInstance();

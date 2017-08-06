@@ -1,4 +1,4 @@
-<?php include("library/templates/Template_Header.php"); ?>
+<?php include("templates/Template_Header.php"); ?>
 
 
 
@@ -92,7 +92,7 @@
       </div>
     </div>
 
-<?php include("library/templates/Template_Footer_1.php"); ?>
+<?php include("templates/Template_Footer_1.php"); ?>
 
 <script type="text/javascript">
 	    app.controller('EditController', function($scope, $http, $mdToast) {
@@ -146,4 +146,4 @@
 	    });
 </script>
 
-<?php include("library/templates/Template_Footer_2.php"); ?>
+<?php include("templates/Template_Footer_2.php"); ?>
