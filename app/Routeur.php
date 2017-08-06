@@ -2,23 +2,13 @@
 	namespace Core;
 	use \Exception;
 
-	class Routeur {
+	class Routeur extends Singleton {
 
 		private $askedUrl;
 		private $root;
 		private $url;
 		private $route;
 		private $routes;
-
-		// Singleton interface
-		protected static $_instance = null;
-
-		public static function getInstance() {
-			if (self::$_instance === null) {
-				self::$_instance = new self();
-			}
-			return self::$_instance;
-		}
 
 		protected function __construct() {
 			$this->loadRoutes()

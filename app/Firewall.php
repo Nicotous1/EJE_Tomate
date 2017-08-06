@@ -4,21 +4,11 @@
 	use Auth\Entity\User;
 	use \Exception;
 
-	class Firewall {
+	class Firewall extends Singleton {
 
 		private $routeur;
 		private $currentUser;
 		private $params;
-
-		// Singleton interface
-		protected static $_instance = null;
-
-		public static function getInstance() {
-			if (self::$_instance === null) {
-				self::$_instance = new self();
-			}
-			return self::$_instance;
-		}
 
 		protected function __construct() {
 			$this->currentUser = null;

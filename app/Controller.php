@@ -3,7 +3,7 @@
 
 	use Core\PDO\EntityPDO;
 
-	abstract class Controller	{
+	abstract class Controller {
 		protected $httpRequest;
 		protected $httpResponse;
 		protected $firewall;

@@ -1,21 +1,11 @@
 <?php
 	namespace Core;
 
-	class httpResponse {
+	class httpResponse extends Singleton  {
 		private $page;
 		private $header;
 		private $no_render;
 		private $file;
-
-		// Singleton interface
-		protected static $_instance = null;
-
-		public static function getInstance() {
-			if (self::$_instance === null) {
-				self::$_instance = new self();
-			}
-			return self::$_instance;
-		}
 
 		protected function __construct() {
 			$this->headers = array();

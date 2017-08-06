@@ -1,9 +1,24 @@
 <?php
 namespace Core\PDO\Entity;
+use \Exception;
 
 	abstract class Entity implements \JsonSerializable 
 	{
 		protected $id;
+
+	    final public static function getEntitySQL()
+	    {
+	        static $entity_sqls = array();
+
+	        $calledClass = get_called_class();
+
+	        if (!isset($entity_sqls[$calledClass]))
+	        {
+	            $entity_sqls[$calledClass] = new EntitySQL($calledClass::get_array_EntitySQL());
+	        }
+
+	        return $entity_sqls[$calledClass];
+	    }
 
 		public function __construct($params = null)
 		{

@@ -1,7 +1,7 @@
 <?php
 	namespace Core;
 
-	class Application {
+	class Application extends Singleton {
 
 
 		protected $SC;
@@ -9,16 +9,6 @@
 		protected $httpResponse;
 		protected $route;
 		protected $firewall;
-
-		// Singleton interface
-		protected static $_instance = null;
-
-		public static function getInstance() {
-			if (self::$_instance === null) {
-				self::$_instance = new self();
-			}
-			return self::$_instance;
-		}
 
 		protected function __construct() {			
 			$this->httpRequest = httpRequest::getInstance();

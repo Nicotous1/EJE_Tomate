@@ -1,7 +1,6 @@
 <?php
 	namespace Auth\Entity;
 
-	use Core\PDO\Entity\EntitySQL;
 	use Core\PDO\Entity\AttSQL;
 	use Core\PDO\Entity\Entity;
 
@@ -9,9 +8,8 @@
 
 	class User extends Entity {
 
-
-		public static function getEntitySQL() {
-			return new EntitySQL(array(
+		protected static function get_array_EntitySQL() {
+			return array(
 				"class" => "Auth\Entity\User",
 				"table" => "etudiant",
 				"atts" => array(
@@ -39,7 +37,7 @@
 					
 					array("att" => "work_requests", "type" => AttSQL::TYPE_IREF, "class" => "Admin\Entity\WorkRequest", "att_ref" => "etudiant"),
 				),
-			));
+			);
 		}
 
 		protected $id;

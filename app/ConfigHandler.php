@@ -2,20 +2,10 @@
 	namespace Core;
 	use \Exception;
 
-	class ConfigHandler
+	class ConfigHandler extends Singleton 
 	{
 		private static $params;
 		private static $files;
-
-		// Singleton interface
-		protected static $_instance = null;
-
-		public static function getInstance() {
-			if (self::$_instance === null) {
-				self::$_instance = new self();
-			}
-			return self::$_instance;
-		}
 
 		protected function __construct() {
 			$this->load_files();
