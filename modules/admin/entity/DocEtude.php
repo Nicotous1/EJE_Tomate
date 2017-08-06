@@ -13,6 +13,8 @@
 		))))
 	;	
 
+	use Core\Routeur;
+	
 	class DocEtude extends Entity {
 
 		public function toArray() {
@@ -31,8 +33,7 @@
 		}
 
 		public function getLink() {
-			$sc = new ServiceController();
-			return $sc->getRouteur()->getUrlFor("AjaxDownloadDocEtude", array("id" => $this->get("id")));			
+			return Routeur::getInstance()->getUrlFor("AjaxDownloadDocEtude", array("id" => $this->get("id")));			
 		}
 
 		public function getNom() {

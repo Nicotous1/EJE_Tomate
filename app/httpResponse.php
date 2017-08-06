@@ -64,8 +64,8 @@
 		}
 
 		public function send() {
-			$sc = new ServiceController();
-			$sc->getCookies()->flushCookies();
+			$cookies = new CookieController();
+			$cookies->flushCookies();
 			
 			$this->flushHeader();
 

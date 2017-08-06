@@ -1,4 +1,7 @@
 <?php 
+	namespace Admin\Entity\DocHistory;
+	use \Exception;
+	
 	class DocHistory {
 		private $etude;
 

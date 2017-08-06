@@ -4,6 +4,7 @@
 	use Core\PDO\Entity\EntitySQLHandler;
 	use Core\PDO\Entity\AttSQL;
 	use Core\PDO\Entity\Entity;
+	use Core\Routeur;
 
 	class WorkRequest extends Entity {
 
@@ -43,8 +44,7 @@
 		}
 
 		public function getZipUrl() {
-			$sc = new ServiceController();
-			return $sc->getRouteur()->getUrlFor("AjaxDownloadWorkRequest", array("id" => $this->get("id")));
+			return Routeur::getInstance()->getUrlFor("AjaxDownloadWorkRequest", array("id" => $this->get("id")));
 		}
 
 		public function isWaiting() {

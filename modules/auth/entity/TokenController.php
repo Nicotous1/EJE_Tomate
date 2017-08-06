@@ -1,5 +1,8 @@
 <?php
 	namespace Auth\Entity;
+	use \Exception;
+	use Core\PDO;
+	use \Datetime;
 
 	require_once "plugins/Random/random.php";
 	
@@ -21,8 +24,7 @@
 				"user" => $user->getId(),
 			));
 
-			$SC = new ServiceController();
-			$request = $SC->getPDO()->prepare("INSERT INTO token (selector, hash, user, expires) VALUES (:selector, :hash, :user, :expires)");
+			$request = PDO::getInstance()->prepare("INSERT INTO token (selector, hash, user, expires) VALUES (:selector, :hash, :user, :expires)");
 
 			for ($i=0; $i < 3; $i++) { 
 				$res = $request->execute(array(
@@ -48,8 +50,7 @@
 			
 			$token->setValidator($this->getRandom(Token::SIZE_VALIDATOR));
 
-			$SC = new ServiceController();
-			$request = $SC->getPDO()->prepare("UPDATE token SET expires = :expires, hash = :hash WHERE selector = :selector");
+			$request = PDO::getInstance()->prepare("UPDATE token SET expires = :expires, hash = :hash WHERE selector = :selector");
 			$res = $request->execute(array(
 					":selector" => $token->getSelector(),
 					":hash" => $token->getHash(),
@@ -62,8 +63,7 @@
 		public function get(Token $token) {
 			if ($token->getSelector() == null) {return null;}
 
-			$SC = new ServiceController();
-			$request = $SC->getPDO()->prepare("SELECT hash, user, expires FROM token WHERE selector = :selector");
+			$request = PDO::getInstance()->prepare("SELECT hash, user, expires FROM token WHERE selector = :selector");
 			$res = $request->execute(array(":selector" => $token->getSelector()));
 			
 			$tokenArray = $request->fetch();
@@ -90,8 +90,7 @@
 		public function remove(Token $token) {
 			if ($token->getSelector() == null || $token->getHash() == null) {return false;}
 
-			$SC = new ServiceController();
-			$request = $SC->getPDO()->prepare("DELETE FROM token WHERE selector = :selector");
+			$request = PDO::getInstance()->prepare("DELETE FROM token WHERE selector = :selector");
 			$res = $request->execute(array(
 				":selector" => $token->getSelector(),
 			));

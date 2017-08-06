@@ -1,5 +1,6 @@
 <?php
-namespace Core\PDO\Cache;
+	namespace Core\PDO\Cache;
+	use \Exception;
 
 /*
 	Pour l'instant pas vraiment utile mais ca peut vite évoluer...

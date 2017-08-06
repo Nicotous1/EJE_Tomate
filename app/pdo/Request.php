@@ -1,5 +1,7 @@
 <?php
 	namespace Core\PDO;
+	use Core\PDO\Entity\AttSQL;
+	use \Exception;
 
 	class Request {
 		private $str;
@@ -52,13 +54,11 @@
 		}
 
 		public function lastId() {
-			$sc = new ServiceController();
-			return $sc->getPDO()->lastInsertId();
+			return PDO::getInstance()->lastInsertId();
 		}
 
 		private function bindValues() {
-			$sc = new ServiceController();
-			$this->r = $sc->getPDO()->prepare($this->str);
+			$this->r = PDO::getInstance()->prepare($this->str);
 			foreach ($this->toBind as $key => $val) {
 				$this->bindValue(":".$key, $val[0], $val[1]);
 			}
@@ -83,7 +83,7 @@
 						$this->r->bindValue($key, $val, PDO::PARAM_STR);
 						return;
 					case AttSQL::TYPE_DATE:
-						$this->r->bindValue($key, $val, MyPDO::PARAM_DATE);
+						$this->r->bindValue($key, $val, PDO::PARAM_DATE);
 						return;
 				}
 			} else {
@@ -97,9 +97,9 @@
 					return $this->r->bindValue($key, $val, PDO::PARAM_BOOL);
 				}
 				else if (is_a($val, "\DateTime")) {
-					return $this->r->bindValue($key, $val, MyPDO::PARAM_DATE);
+					return $this->r->bindValue($key, $val, PDO::PARAM_DATE);
 				} else {
-					return $this->r->bindValue($key, $val, MyPDO::PARAM_STR); //Default
+					return $this->r->bindValue($key, $val, PDO::PARAM_STR); //Default
 				}
 			}
 			throw new Exception("Can't bindvalue to '$key' with this type !", 1);

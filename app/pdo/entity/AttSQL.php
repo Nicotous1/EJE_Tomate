@@ -1,5 +1,6 @@
 <?php
 namespace Core\PDO\Entity;
+	use \Exception;
 
 	class AttSQL
 	{
@@ -85,8 +86,7 @@ namespace Core\PDO\Entity;
 		public function getDefault(Entity $e = null) {
 			switch ($this->getType()) {
 				case AttSQL::TYPE_USER:
-					$SC = new ServiceController();
-					return $SC->getFirewall()->getUser();
+					return Firewall::getInstance()->getUser();
 
 				case AttSQL::TYPE_IREF:
 				case AttSQL::TYPE_MREF:

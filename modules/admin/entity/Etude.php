@@ -46,7 +46,8 @@
 			),
 		)))
 	;	
-
+	use Core\Routeur;
+	use Core\PDO\PDO;
 	class Etude extends Entity {
 		private $dochistory;
 		private $etudiants;
@@ -73,7 +74,6 @@
 		);
 
 		public function var_defaults() {
-			$sc = new ServiceController();
 			return array(
 				"date_created" => new DateTime(),
 				"date_modified" => new DateTime(),
@@ -88,9 +88,8 @@
 
 		public function toArray() {
 			$r = parent::toArray();
-			$sc = new ServiceController();
 			if ($this->get("id") > 0) {
-				$r["link"] = $sc->getRouteur()->getUrlFor("AdminEdit", array("id" => $this->get("id")));
+				$r["link"] = Routeur::getInstance()->getUrlFor("AdminEdit", array("id" => $this->get("id")));
 			}
 			$r["admins"] = $this->get_Ids("admins");
 			return $r;
@@ -98,8 +97,7 @@
 
 		public function generateNum() {
 			if ($this->get("numero") <= 0) {
-				$sc = new ServiceController();
-				$pdo = $sc->getPDO();
+				$pdo = PDO::getInstance();
 				$strct = $this->getStruct();
 				$r = $pdo->prepare("SELECT MAX(numero) FROM " . $strct->getTable());
 				$r->execute();

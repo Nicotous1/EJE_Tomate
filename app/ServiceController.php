@@ -1,5 +1,7 @@
 <?php
 	namespace Core;
+	use Core\PDO\PDO;
+	use \Exception;
 
 	class ServiceController {
 		public function getPDO() {
@@ -7,7 +9,8 @@
 
 			// AUCUNE SAVE DISPONIBLE
 			if ($PDO == null) {
-				$PDO = new MyPDO($this->getParam('hostBDD'), $this->getParam('nameBDD'), $this->getParam('userBDD'), $this->getParam('mdpBDD'));
+				$config = ConfigHandler::getInstance()->get(".database_private")->getData();
+				$PDO = new PDO($config["host"], $config["name"], $config["user"], $config["password"]);
 				$this->saveService('PDO' ,$PDO);
 			}
 			

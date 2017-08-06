@@ -2,8 +2,7 @@
 	class DocEtudeController {
 
 		public function __construct() {
-			$this->SC = new ServiceController();
-			$this->pdo = $this->SC->getPDO();
+			$this->pdo = PDO::getInstance();
 			$handler = new EntitySQLHandler();
 			$this->strct = $handler->get("DocEtude");
 		}

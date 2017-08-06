@@ -1,4 +1,6 @@
 <?php
+	use \Exception;
+	use Core\Routeur;
 	require_once "plugins/Random/random.php";
 
 	$handler = new EntitySQLHandler();
@@ -125,8 +127,7 @@
 		}
 
 		public function getLink() {
-			$sc = new ServiceController();
-			return $sc->getRouteur()->getUrlFor("AjaxDownloadDoc", array("id" => $this->get("id")));			
+			return Routeur::getInstance()->getUrlFor("AjaxDownloadDoc", array("id" => $this->get("id")));			
 		}
 
 		public function isPDF() {
