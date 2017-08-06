@@ -58,7 +58,7 @@ use \Exception;
 		}
 
 		public function set($att, $x) {
-			if (is_a($att, "AttSQL")) {$att = $att->getAtt();}
+			if (is_a($att, "Core\PDO\Entity\AttSQL")) {$att = $att->getAtt();}
 			//Check override
 			$name_method = "set".ucfirst($att);
 			if (method_exists($this, $name_method)) {return $this->$name_method($x);}
@@ -94,7 +94,7 @@ use \Exception;
 				case AttSQL::TYPE_USER:
 					if (empty($x)) { $val = null; break;}
 					if (is_a($x, $class)) { $val = $x; break;}
-					if (is_a($x, "RefSQL")) { $val = $x; break;}
+					if (is_a($x, "Core\PDO\Entity\RefSQL")) { $val = $x; break;}
 					if (is_array($x)) { $val = new $class($x); break;}
 					if (is_numeric($x) && $x > 0) { $val = new RefSQL($attSQL, $x); break;}
 					if (is_numeric($x) && $x <= 0) { $val = null; break;}
@@ -108,7 +108,7 @@ use \Exception;
 						$x->set($attSQL->getAttRef()->getAtt(), $this);
 						$val = array($x); break;
 					}
-					if (is_a($x, "RefSQL")) { $val = $x; break;}
+					if (is_a($x, "Core\PDO\Entity\RefSQL")) { $val = $x; break;}
 					if (is_array($x)) {
 						$val = $x; //Hypothese tableau de class -> cas parfait
 						// TRES IMPORTANT
@@ -129,7 +129,7 @@ use \Exception;
 		}
 
 		public function get($att) {
-			if (is_a($att, "AttSQL")) {$att = $att->getAtt();}
+			if (is_a($att, "Core\PDO\Entity\AttSQL")) {$att = $att->getAtt();}
 
 			//Check override
 			$name_method = "get".ucfirst($att);
@@ -144,7 +144,7 @@ use \Exception;
 			}
 
 			$x = $this->$att;
-			if (is_a($x,"RefSQL")) {
+			if (is_a($x,"Core\PDO\Entity\RefSQL")) {
 				$this->$att = $x->convert();
 			}
 			return $this->$att;
@@ -162,7 +162,7 @@ use \Exception;
 				case AttSQL::TYPE_IREF:
 				case AttSQL::TYPE_MREF:
 					if ($x == null) {return array();}
-					if (is_a($x,"RefSQL")) {
+					if (is_a($x,"Core\PDO\Entity\RefSQL")) {
 						return $x->getIds();
 					}
 					else {
@@ -185,7 +185,7 @@ use \Exception;
 		}
 
 		public function get_NotInBDD($att) {
-			$attSQL = (is_a($att, "AttSQL")) ? $att : $this->structSQL->getAtt($att);
+			$attSQL = (is_a($att, "Core\PDO\Entity\AttSQL")) ? $att : $this->structSQL->getAtt($att);
 			$att = $attSQL->getAtt();
 			$x = $this->$att;
 
@@ -193,7 +193,7 @@ use \Exception;
 				case AttSQL::TYPE_IREF:
 				case AttSQL::TYPE_MREF:
 					if ($x == null) {return array();}
-					if (is_a($x,"RefSQL")) {
+					if (is_a($x,"Core\PDO\Entity\RefSQL")) {
 						return $x->getUnSaved();
 					}
 					else {
@@ -216,7 +216,7 @@ use \Exception;
 		}
 
 		public function get_InBDD_ClassAndId($att) {
-			$attSQL = (is_a($att, "AttSQL")) ? $att : $this->structSQL->getAtt($att);
+			$attSQL = (is_a($att, "Core\PDO\Entity\AttSQL")) ? $att : $this->structSQL->getAtt($att);
 			$att = $attSQL->getAtt();
 			$x = $this->$att;
 
@@ -224,7 +224,7 @@ use \Exception;
 				case AttSQL::TYPE_IREF:
 				case AttSQL::TYPE_MREF:
 					if ($x == null) {return array();}
-					if (is_a($x,"RefSQL")) {
+					if (is_a($x,"Core\PDO\Entity\RefSQL")) {
 						return $x->getInBDD_ClassAndId();
 					}
 					else {

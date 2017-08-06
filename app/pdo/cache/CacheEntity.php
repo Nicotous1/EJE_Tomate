@@ -12,7 +12,7 @@ namespace Core\PDO\Cache;
 		}
 
 		public function set($e = null) {
-			if (!(is_a($e, "Entity") || $e === null)) {throw new Exception("A cache entity handles only an Entity or a null value !", 1);}
+			if (!(is_a($e, "Core\PDO\Entity\Entity") || $e === null)) {throw new Exception("A cache entity handles only an Entity or a null value !", 1);}
 			$this->entity = $e;
 			return $this;
 		}

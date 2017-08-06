@@ -94,6 +94,9 @@
 
 <?php include("templates/Template_Footer_1.php"); ?>
 
+<?php 
+	use Auth\Entity\User;
+?>
 <script type="text/javascript">
 	    app.controller('EditController', function($scope, $http, $mdToast) {
 

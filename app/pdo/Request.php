@@ -1,5 +1,5 @@
 <?php
-;
+	namespace Core\PDO;
 
 	class Request {
 		private $str;
@@ -67,7 +67,7 @@
 		}
 
 		private function bindValue($key, $val, $attSQL) {
-			if (is_a($attSQL, "AttSQL")) {
+			if (is_a($attSQL, "Core\PDO\Entity\AttSQL")) {
 				switch ($attSQL->getType()) {
 					case AttSQL::TYPE_USER:
 					case AttSQL::TYPE_DREF:
@@ -90,13 +90,13 @@
 				if ($val === null) {
 					return $this->r->bindValue($key, null, PDO::PARAM_NULL);
 				}
-				else if (is_a($val, "Entity") || is_int($val)) {
+				else if (is_a($val, "Core\PDO\Entity\Entity") || is_int($val)) {
 					return $this->r->bindValue($key, $this->toId($val), PDO::PARAM_INT);
 				}
 				else if (is_bool($val)) {
 					return $this->r->bindValue($key, $val, PDO::PARAM_BOOL);
 				}
-				else if (is_a($val, "DateTime")) {
+				else if (is_a($val, "\DateTime")) {
 					return $this->r->bindValue($key, $val, MyPDO::PARAM_DATE);
 				} else {
 					return $this->r->bindValue($key, $val, MyPDO::PARAM_STR); //Default
@@ -145,12 +145,12 @@
 			if ($type == "#") {
 				$att = $this->getRefSql($ref);
 
-				if (is_a($att, "AttSQL")) {
+				if (is_a($att, "Core\PDO\Entity\AttSQL")) {
 					if ($format == "^") {return $prefix . $att->getTable();}
 					if ($format == ">") {return $prefix . $att->getRefCol();}
 					if ($format == "~") {
 						$e = $this->getRefValue($ref);
-						if (is_a($e, "Entity")) {
+						if (is_a($e, "Core\PDO\Entity\Entity")) {
 							return $this->equalAtts($e, $prefix);
 						}
 						else {
@@ -160,8 +160,8 @@
 					return $prefix . $att->getCol();
 				}
 
-				elseif (is_a($att, "Entity") || is_a($att, "EntitySQL")) {
-					$strct = (is_a($att, "EntitySQL")) ? $att : $att::getEntitySQL();
+				elseif (is_a($att, "Core\PDO\Entity\Entity") || is_a($att, "Core\PDO\Entity\EntitySQL")) {
+					$strct = (is_a($att, "Core\PDO\Entity\EntitySQL")) ? $att : $att::getEntitySQL();
 					if ($format == "^") {return $prefix . $strct->getTable();}
 					if ($format == "~") {return $this->equalAtts($this->getRefValue($ref), $prefix);}
 					//Default
@@ -178,7 +178,7 @@
 
 			if ($type == ":") {
 				$val = $this->getRefValue($ref);
-				if (is_a($val, "Entity")) {
+				if (is_a($val, "Core\PDO\Entity\Entity")) {
 					if ($format == "^") {return $this->addToBind($val->getId());}
 					$res = "";
 					foreach ($val::getEntitySQL()->getDAtts() as $a) {
@@ -235,14 +235,14 @@
 					if (!isset($p[$key])) {throw new Exception("La ref '$ref' contient la clé '$key' qui n'existe pas dans le tableau !", 1);}
 					$p = $p[$key];
 				}
-				elseif (is_a($p, "Entity")) {
+				elseif (is_a($p, "Core\PDO\Entity\Entity")) {
 					$p = $p->getStruct()->getAtt($key);
 				}
-				elseif(is_a($p, "AttSQL") && $p->isRef()) {
+				elseif(is_a($p, "Core\PDO\Entity\AttSQL") && $p->isRef()) {
 					$class = $p->getClass();
 					$p = $class::getEntitySQL()->getAtt($key);
 				}
-				elseif(is_a($p, "EntitySQL")) {
+				elseif(is_a($p, "Core\PDO\Entity\EntitySQL")) {
 					$p = $p->getAtt($key);
 				} else {
 					if (!$error) {return false;}
@@ -252,8 +252,8 @@
 			
 
 			//Mise en forme sql
-			if (is_a($p, "Entity")) {$p = $p->getEntitySQL();}
-			return (is_a($p, "EntitySQL") || is_a($p, "AttSQL")) ? $p : false;		
+			if (is_a($p, "Core\PDO\Entity\Entity")) {$p = $p->getEntitySQL();}
+			return (is_a($p, "Core\PDO\Entity\EntitySQL") || is_a($p, "Core\PDO\Entity\AttSQL")) ? $p : false;		
 		}
 
 		private function getRefValue($ref) {
@@ -267,7 +267,7 @@
 					if (!isset($p[$key])) {throw new Exception("La ref '$ref' contient la clé '$key' qui n'existe pas dans les paramètres !", 1);}
 					$p = $p[$key];
 				}
-				elseif (is_a($p, "Entity")) {
+				elseif (is_a($p, "Core\PDO\Entity\Entity")) {
 					$p = ($last && $p->getStruct()->getAtt($key)->isRef()) ? $p->get_Ids($key) : $p->get($key);
 				} else {
 					var_dump($this->str);
@@ -280,7 +280,7 @@
 		private function IdsToSQL($ids) {
 			$str = "(-1,";
 			foreach ($ids as $raw) {
-				$id = (is_a($raw, "Entity")) ? $raw->getId() : (int) $raw;
+				$id = (is_a($raw, "Core\PDO\Entity\Entity")) ? $raw->getId() : (int) $raw;
 				if ($id > 0) {$str .= $id . ",";} else {throw new Exception("An array for a request SQL must only be composed of int ! Got '$raw'", 1);
 				}
 			}
@@ -291,7 +291,7 @@
 			if ($e == null) {return $e;}
 			if (is_numeric($e)) {return (int) $e;}
 			if (is_array($e)) {return (int) $e["id"];}
-			if (is_a($e, "Entity")) {return $e->getId();} //ADD CHECK IF NULL AND RAISE EXCEPTION -> SAVE BEFORE
+			if (is_a($e, "Core\PDO\Entity\Entity")) {return $e->getId();} //ADD CHECK IF NULL AND RAISE EXCEPTION -> SAVE BEFORE
 			throw new Exception("Convertion impossible en Id !", 1);
 		}
 

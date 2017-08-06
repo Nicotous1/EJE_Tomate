@@ -32,7 +32,7 @@ namespace Core\PDO\Entity;
 					if (is_numeric($p)) {
 						$this->e_ids[] = $p;
 					}
-					if (is_a($p, "Entity")) {
+					if (is_a($p, "Core\PDO\Entity\Entity")) {
 						$this->e_dones[] = $p;
 					}
 					if (is_array($p)) {

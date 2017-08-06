@@ -1,4 +1,7 @@
 <?php
+	namespace WordTemplate;
+	use \Exception;
+	
 	class WordTemplate {
 		
 		private $template;

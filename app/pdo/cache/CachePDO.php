@@ -22,7 +22,7 @@ namespace Core\PDO\Cache;
 		public function saveAll($es) {
 			if (!is_array($es)) {$es = array($es);}
 			foreach ($es as $e) {
-				if (is_a($e, "Entity")) {$this->save($e);}
+				if (is_a($e, "Core\PDO\Entity\Entity")) {$this->save($e);}
 			}
 			return $this;
 		}

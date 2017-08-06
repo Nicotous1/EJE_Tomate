@@ -1,4 +1,7 @@
 <?php
+	namespace WordTemplate;
+	use \Exception;
+	
 	class TomateTemplate {
 		
 		private $str;
@@ -8,7 +11,7 @@
 		const break_line = "<w:br/>";
 
 		public function __construct($str, Scope $scope) {
-			$this->str = (is_a($str, "StringPos")) ? $str : new StringPos($str);
+			$this->str = (is_a($str, "WordTemplate\StringPos")) ? $str : new StringPos($str);
 			$this->tags = array("TagShow", "TagRepeat", "TagExtend", "TagIf");
 			$this->scope = $scope;
 		}

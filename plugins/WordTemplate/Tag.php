@@ -1,4 +1,7 @@
 <?php
+	namespace WordTemplate;
+	use \Exception;
+	
 /*
 	On ne stocke pas $str. Mais pour garder cohérence elle doit toujorus être appeler avec la même
 */

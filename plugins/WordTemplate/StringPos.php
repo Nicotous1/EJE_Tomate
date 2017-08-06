@@ -1,4 +1,7 @@
 <?php
+	namespace WordTemplate;
+	use \Exception;
+	
 	class StringPos {
 		protected $str;
 

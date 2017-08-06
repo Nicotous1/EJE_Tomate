@@ -1,4 +1,7 @@
 <?php
+/*
+	THIS IS AN EXAMPLE YOU SHOULD CREATE YOUR OWN database_private.config !
+*/
 	return array(
 		"host" => "127.0.0.1",
 		"name" => "je",

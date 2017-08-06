@@ -76,10 +76,10 @@
 			$params = $conds[1];
 
 			//Selection attribut directe et base
-			$r = new Request("SELECT # FROM #^", $this->structOf($class));
+			$r = new Request("SELECT # FROM #^", $class::getEntitySQL());
 			
 			//Overwrite
-			$r->addOverData("s", $this->structOf($class));
+			$r->addOverData("s", $class::getEntitySQL());
 
 			//Condition WHERE
 			if ($str_where != "") {$r->append("WHERE " . $str_where, $params);};
@@ -105,7 +105,7 @@
 			$data = (is_array($r)) ?$data :  $r->fetch(PDO::FETCH_ASSOC);
 			
 			if (is_array($data)) {
-				$params = $this->structOf($class)->convColtoAtt($data);
+				$params = $class::getEntitySQL()->convColtoAtt($data);
 				return new $class($params);
 			} else {
 				return null;
@@ -115,7 +115,7 @@
 		private function dealWithOutputs($r, $class) {
 			$res = array();
 			while($data = $r->fetch(PDO::FETCH_ASSOC)){
-				$params = $this->structOf($class)->convColtoAtt($data);
+				$params = $class::getEntitySQL()->convColtoAtt($data);
 				$res[] = new $class($params);
 			}
 			return $res;
@@ -134,7 +134,7 @@
 			if (!$x->inBDD()) {throw new Exception("saveAtt need an entity already in the bdd to work !", 1);}
 
 			$id = $x->getId();
-			$attSQL = $this->structOf($x)->getAtt($att);
+			$attSQL = $class::getEntitySQL()->getAtt($att);
 
 			switch ($attSQL->getType()) {
 				case AttSQL::TYPE_MREF: return $this->saveMRefsWithIds($attSQL, $id, $x->get_Ids($att));
@@ -176,7 +176,7 @@
 			foreach ($InBDD as $item) {
 				$ids[] = $this->toId($item);
 				//PARAM SAVE -> on sauvegarde tous l'item
-				if ($params["save"] && is_a($item, "Entity")) {
+				if ($params["save"] && is_a($item, "Core\PDO\Entity\Entity")) {
 					$item->set($attSQL_Ref, $e);
 					$res = $this->save($item);
 					if (!$res) {throw new Exception("PDO failed to save an old class ! id = '" . $item->getId() . "' (IREF)", 1);}
@@ -226,7 +226,7 @@
 
 		//MREF ARE UNIQUE ! -> IT IS NOT INSERT ELSE
 		public function addMRefIds($class, $att, $id, $ref) {
-			$attSQL = $this->structOf($class)->getAtt($att);
+			$attSQL = $class::getEntitySQL()->getAtt($att);
 
 			$str = "INSERT INTO #0^ (#0, #0>) (SELECT :1, :2 WHERE NOT EXISTS (SELECT * FROM #0^ WHERE #0 = :1 AND #0> = :2))";
 			$p = array($attSQL, (int) $id, (int) $ref);
@@ -266,7 +266,7 @@
 */
 
 		public function exist($class, $conds = null) {
-			$strct = $this->structOf($class);
+			$strct = $class::getEntitySQL();
 
 			$r = new Request("SELECT COUNT(*) FROM #^", $strct);
 
@@ -304,7 +304,7 @@
 			if ($e == null) {return $e;}
 			if (is_numeric($e)) {return (int) $e;}
 			if (is_array($e)) {return (int) $e["id"];}
-			if (is_a($e, "Entity")) {return $e->getId();} //ADD CHECK IF NULL AND RAISE EXCEPTION -> SAVE BEFORE
+			if (is_a($e, "Core\PDO\Entity\Entity")) {return $e->getId();} //ADD CHECK IF NULL AND RAISE EXCEPTION -> SAVE BEFORE
 			throw new Exception("Convertion impossible en Id !", 1);
 		}
 	}

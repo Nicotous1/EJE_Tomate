@@ -3,6 +3,9 @@
 	
 	use Core\Controller;
 	use Core\Page;
+	use Core\PDO\EntityPDO;
+	use Core\PDO\Request;
+	use Auth\Entity\User;
 
 	use \Exception;
 
@@ -41,7 +44,7 @@
 			if(!$user->isValid()) {return $this->error("Le formulaire n'est pas valide !");}
 			
 			$pdo = new EntityPDO();
-			$exist = $pdo->exist("User", array("#s.mail = :", $user->get("mail")));
+			$exist = $pdo->exist("Auth\Entity\User", array("#s.mail = :", $user->get("mail")));
 			if ($exist) {return $this->error("Cet email est déjà utilisé !");}
 
 			$user->set("level", 1);
@@ -65,7 +68,7 @@
 			$userPOST = new User($params);
 			
 			$pdo = new EntityPDO();
-			$userBDD = $pdo->get("User", array("#mail~", $userPOST), true);
+			$userBDD = $pdo->get("Auth\Entity\User", array("#mail~", $userPOST), true);
 			if ($userBDD == null ) {return $this->error("Les identifiants sont incorrects !");}
 
 			$userBDD->set("password", $userPOST->get("password"));

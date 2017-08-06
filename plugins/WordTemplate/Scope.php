@@ -1,4 +1,7 @@
 <?php
+	namespace WordTemplate;
+	use \Exception;
+
 	class Scope {
 		private $piles;
 		private $level;
@@ -28,7 +31,7 @@
 					}
 					continue; //IMPORTANT
 				}
-				if (is_a($r, "Entity")) {
+				if (is_a($r, "Core\PDO\Entity\Entity")) {
 					if ($r->exist_att($name_var)) {
 						$r = $r->get($name_var);
 					} else {
@@ -36,7 +39,7 @@
 					}
 					continue; //IMPORTANT
 				}
-				if (is_a($r, "DocHistory")) {
+				if (is_a($r, "WordTemplate\DocHistory")) {
 					$r = $r->get($name_var);
 					continue; //IMPORTANT
 				}

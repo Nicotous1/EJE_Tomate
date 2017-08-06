@@ -1,4 +1,7 @@
 <?php
+	namespace WordTemplate;
+	use \Exception;
+	
 	class TagExtend extends Tag {
 
 		protected $openTag = "[[for";

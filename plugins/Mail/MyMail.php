@@ -15,7 +15,7 @@
 			}
 			$this->receivers = $receivers;
 			
-			if (!is_a($page, "Page")) {
+			if (!is_a($page, "Core\Page")) {
 				$page = new Page($page);
 			}
 			$this->page = $page;

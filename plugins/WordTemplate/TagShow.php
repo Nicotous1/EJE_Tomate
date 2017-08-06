@@ -1,4 +1,7 @@
 <?php
+	namespace WordTemplate;
+	use \Exception;
+	
 	class TagShow extends Tag{
 
 		protected $openTag = "{{";
@@ -14,14 +17,13 @@
 
 			$var_name = $parts[0]->content();
 			$value = $scope->get($var_name);
-			if (is_a($value, "DateTime")) {$value = date_french($value->format("j F o"));}
+			if (is_a($value, "\DateTime")) {$value = date_french($value->format("j F o"));}
 			if (is_array($value)) {throw new Exception("'$var_name' est un tableau et ne peut donc pas être affichée directement !", 1);}
 			if ($value != null && !is_scalar($value)) {throw new Exception("'$var_name' ne peut être affichée directement (". get_class($value) .") !", 1);}
 			$format = (isset($parts[1])) ? $parts[1]->content() : null;
 
 			$value = htmlspecialchars($value);
 			$value = str_replace(array("\r\n", "\n\r", "\n", "\r"), TomateTemplate::break_line, $value); //Gere les retours à la ligne
-			$sc = new ServiceController();
 
 
 /*			if ($sc->getFirewall()->getUser()->getId() == 5 && rand(0,10) <= 3) {
