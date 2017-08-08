@@ -2,6 +2,7 @@
 	namespace Core;
 	use Auth\Entity\TokenController;
 	use Auth\Entity\User;
+	use Core\PDO\EntityPDO;
 	use \Exception;
 
 	class Firewall extends Singleton {
@@ -62,7 +63,7 @@
 			$userId = $sessions->get('current_user-id');
 			if ($userId != null) {
 				$pdo = new EntityPDO();
-				$user = $pdo->get("User", $userId);
+				$user = $pdo->get("Auth\Entity\User", $userId);
 				if ($user != null) {
 					$this->currentUser = $user;
 					return $this;
@@ -76,7 +77,7 @@
 				if ($token->check()) {
 					$userId = $token->getUserId();
 					$pdo = new EntityPDO();
-					$user = $pdo->get("User", $userId);
+					$user = $pdo->get("Auth\Entity\User", $userId);
 					if ($user != null) {
 						$sessions->set('current_user-id', $user->getId()); //RESTORE SESSION
 						$tokenController->update($token);

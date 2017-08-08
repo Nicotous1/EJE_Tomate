@@ -121,6 +121,7 @@
 		           		$scope.sending = false;
 		           },
 		        });
+		        console.log( $scope.etudiant);
 		        $http.post(url, $scope.etudiant).then(resHandler, resHandler);
 	    	}
 

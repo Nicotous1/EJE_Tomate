@@ -1,6 +1,7 @@
 <?php
 	namespace Core\PDO;
 	use Core\PDO\Entity\AttSQL;
+	use Core\PDO\Entity\Entity;
 	use \Exception;
 
 	class Request {

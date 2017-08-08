@@ -10,7 +10,7 @@
 		protected $route;
 		protected $firewall;
 
-		protected function __construct() {			
+		protected function __construct() {
 			$this->httpRequest = httpRequest::getInstance();
 			$this->httpResponse = httpResponse::getInstance();
 			$this->firewall = Firewall::getInstance();

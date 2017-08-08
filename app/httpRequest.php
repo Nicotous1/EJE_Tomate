@@ -3,6 +3,16 @@
 
 	class httpRequest extends Singleton {
 
+		protected function __construct() {
+			// Try to decode json -> angular
+			if (empty($_POST)) {
+				$res = json_decode(file_get_contents("php://input"), true);
+				if (json_last_error() == JSON_ERROR_NONE) {
+					$_POST = $res;
+				}
+			}
+		}
+
 		private function getter($var, $names, $default) {
 			if (!is_array($names)) {$names = array($names);}
 			$res = array();

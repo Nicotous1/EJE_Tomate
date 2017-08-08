@@ -1,5 +1,7 @@
 <?php
 namespace Core\PDO\Cache;
+
+	use Core\PDO\Entity\Entity;
 	use \Exception;
 
 	class CachePDO {
