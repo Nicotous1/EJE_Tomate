@@ -1,5 +1,6 @@
 <?php
 	namespace Core;
+	use \Exception;
 
 	class Application extends Singleton {
 
@@ -59,20 +60,26 @@
 			
 			$controllerName = $this->route->getController();
 			$methodName = $this->route->getMethod();
-			$clearedName = substr($controllerName, 0, -10);
 
-			$controller = new $controllerName($this->httpRequest, $this->httpResponse, $this->firewall);
+			$controller = new $controllerName();
+			$res = $controller->$methodName();
 
 			//Gestion du retour du controlleur
-			$res = $controller->$methodName();
 			if(is_a($res, 'Core\Page')) { //Une page -> standard
 				$this->httpResponse->setPage($res);
 			}
-			if(is_array($res)) { //Un tableau -> on l'encode en json
-				$this->httpResponse->setPage(new Page(json_encode($res)));
+			elseif(is_array($res)) { //Un tableau -> on l'encode en json
+				$this->httpResponse->getPage()->addContent(json_encode($res));
 			}
-			if (is_int($res)) { //Un entier -> on retourne un code d'erreur
+			elseif (is_int($res)) { //Un entier -> on retourne un code d'erreur
 				$this->httpResponse->setCode($res);
+			}
+			elseif(is_bool($res)) {
+				$code  = ($res) ? 200 : 400;
+				$this->httpResponse->setCode($code);
+			}
+			else {
+				throw new Exception("The method '$controllerName'->'$methodName' dit not return any correct value. You can only return Page, array, int or bool. It returned '".gettype($res)."'", 1);
 			}
 			
 			return $this;
@@ -83,12 +90,14 @@
 			ENVOI DE LA REPONSE
 		*/
 		private function end() {
-		    $this->httpResponse->send();
-			$c = ob_get_contents();
+			// This is done to prevent any output before the header are sent (necesary for cookie)
+			$pre_render_contents = ob_get_contents();
 			ob_end_clean();
-			echo $c;
-			//$this->SC->getPDO()->stats();
-		    exit();
+			$this->httpResponse->getPage()->addContent($pre_render_contents);
+
+		    $this->httpResponse->send();
+		    
+		    exit(); // important -> end must be a exit of any process
 		}
 
 

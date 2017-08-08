@@ -27,6 +27,7 @@
 
 		public function setCode($int = null) {
 			$header = null;
+			if ($int < 400) {return $this;} // It is not an error
 			if($int == 404) {$header = "HTTP/1.0 404 Not Found";}
 			$this->addHeader($header);
 			$this->page = new ErrorPage($int);
