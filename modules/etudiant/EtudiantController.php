@@ -1,4 +1,10 @@
 <?php
+	namespace Etudiant;
+	use Core\Controller;
+	use Core\PDO\EntityPDO;
+	use Core\Page;
+	use \Exception;
+
 	class EtudiantController extends Controller {
 
 		public function Home() {
@@ -6,7 +12,8 @@
 			if ($level < 2) {
 				return $this->Candidater();
 			} else {
-				return $this->httpResponse->redirect($this->SC->getRouteur()->getUrlFor("AdminHome"));
+				$this->httpResponse->redirect($this->routeur->getUrlFor("AdminHome"));
+				return True;
 			}
 		}
 
