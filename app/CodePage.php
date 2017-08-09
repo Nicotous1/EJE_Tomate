@@ -12,8 +12,10 @@
 
 			parent::__construct();
 
-			if($this->code == 404) {$header = "HTTP/1.0 404 Not Found";}
-			httpResponse::getInstance()->addHeader($header);
+			if($this->code == 404) {
+				$header = "HTTP/1.0 404 Not Found";
+				httpResponse::getInstance()->addHeader($header);
+			}
 
 
 			$this->addVar('HeaderTitre', 'Code ' . $this->code);
@@ -23,7 +25,7 @@
 
 		private function getCodeFile() {
 			$file = "templates/codes/code_" . $this->code . ".php";
-			if (!file_exists($file)) { $file = "templates/code/code.php"; };
+			if (!file_exists($file)) { $file = "templates/codes/code.php"; };
 			if (!file_exists($file)) { throw new Exception("No code template find at '" . $file . "' !"); };
 			return $file;
 		}
