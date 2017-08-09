@@ -28,11 +28,11 @@
 			$params = array_merge($defaults, $params);
 
 			// Set constructor after (can't be set in default)
-			$params["constructor"] = (isset($params["constructor"])) ? $params["prefix_url"] . $params["constructor"] : $params["pattern"];
 			
 			//FORMATAGE params
 			$params["pattern"] = $params["prefix_url"] . $params["pattern"];
 			$params["name"] = $params["prefix_name"] . $params["name"];
+			$params["constructor"] = (isset($params["constructor"])) ? $params["prefix_url"] . $params["constructor"] : $params["pattern"];
 
 
 			//OBLIGATOIRE
