@@ -1,4 +1,13 @@
 <?php
+	namespace Admin;
+	use Core\Controller;
+	use Core\PDO\EntityPDO;
+	use Core\Page;
+	use \Exception;
+
+	use Admn\Entity\Etude;
+	use Auth\Entity\UserPDO;
+
 	class AdminController extends Controller {
 
 		public function Edit() {
