@@ -31,7 +31,7 @@
 		}
 
 		public function cookie($name, $default = null) {
-			return (isset($_COOKIE[$name])) ? $_COOKIE[$name] : $default;
+			return $this->getter($_COOKIE, $name, $default);
 		}
 	}
 ?>
