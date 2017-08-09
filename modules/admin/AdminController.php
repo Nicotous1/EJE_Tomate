@@ -41,7 +41,7 @@
 			
 			//AFFICHAGE
 			$page = new Page();
-		    $page->addFile("Admin/templates/Template_Etude_Edit.php")
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_Etude_Edit.php")
 		    	 ->addVar("HeaderTitre", "Edition")
 		    	 ->addVar("etude", $etude)
 		    	 ->addVar("admins", $adminsSecured)
@@ -59,7 +59,7 @@
 
 			//AFFICHAGE
 			$page = new Page();
-		    $page->addFile("Admin/templates/Template_Dashboard.php")
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_Dashboard.php")
 		    	 ->addVar("HeaderTitre", "Dernières études")
 		    	 ->addVar("etudes", $es)
 		  	;
@@ -74,7 +74,7 @@
 
 			//AFFICHAGE
 			$page = new Page();
-		    $page->addFile("Admin/templates/Template_Doc_List.php")
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_Doc_List.php")
 		    	 ->addVar("HeaderTitre", "Pôle Qualité")
 		    	 ->addVar("doc_types", $ds)
 		    	 ->addVar("templates", $ts)

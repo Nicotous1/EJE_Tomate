@@ -24,7 +24,7 @@
 
 			//AFFICHAGE
 			$page = new Page();
-		    $page->addFile("Etudiant/templates/Template_Home.php")
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_Home.php")
 		    	 ->addVar("HeaderTitre", "Candiater")
 		    	 ->addVar("etudes", $etudePostulable) //REND TOUT PUBLIC A MODIFIER PLUS TARD
 		   	;
@@ -34,7 +34,7 @@
 		public function Edit() {
 			//AFFICHAGE
 			$page = new Page();
-		    $page->addFile("Etudiant/templates/Template_User_Edit.php")
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_User_Edit.php")
 		    	 ->addVar("HeaderTitre", "Votre profil")
 		   	;
 		    return $page;
