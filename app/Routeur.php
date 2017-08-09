@@ -9,8 +9,12 @@
 		private $url;
 		private $route;
 		private $routes;
+		
+		static private $params = null;
 
 		protected function __construct() {
+			self::$params = ConfigHandler::getInstance()->get(".routeur")->getData();
+
 			$this->loadRoutes()
 				 ->setUrl($_SERVER['REQUEST_URI'])
 			     ->setRoute()
@@ -112,14 +116,14 @@
 			$url = $this->generalFilter($_SERVER['SCRIPT_NAME']);
 			$lastSlashPos = strrpos($url, "/");
 			// $server_url =    $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER['SERVER_NAME'] . "/";
-			$ssl = ($this->isLocal()) ? "http" : "https";
+			$ssl = ($this->hasSSL()) ? "https" : "http";
 			$server_url = $ssl . "://" . $_SERVER['SERVER_NAME'] . "/";
 			if ($lastSlashPos === false) { // A la racine
 				$root = $server_url;
 			} else { // Dans un sous dossier
 				$root = $server_url . substr($url, 0, $lastSlashPos + 1); // Contient le dernier slash
 			}
-
+			
 			$this->root = $root;
 			return $this;
 		}
@@ -149,11 +153,11 @@
 		}
 
 		private function hasSSL() {
-			return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off');
+			return (self::$params["ssl"]);
 		}
 
 		private function isLocal() {
-			return ( $_SERVER['HTTP_HOST'] == "eje.local");
+			return ( $_SERVER['HTTP_HOST'] == self::$params["local_domain"]);
 		}
 
 
