@@ -31,13 +31,10 @@ use \Exception;
 				$this->set("id",$params["id"]);
 				unset($params["id"]);
 			}
-
-			//Shortcut
-			$this->structSQL = self::getEntitySQL();
 			
 			//Set to default all attribute SQL to put to default value (ex : array and not null ;))
 			$defaults = array();
-			foreach ($this->structSQL->getAtts() as $attSQL) {
+			foreach (self::getEntitySQL()->getAtts() as $attSQL) {
 				$defaults[$attSQL->getAtt()] = $attSQL->getDefault($this); 
 			}
 			unset($defaults["id"]); //VERY IMPORTANT !
@@ -65,7 +62,7 @@ use \Exception;
 			$name_method = "set".ucfirst($att);
 			if (method_exists($this, $name_method)) {return $this->$name_method($x);}
 			
-			$attSQL = $this->structSQL->getAtt($att); //Premier traitement pour vérifier les droits -> si interdit retourne erreur
+			$attSQL = self::getEntitySQL()->getAtt($att); //Premier traitement pour vérifier les droits -> si interdit retourne erreur
 
 			$class = $attSQL->getClass();
 
@@ -141,7 +138,7 @@ use \Exception;
 				return ($p !== null && count($method->getParameters()) == 1) ? $this->$name_method($p) : $this->$name_method();*/
 			}
 
-			if (!$this->structSQL->exist_att($att)) {
+			if (!self::getEntitySQL()->exist_att($att)) {
 				throw new Exception("$att n'est pas un attribut SQL ! Vous devez définir la fonction get" . ucfirst($att) . "() !", 1);
 			}
 
@@ -157,7 +154,7 @@ use \Exception;
 			ONLY FOR REF
 		*/	
 		public function get_Ids($att) {
-			$attSQL = $this->structSQL->getAtt($att);
+			$attSQL = self::getEntitySQL()->getAtt($att);
 			$x = $this->$att;
 
 			switch ($attSQL->getType()) {
@@ -187,7 +184,7 @@ use \Exception;
 		}
 
 		public function get_NotInBDD($att) {
-			$attSQL = (is_a($att, "Core\PDO\Entity\AttSQL")) ? $att : $this->structSQL->getAtt($att);
+			$attSQL = (is_a($att, "Core\PDO\Entity\AttSQL")) ? $att : self::getEntitySQL()->getAtt($att);
 			$att = $attSQL->getAtt();
 			$x = $this->$att;
 
@@ -218,7 +215,7 @@ use \Exception;
 		}
 
 		public function get_InBDD_ClassAndId($att) {
-			$attSQL = (is_a($att, "Core\PDO\Entity\AttSQL")) ? $att : $this->structSQL->getAtt($att);
+			$attSQL = (is_a($att, "Core\PDO\Entity\AttSQL")) ? $att : self::getEntitySQL()->getAtt($att);
 			$att = $attSQL->getAtt();
 			$x = $this->$att;
 
@@ -253,13 +250,14 @@ use \Exception;
 			return array();
 		}
 
+		// Deprecated !
 		public function getStruct() {
-			return $this->structSQL;
+			return self::getEntitySQL();
 		}
 
 		private function set_Indirects() {
 			if ($this->id <= 0) {return $this;}
-			foreach ($this->structSQL->getIAtts() as $attSQL) {
+			foreach (self::getEntitySQL()->getIAtts() as $attSQL) {
 				$att = $attSQL->getAtt();
 				$this->$att = new RefSQL($attSQL, $this);
 			}
@@ -278,7 +276,7 @@ use \Exception;
 
 		public function toArray() {
 			$r = array();
-			foreach ($this->structSQL->getDAtts() as $attSQL) {
+			foreach (self::getEntitySQL()->getDAtts() as $attSQL) {
 				switch ($attSQL->getType()) {
 					case AttSQL::TYPE_ARRAY:
 						$r[$attSQL->getAtt()] = $this->get($attSQL->getAtt())["id"];
@@ -315,7 +313,7 @@ use \Exception;
 		}
 
 		public function exist_att($att) {
-			return $this->structSQL->exist_att($att) || method_exists($this, "get".ucfirst($att));
+			return self::getEntitySQL()->exist_att($att) || method_exists($this, "get".ucfirst($att));
 		}
 	}
 ?>
