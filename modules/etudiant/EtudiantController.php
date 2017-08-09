@@ -20,7 +20,7 @@
 
 		public function Candidater() {			
 			$pdo = new EntityPDO();
-			$etudePostulable = $pdo->get("Etude", array("#s.statut IN : AND #s.child IS NULL", array(2,3)), false);
+			$etudePostulable = $pdo->get("Admin\Entity\Etude", array("#s.statut IN : AND #s.child IS NULL", array(2,3)), false);
 
 			//AFFICHAGE
 			$page = new Page();

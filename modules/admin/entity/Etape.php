@@ -2,6 +2,7 @@
 	namespace Admin\Entity;
 	use Core\PDO\Entity\Entity;
 	use Core\PDO\Entity\AttSQL;
+	use DateTime;
 
 	class Etape extends Entity {
 

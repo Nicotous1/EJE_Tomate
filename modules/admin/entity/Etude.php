@@ -5,6 +5,7 @@
 
 	use Core\Routeur;
 	use Core\PDO\PDO;
+	use Core\PDO\EntityPDO;
 	use \Datetime;
 
 	class Etude extends Entity {

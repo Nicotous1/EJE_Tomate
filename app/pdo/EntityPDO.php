@@ -2,6 +2,7 @@
 	namespace Core\PDO;
 	use Core\PDO\cache\CachePDO;
 	use Core\PDO\Entity\Entity;
+	use Core\PDO\Entity\AttSQL;
 	use \Exception;
 
 	/*

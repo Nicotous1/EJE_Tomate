@@ -1,6 +1,8 @@
 <?php
   use Admin\Entity\Etude; 
   use Admin\Entity\Client; 
+  use Admin\Entity\Etape; 
+  use Admin\Entity\sEtape; 
   use Auth\Entity\User; 
 ?>
 

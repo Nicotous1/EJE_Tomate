@@ -1,6 +1,7 @@
 <?php
 namespace Core\PDO\Entity;
 	use \Exception;
+	use Core\Firewall;
 
 	class AttSQL
 	{

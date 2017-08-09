@@ -61,7 +61,7 @@
 			if (empty($etude_id)) {$this->error("Veuillez enregistrer votre étude avant d'ajouter des étapes !"); return;}
 
 			$pdo = new EntityPDO();
-			$etude = $pdo->get("Etude",$etude_id);
+			$etude = $pdo->get("Admin\Entity\Etude",$etude_id);
 			if (empty($etude)) {$this->error("Cette étude n'existe plus !"); return;}
 
 			$etapes = $this->httpRequest->post("etapes");
@@ -84,7 +84,7 @@
 
 			$id = $this->httpRequest->post("id");
 			$pdo = new EntityPDO();
-			$e = $pdo->get("Etude", $id);
+			$e = $pdo->get("Admin\Entity\Etude", $id);
 			$copy = $e->infant();
 
 			$pdo = new EntityPDO();
@@ -142,7 +142,7 @@
 		public function WorkRequest() {
 			$id = $this->httpRequest->post("id");
 			$pdo = new EntityPDO();
-			$e = $pdo->get("Etude", $id);
+			$e = $pdo->get("Admin\Entity\Etude", $id);
 			if ($e == null || !$e->isRequestable()) {return $this->error("Veuillez nous excuser mais le recrutement pour cette étude est terminée !");}
 
 			//Cas de l'envoi du CV
@@ -172,7 +172,7 @@
 				$u = $this->firewall->getUser();
 
 				//Recuperation ancienne requete
-				$w = $pdo->get("WorkRequest", array("#s.etude = :0.id && #s.etudiant = :1.id", array($e, $u)));
+				$w = $pdo->get("Admin\Entity\WorkRequest", array("#s.etude = :0.id && #s.etudiant = :1.id", array($e, $u)));
 
 				// Pas d'ancienne requête
 				if ($w == null) { 
@@ -218,12 +218,12 @@
 			$statut =  $this->httpRequest->post("statut");
 
 			$pdo = new EntityPDO();
-			$e = $pdo->get("Etude", $id_etude);
+			$e = $pdo->get("Admin\Entity\Etude", $id_etude);
 
 			if ($e == null) {return $this->error("Cette etude n'existe plus !");}
 			if (!$e->isSelectable()) {return $this->error("Vous ne pouvez accepter un candidat tant que l'étude est en recrutement ! Veuillez changer le statut de l'étude !");}
 
-			$w = $pdo->get("WorkRequest", $id_w);
+			$w = $pdo->get("Admin\Entity\WorkRequest", $id_w);
 			if ($w == null) {return $this->error("Cette candidature n'existe plus !");}
 
 			$past_accepted = $w->isAccepted(); //Utilisé pour fired
@@ -286,7 +286,7 @@
 		public function DownloadDocEtude() {
 			$id = $this->httpRequest->get("id");
 			$pdo = new EntityPDO();
-			$de = $pdo->get("DocEtude", $id);
+			$de = $pdo->get("Admin\Entity\DocEtude", $id);
 			if ($de === null) {return 404;}
 
 			return $this->httpResponse->setFile("#" . $de->get("etude")->get("numero") . "_" . $de->get("nom"), "pdf", $de->get("doc")->get("path"));	
@@ -295,7 +295,7 @@
 		public function DownloadDoc() {
 			$id = $this->httpRequest->get("id");
 			$pdo = new EntityPDO();
-			$doc = $pdo->get("Document", $id);
+			$doc = $pdo->get("Admin\Entity\Document", $id);
 			if ($doc === null) {return 404;}
 
 			return $this->httpResponse->setFile($doc->get("nom"), $doc->get("ext"), $doc->get("path"));
@@ -331,7 +331,7 @@
 			$etude_id = $this->httpRequest->post("etude");
 			$template_id = $this->httpRequest->post("template");
 			$pdo = new EntityPDO();
-			$dt = $pdo->get("DocTemplate", $template_id);
+			$dt = $pdo->get("Admin\Entity\DocTemplate", $template_id);
 			return $this->DocEtudeGenerate(new DocEtude(array("etude" => $etude_id, "doc" => $dt->get_Ids('doc'), "type" => $dt->get_Ids('type'))));
 		}
 
@@ -352,7 +352,7 @@
 			$etude = $de->get("etude");
 			if ($etude == null) {return $this->error("Cette étude n'existe plus ou pas !\nAvez vous sauvegardé ?");}
 
-			$temp = $pdo->get("VarQuali", null, false); $vars_quali = array();
+			$temp = $pdo->get("Admin\Entity\VarQuali", null, false); $vars_quali = array();
 			foreach ($temp as $v) {
 				$vars_quali[$v->get("var_name")] = $v->get("content");
 			}
@@ -410,7 +410,7 @@
 
 			$pdo = new EntityPDO();
 			if ($id > 0) {
-				$template = $pdo->get("DocTemplate", $id);
+				$template = $pdo->get("Admin\Entity\DocTemplate", $id);
 				$pastDoc = $template->get("doc");
 				$template->set_Array($params);
 			} else {

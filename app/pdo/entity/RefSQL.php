@@ -1,6 +1,7 @@
 <?php
-namespace Core\PDO\Entity;
+	namespace Core\PDO\Entity;
 	use \Exception;
+	use Core\PDO\EntityPDO;
 
 	class RefSQL {
 		protected $attSQL;

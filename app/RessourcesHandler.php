@@ -7,7 +7,7 @@
 		
 		public function html_url($name) {
 			$path = $this->get_path($name, "templates", "html");
-			return $this->get_url_path($path);
+			return $this->get_path_url($path);
 		}
 
 		public function css($name, $vars = array()) {
@@ -59,16 +59,18 @@
 
 			// Find root folder for the ressources
 			$module = $params[0];
-			$root = ($module != '') ? "modules/" . strtolower($params[0]) : '';
-			$root .= "ressources";
-			$path = $root . implode("/", $params);
+			$root = ($module != '') ? "modules/" . strtolower($params[0]) . "/" : '';
+			$root .= "ressources/";
+			$path = $root . implode("/", array_slice($params, 1));
 
 			// Full path given (with extension)
 			if (file_exists($path)) {return $path;}
 
+
+			if ($ext === null) {$ext = $folder;}
 			// Extension not given it can be '.php' or '.$folder_ressource$'
-			foreach (array("php", $folder) as $ext) {
-				$full_path = $path . "." . $ext;
+			foreach (array("php", $ext) as $suffixe) {
+				$full_path = $path . "." . $suffixe;
 				if (file_exists($full_path)) {return $full_path;}
 			}
 

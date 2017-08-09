@@ -5,7 +5,7 @@
 
 	use \Exception;
 	use Core\Routeur;
-	use \Exception;
+	use \DateTime;
 
 	require_once "plugins/Random/random.php";
 	
@@ -44,10 +44,6 @@
 			unset($params["type"]); //TYPE IS ALVAYS DETERMINED BY THE FILE DIRECTLY (kind of more secured)
 
 			parent::__construct($params, $conv);
-			
-			if (!file_exists($this->get("path"))) {
-				throw new Exception("Le fichier n'existe pas sur le disque !", 1);
-			}
 
 		}
 
@@ -110,16 +106,24 @@
 
 		//Revérifie à chaque fois !
 		public function getType() {
-			switch (mime_content_type($this->get("path"))) {
-				case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-					return "word";
+			$path = $this->get("path");
+			if (file_exists($path)) {
+				switch (mime_content_type()) {
+					case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+						return "word";
 
-				case 'application/pdf':
-					return "pdf";
-				
-				default:
-					return -1;
+					case 'application/pdf':
+						return "pdf";
+					
+					default:
+						return -1;
+				}				
+			} else {
+				$pos = strrpos($path, ".");
+				return ($pos === False) ? null : substr($path, $pos + 1);
 			}
+
+
 		}
 
 		public function getExt() {
