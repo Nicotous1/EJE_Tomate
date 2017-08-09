@@ -81,7 +81,7 @@
 			elseif(is_string($res)) {
 				$this->httpResponse->getPage()->addContent($res);
 			}
-			else {
+			elseif ($res !== null) {
 				throw new Exception("The method '$controllerName'->'$methodName' dit not return any correct value. You can only return Page, array, int, bool or string. It returned '".gettype($res)."'", 1);
 			}
 			
