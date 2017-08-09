@@ -1,5 +1,5 @@
 <?php
-	include('templates/Template_Header.php');
+	require('templates/Template_Header.php');
 	if(!isset($errorMSG)) { $errorMSG = "Une erreur s'est produite !<br>Veuillez nous excusez !";}
 ?>
 	<section>

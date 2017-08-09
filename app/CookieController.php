@@ -27,8 +27,8 @@
 		}
 
 		public function remove($id) {
+			self::$cookies[$id] = array("value" => null, "time" => time());
 			if (isset($_COOKIE[$id])) {
-				self::$cookies[$id] = array("value" => null, "time" => time());
 				unset($_COOKIE[$id]);
 			}
 			return $this;

@@ -85,7 +85,7 @@
 			$path = 'ressources/js/' . $file;
 			if ($direct) {
 				extract($vars);
-				include($path . '.php');
+				require($path . '.php');
 			} else {
 				echo "<script type='text/javascript' src='". $this->getRessource($path . '.js') ."'></script>\n";
 			}

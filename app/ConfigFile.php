@@ -17,7 +17,7 @@
 
 			$this->data = require($path);
 
-			## Pattern modules config
+			## Pattern modules config -> "/modules/$module_name$/config/$file_name$.config"
 			preg_match("/modules\/(.*)\/config\/(.*)\.config/", $path, $matches);
 			if (count($matches) == 3) {
 				$this->id = $matches[1] . "." . $matches[2];
@@ -25,7 +25,7 @@
 				return $this;
 			}
 
-			## Pattern main config
+			## Pattern main config -> /config/$file_name$.config
 			preg_match("/^\/?config\/(.*)\.config/", $path, $matches);
 			if (count($matches) == 2) {
 				$this->id = "." . $matches[1];

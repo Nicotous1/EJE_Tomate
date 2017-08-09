@@ -1,6 +1,6 @@
 <?php
 	use \Exception;
-	include_once("plugins/WordTemplate/loader.php");
+	require_once("plugins/WordTemplate/loader.php");
 	
 	class AjaxController extends Controller {
 

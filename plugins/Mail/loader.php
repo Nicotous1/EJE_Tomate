@@ -1,4 +1,4 @@
 <?php
 	//Plugin Dependance
-	include('MyMail.php');
+	require('MyMail.php');
 ?>

@@ -1,4 +1,4 @@
-<?php include("templates/Template_Header.php"); ?>
+<?php require("templates/Template_Header.php"); ?>
 
 
 
@@ -92,7 +92,7 @@
       </div>
     </div>
 
-<?php include("templates/Template_Footer_1.php"); ?>
+<?php require("templates/Template_Footer_1.php"); ?>
 
 <?php 
 	use Auth\Entity\User;
@@ -150,4 +150,4 @@
 	    });
 </script>
 
-<?php include("templates/Template_Footer_2.php"); ?>
+<?php require("templates/Template_Footer_2.php"); ?>

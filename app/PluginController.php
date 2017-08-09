@@ -3,7 +3,7 @@
 
 	class PluginController {
 		public function load($name) {
-			include_once("plugins/".$name);
+			require_once("plugins/".$name);
 		}
 	}
 ?>

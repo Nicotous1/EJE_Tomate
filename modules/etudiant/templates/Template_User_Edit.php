@@ -1,4 +1,4 @@
-<?php include("templates/Template_Header.php"); ?>
+<?php require("templates/Template_Header.php"); ?>
 
   <div>
 
@@ -90,7 +90,7 @@
 
 
 <?php
-  include("templates/Template_Footer_1.php"); ?>
+  require("templates/Template_Footer_1.php"); ?>
 
 <script type="text/javascript">
   app.controller("UserEditController", function($scope, $http, $mdToast) {
@@ -122,4 +122,4 @@
   });
 </script>
 
-<?php include("templates/Template_Footer_2.php"); ?>
+<?php require("templates/Template_Footer_2.php"); ?>

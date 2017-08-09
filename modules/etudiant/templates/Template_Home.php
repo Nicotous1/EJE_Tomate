@@ -1,4 +1,4 @@
-<?php include("templates/Template_Header.php"); ?>
+<?php require("templates/Template_Header.php"); ?>
 
   <div ng-controller="HomeController">
 
@@ -34,10 +34,10 @@
 
 
 <?php
-  include("templates/Template_Footer_1.php"); ?>
+  require("templates/Template_Footer_1.php"); ?>
 
 <?php
   $routeur->baliseJS("home", true, $vars);
 ?>
 
-<?php include("templates/Template_Footer_2.php"); ?>
+<?php require("templates/Template_Footer_2.php"); ?>
