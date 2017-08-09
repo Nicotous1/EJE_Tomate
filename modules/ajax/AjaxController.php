@@ -1,6 +1,25 @@
 <?php
-	use \Exception;
+	namespace Ajax;
+	
+	use Core\PDO\EntityPDO;
+	use Core\Controller;
+
+	use Admin\Entity\Etude;
+	use Admin\Entity\Client;
+	use Admin\Entity\Entreprise;
+	use Admin\Entity\Document;
+	use Admin\Entity\WorkRequest;
+	use Admin\Entity\DocEtude;
+	use Admin\Entity\DocType;
+	use Admin\Entity\DocTemplate;
+	use Admin\Entity\VarQuali;
+
 	require_once("plugins/WordTemplate/loader.php");
+	use WordTemplate\Scope;
+	use WordTemplate\WordTemplate;
+
+	use \Exception;
+	use \ZipArchive;
 	
 	class AjaxController extends Controller {
 
@@ -75,8 +94,7 @@
 				$pdo->saveAtt("sEtapes", $etape, array("save" => true));
 			}
 
-			echo json_encode(array("res" => true, "etapes" => $etude->get("etapes")));
-			return true;
+			return $this->success(array("etapes" => $etude->get("etapes")));
 		}
 
 
@@ -102,9 +120,7 @@
 			}
 			$pdo->save($e);
 
-
-			echo json_encode(array("res" => true, "link" => $this->SC->getRouteur()->getUrlFor("AdminEdit",array("id"=>$copy->getId()))));
-			return true;
+			return $this->success(array("link" => $this->routeur->getUrlFor("AdminEdit",array("id"=>$copy->getId()))));
 		}
 
 
@@ -298,7 +314,8 @@
 			$doc = $pdo->get("Admin\Entity\Document", $id);
 			if ($doc === null) {return 404;}
 
-			return $this->httpResponse->setFile($doc->get("nom"), $doc->get("ext"), $doc->get("path"));
+			$this->httpResponse->setFile($doc->get("nom"), $doc->get("ext"), $doc->get("path"));
+			return True;
 		}
 
 		private function zip($name, $files) {
@@ -316,7 +333,8 @@
 				$zip->addFile($path, $key);
 			}
 			$zip->close();
-			return $this->httpResponse->setFile($name, "zip", $filename);
+			$this->httpResponse->setFile($name, "zip", $filename);
+			return True;
 		}
 
 
@@ -372,8 +390,7 @@
 			}
 
 			//FINI
-			echo json_encode(array("res" => true, "link" => $this->SC->getRouteur()->getUrlFor("AjaxTemplateGet",array("id"=>$n))));
-			return true;
+			return $this->success(array("link" => $this->SC->getRouteur()->getUrlFor("AjaxTemplateGet",array("id"=>$n))));
 		}
 
 
@@ -430,9 +447,7 @@
 				$pastDoc->remove();
 			}
 
-			$res = array("res" => true, "template" => $template);
-			echo json_encode($res);
-			return;
+			return $this->success(array("template" => $template));
 		}
 
 
@@ -449,9 +464,7 @@
 			$this->pdo->save($doc);
 			$this->pdo->save($docE);
 
-			$res = array("res" => true, "doc" => $docE);
-			echo json_encode($res);
-			return;
+			return $this->success(array("doc" => $docE));
 		}
 
 
