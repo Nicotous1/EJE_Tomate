@@ -47,18 +47,18 @@ namespace Core\PDO\Entity;
 			//Gestion types
 			switch ($this->type) {
 				case AttSQL::TYPE_USER:
-					$this->class = "User"; break;
+					$this->class = "Auth\Entity\User"; break;
 				case AttSQL::TYPE_DATE:
-					$this->class = "DateTime"; break;
+					$this->class = "\DateTime"; break;
 				case AttSQL::TYPE_DREF:
 					if (!isset($params["class"])) {throw new Exception("A reference attribut need the CLASS of the reference to be handle !", 1);}
 					$this->null = (isset($params["null"])) ? (bool) $params["null"] : true;
-					$this->class =  $params["class"]; break;
+					$this->class =  $this->add_namespace($params["class"]); break;
 				case AttSQL::TYPE_MREF:
 					if (!isset($params["class"])) {throw new Exception("A reference attribut need the CLASS of the reference to be handle !", 1);}
 					if (!isset($params["table"])) {throw new Exception("A multiple reference attribut need the ref table to be handle !", 1);}
 					if (!isset($params["ref_col"])) {throw new Exception("A multiple reference attribut need the COLUMN OF THE REF in the ref table to be handle !", 1);}
-					$this->class =  $params["class"];
+					$this->class =  $this->add_namespace($params["class"]);
 					$this->table =  $params["table"];
 					$this->ref_col =  $params["ref_col"];
 					break;
@@ -66,7 +66,7 @@ namespace Core\PDO\Entity;
 					if (!isset($params["class"])) {throw new Exception("A reference attribut need the CLASS of the reference to be handle !", 1);}
 					if (!isset($params["att_ref"])) {throw new Exception("A reference attribut need the att_ref of the reference to be handle !", 1);}
 
-					$this->class =  $params["class"];
+					$this->class =  $this->add_namespace($params["class"]);
 					$this->att_ref =  ($this->class)::getEntitySQL()->getAtt($params["att_ref"]);
 					$this->table = $this->att_ref->getTable();
 					$this->col = $this->att_ref->getCol();
@@ -81,6 +81,16 @@ namespace Core\PDO\Entity;
 					break;
 
 			}
+		}
+
+		private function add_namespace($class) {
+			if (strpos($class, "\\") === False) {
+				$parentClass = $this->parent->getClass();
+				$end_namespace_pos = strrpos($parentClass, "\\");
+				$namespace = substr($parentClass, 0, $end_namespace_pos);
+				$class = $namespace . "\\" . $class;
+			}
+			return $class;
 		}
 
 		public function getDefault(Entity $e = null) {

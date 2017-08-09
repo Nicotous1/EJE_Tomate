@@ -14,7 +14,9 @@ use \Exception;
 
 	        if (!isset($entity_sqls[$calledClass]))
 	        {
-	            $entity_sqls[$calledClass] = new EntitySQL($calledClass::get_array_EntitySQL());
+	        	$params = $calledClass::get_array_EntitySQL();
+	        	$params["class"] = $calledClass;
+	            $entity_sqls[$calledClass] = new EntitySQL($params);
 	        }
 
 	        return $entity_sqls[$calledClass];

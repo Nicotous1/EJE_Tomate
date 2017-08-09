@@ -10,7 +10,6 @@
 
 		protected static function get_array_EntitySQL() {
 			return array(
-				"class" => "Auth\Entity\User",
 				"table" => "etudiant",
 				"atts" => array(
 					array("att" => "mail", "type" => AttSQL::TYPE_STR),
@@ -33,7 +32,7 @@
 					array("att" => "annee", "type" => AttSQL::TYPE_ARRAY, "list" => User::$anneeArray),
 					array("att" => "titre", "type" => AttSQL::TYPE_ARRAY, "list" => User::$titreArray),
 
-					array("att" => "cv", "type" => AttSQL::TYPE_DREF, "class" => "Document"),
+					array("att" => "cv", "type" => AttSQL::TYPE_DREF, "class" => "Admin\Entity\Document"),
 					
 					array("att" => "work_requests", "type" => AttSQL::TYPE_IREF, "class" => "Admin\Entity\WorkRequest", "att_ref" => "etudiant"),
 				),

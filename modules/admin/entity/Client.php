@@ -1,5 +1,6 @@
 <?php
 	namespace Admin\Entity;
+	use Core\PDO\Entity\Entity;
 	use Core\PDO\Entity\AttSQL;
 
 	use Auth\Entity\User;
@@ -15,7 +16,6 @@
 
 		protected static function get_array_EntitySQL() {
 			return array(
-				"class" => "Client",
 				"atts" => array(
 					array("att" => "nom", "type" => AttSQL::TYPE_STR),
 					array("att" => "prenom", "type" => AttSQL::TYPE_STR),

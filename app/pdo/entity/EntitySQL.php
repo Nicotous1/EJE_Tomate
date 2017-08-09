@@ -1,5 +1,5 @@
 <?php
-namespace Core\PDO\Entity;
+	namespace Core\PDO\Entity;
 	use \Exception;
 
 	class EntitySQL {
@@ -13,7 +13,19 @@ namespace Core\PDO\Entity;
 
 		public function __construct(array $p) {
 			$this->class = $p["class"];
-			$this->table = (isset($p["table"])) ? $p["table"] : strtolower($this->class);
+			if (strrpos($this->class, "\\") === False) {
+				throw new Exception("Entity SQL has a class without namespace : '$this->class' !", 1);
+			}
+
+			if (isset($p["table"])) {
+				$this->table = $p["table"];
+			} else {
+				$pos = strrpos($this->class, "\\");
+				$cleared_class_name = substr($this->class, $pos + 1);
+				$this->table = strtolower($cleared_class_name);
+			}
+
+
 			$this->atts = array(); $this->atts_d = array(); $this->atts_i = array();
 			$this->cols = array();
 			foreach ($p["atts"] as $a) {
