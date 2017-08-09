@@ -10,7 +10,12 @@
 
 		public function __construct($content = null) {
 			$this->files = array();
-			$this->vars = array("routeur" => Routeur::getInstance(), 'firewall' => Firewall::getInstance(), "user" => Firewall::getInstance()->getUser());
+			$this->vars = array(
+				"routeur" => Routeur::getInstance(), 
+				'firewall' => Firewall::getInstance(),
+				"user" => Firewall::getInstance()->getUser(),
+				"ressources" => new RessourcesHandler(),
+			);
 			$this->content = $content;
 		}
 

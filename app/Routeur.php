@@ -86,26 +86,6 @@
 			return $this->route;
 		}
 
-		public function getRessource($ressource) {
-			return $this->root . $ressource;
-		}
-
-		public function baliseCSS($file) {
-			echo "<link rel='stylesheet' href='" . $this->getRessource('ressources/css/' . $file . ".css") . "'>\n";
-			return $this;
-		}
-
-		public function baliseJS($file, $direct = false, $vars = null) {
-			$path = 'ressources/js/' . $file;
-			if ($direct) {
-				extract($vars);
-				require($path . '.php');
-			} else {
-				echo "<script type='text/javascript' src='". $this->getRessource($path . '.js') ."'></script>\n";
-			}
-			return $this;
-		}
-
 		public function getUrlFor($name, array $params = null) {
 			foreach($this->routes as $route) {
 				if($route->getName() == $name) { return $this->getRoot() . $route->getUrl($params);}

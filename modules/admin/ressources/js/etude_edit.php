@@ -103,7 +103,7 @@
     }
 
     $scope.editEntreprise = $scope.modal_edit_handler({
-      templateUrl : "<?php echo $routeur->getRessource("ressources/templates/Template_Entreprise_New.html"); ?>",
+      templateUrl : "<?php echo $ressources->html_url("admin.Template_Entreprise_New"); ?>",
 
       resultHandler : function(e) {
         add_entity(e, $scope.formEtude.entreprises);
@@ -128,7 +128,7 @@
 
     function genEditClient(var_name) {
       return $scope.modal_edit_handler({
-        templateUrl : "<?php echo $routeur->getRessource("ressources/templates/Template_Client_New.html"); ?>",
+        templateUrl : "<?php echo $ressources->html_url("admin.Template_Client_New.html"); ?>",
         scope : $scope,
         locals : {
           entreprise : $scope.getId($scope.formEtude.entreprises,$scope.etude.entreprise),
@@ -374,7 +374,7 @@
        $mdDialog.show({
          parent: parentEl,
          targetEvent: $event,
-         templateUrl: "<?php echo $routeur->getRessource("ressources/templates/Template_Doc_New.html"); ?>",
+         templateUrl: "<?php echo $ressources->html_url("admin.Template_Doc_New"); ?>",
          controller: DocDialogController,
          locals: {
            doctypes: $scope.doctypes,
@@ -441,7 +441,7 @@
        $mdDialog.show({
          parent: parentEl,
          targetEvent: $event,
-         templateUrl: "<?php echo $routeur->getRessource("ressources/templates/Template_Doc_Custom.html"); ?>",
+         templateUrl: "<?php echo $ressources->html_url("admin.Template_Doc_Custom"); ?>",
          controller: DocDialogController,
          locals: {
            doctypes: $scope.doctypes,
@@ -510,7 +510,7 @@
        $mdDialog.show({
          parent: parentEl,
          targetEvent: $event,
-         templateUrl: "<?php echo $routeur->getRessource("ressources/templates/Template_Doc_Generate.html"); ?>",
+         templateUrl: "<?php echo $ressources->html_url("admin.Template_Doc_Generate"); ?>",
          controller: DocDialogController,
          locals: {
            doctemplates: $scope.doctemplates,

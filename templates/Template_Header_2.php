@@ -8,7 +8,7 @@
 <?php if ($firewall->isConnected()) { ?>
     <md-sidenav md-component-id="left" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="$mdMedia('min-width: 1000px')">
       <header class="nav-header md-padding" style="text-align: center">
-          <a href="<?php echo $routeur->getUrlFor("EdHome") ?>"><img src="<?php echo $routeur->getRessource("ressources/images/eje.png"); ?>" alt=""></a>
+          <a href="<?php echo $routeur->getUrlFor("EdHome") ?>"><img src="<?php echo $ressources->get_url("images.eje.png"); ?>" alt=""></a>
       </header>
       <md-list>
       <?php if ($user->isAdmin()) { ?>

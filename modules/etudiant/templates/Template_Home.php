@@ -37,7 +37,7 @@
   require("templates/Template_Footer_1.php"); ?>
 
 <?php
-  $routeur->baliseJS("home", true, $vars);
+  $ressources->js(".home", $vars);
 ?>
 
 <?php require("templates/Template_Footer_2.php"); ?>

@@ -18,7 +18,7 @@
        $mdDialog.show({
          parent: parentEl,
          targetEvent: $event,
-         templateUrl: "<?php echo $routeur->getRessource("ressources/templates/Template_WorkRequest_New.html"); ?>",
+         templateUrl: "<?php echo $ressources->html_url("etudiant.Template_WorkRequest_New.html"); ?>",
          controller: DocDialogController,
          locals: {
            etude: etude,

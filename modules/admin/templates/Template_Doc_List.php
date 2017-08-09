@@ -67,7 +67,7 @@
   require("templates/Template_Footer_1.php"); ?>
 
 <?php
-  $routeur->baliseJS("admin.doc_list", true, $vars);
+  $ressources->js("admin.doc_list", $vars);
 ?>
 
 <?php require("templates/Template_Footer_2.php"); ?>
