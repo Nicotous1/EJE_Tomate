@@ -1,53 +1,12 @@
 <?php
+	namespace Admin\Entity;
+	use Core\PDO\Entity\Entity;
+	use Core\PDO\Entity\AttSQL;
 
-	$handler = new EntitySQLHandler();
-
-	$handler->add((array(
-			"class" => "Etude",
-			"atts" => array(
-				array("att" => "nom", "type" => AttSQL::TYPE_STR),
-				array("att" => "numero", "type" => AttSQL::TYPE_INT),
-				array("att" => "p_jeh", "type" => AttSQL::TYPE_INT),
-				array("att" => "pseudo", "type" => AttSQL::TYPE_STR),
-				array("att" => "bdd", "type" => AttSQL::TYPE_STR),
-				array("att" => "specifications", "type" => AttSQL::TYPE_STR),
-				array("att" => "but", "type" => AttSQL::TYPE_STR),
-				array("att" => "competences", "type" => AttSQL::TYPE_STR),
-				array("att" => "context", "type" => AttSQL::TYPE_STR),
-				array("att" => "domaines", "type" => AttSQL::TYPE_STR),
-				array("att" => "pub", "type" => AttSQL::TYPE_STR),
-				array("att" => "pub_titre", "type" => AttSQL::TYPE_STR),
-				array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
-				array("att" => "date_modified", "type" => AttSQL::TYPE_DATE),
-				array("att" => "date_end_recrute", "type" => AttSQL::TYPE_DATE),
-				array("att" => "locked", "type" => AttSQL::TYPE_BOOL),
-
-				array("att" => "fee", "type" => AttSQL::TYPE_FLOAT),
-				array("att" => "break_jeh", "type" => AttSQL::TYPE_INT),
-				array("att" => "break_fee", "type" => AttSQL::TYPE_FLOAT),
-				
-				array("att" => "provenance", "type" => AttSQL::TYPE_ARRAY, "list" => Etude::$provenanceArray),
-				array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => Etude::$statutArray),
-				array("att" => "lieu", "type" => AttSQL::TYPE_ARRAY, "list" => Etude::$lieuArray),
-
-				array("att" => "client", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
-				array("att" => "facturation", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
-				array("att" => "signataire", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
-				array("att" => "entreprise", "type" => AttSQL::TYPE_DREF, "class" => "Entreprise"),
-				array("att" => "child", "type" => AttSQL::TYPE_DREF, "class" => "Etude"),
-				
-				array("att" => "admins", "type" => AttSQL::TYPE_MREF, "class" => "User", "table" => "admin_etude", "ref_col" => "admin_id", "col" => "etude_id"),
-				//array("att" => "etudiants", "type" => AttSQL::TYPE_MREF, "class" => "User", "table" => "etudiant_etude", "ref_col" => "etudiant_id", "col" => "etude_id"),
-
-				array("att" => "work_requests", "type" => AttSQL::TYPE_IREF, "class" => "WorkRequest", "att_ref" => "etude"),
-				array("att" => "docs", "type" => AttSQL::TYPE_IREF, "class" => "DocEtude", "att_ref" => "etude"),
-				array("att" => "etapes", "type" => AttSQL::TYPE_IREF, "class" => "Etape", "att_ref" => "etude"),
-				array("att" => "parent", "type" => AttSQL::TYPE_IREF, "class" => "Etude", "att_ref" => "child"),
-			),
-		)))
-	;	
 	use Core\Routeur;
 	use Core\PDO\PDO;
+	use \Datetime;
+
 	class Etude extends Entity {
 		private $dochistory;
 		private $etudiants;
@@ -59,19 +18,63 @@
 		);
 
 		public static $statutArray = array(
-			0 => array("id" => 0, "name" => "Brouillon"),
-			1 => array("id" => 1, "name" => "En attente"),
-			2 => array("id" => 2, "name" => "Recrutement"),
-			3 => array("id" => 3, "name" => "Selection"),
-			4 => array("id" => 4, "name" => "En cours"),
-			5 => array("id" => 5, "name" => "Cloturée"),
-			6 => array("id" => 6, "name" => "Morte"),
+			array("id" => 0, "name" => "Brouillon"),
+			array("id" => 1, "name" => "En attente"),
+			array("id" => 2, "name" => "Recrutement"),
+			array("id" => 3, "name" => "Selection"),
+			array("id" => 4, "name" => "En cours"),
+			array("id" => 5, "name" => "Cloturée"),
+			array("id" => 6, "name" => "Morte"),
 		);
 
 		public static $lieuArray = array(
 			array("id" => 1, "short" => "A l'ENSAE", "long" => "en_long"),
 			array("id" => 2, "short" => "Chez le client", "long" => "client_long"),
 		);
+
+		protected static function get_array_EntitySQL() {
+			return array(
+				"atts" => array(
+					array("att" => "nom", "type" => AttSQL::TYPE_STR),
+					array("att" => "numero", "type" => AttSQL::TYPE_INT),
+					array("att" => "p_jeh", "type" => AttSQL::TYPE_INT),
+					array("att" => "pseudo", "type" => AttSQL::TYPE_STR),
+					array("att" => "bdd", "type" => AttSQL::TYPE_STR),
+					array("att" => "specifications", "type" => AttSQL::TYPE_STR),
+					array("att" => "but", "type" => AttSQL::TYPE_STR),
+					array("att" => "competences", "type" => AttSQL::TYPE_STR),
+					array("att" => "context", "type" => AttSQL::TYPE_STR),
+					array("att" => "domaines", "type" => AttSQL::TYPE_STR),
+					array("att" => "pub", "type" => AttSQL::TYPE_STR),
+					array("att" => "pub_titre", "type" => AttSQL::TYPE_STR),
+					array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
+					array("att" => "date_modified", "type" => AttSQL::TYPE_DATE),
+					array("att" => "date_end_recrute", "type" => AttSQL::TYPE_DATE),
+					array("att" => "locked", "type" => AttSQL::TYPE_BOOL),
+
+					array("att" => "fee", "type" => AttSQL::TYPE_FLOAT),
+					array("att" => "break_jeh", "type" => AttSQL::TYPE_INT),
+					array("att" => "break_fee", "type" => AttSQL::TYPE_FLOAT),
+					
+					array("att" => "provenance", "type" => AttSQL::TYPE_ARRAY, "list" => self::$provenanceArray),
+					array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => self::$statutArray),
+					array("att" => "lieu", "type" => AttSQL::TYPE_ARRAY, "list" => self::$lieuArray),
+
+					array("att" => "client", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
+					array("att" => "facturation", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
+					array("att" => "signataire", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
+					array("att" => "entreprise", "type" => AttSQL::TYPE_DREF, "class" => "Entreprise"),
+					array("att" => "child", "type" => AttSQL::TYPE_DREF, "class" => "Etude"),
+					
+					array("att" => "admins", "type" => AttSQL::TYPE_MREF, "class" => "Auth\Entity\User", "table" => "admin_etude", "ref_col" => "admin_id", "col" => "etude_id"),
+
+					array("att" => "work_requests", "type" => AttSQL::TYPE_IREF, "class" => "WorkRequest", "att_ref" => "etude"),
+					array("att" => "docs", "type" => AttSQL::TYPE_IREF, "class" => "DocEtude", "att_ref" => "etude"),
+					array("att" => "etapes", "type" => AttSQL::TYPE_IREF, "class" => "Etape", "att_ref" => "etude"),
+					array("att" => "parent", "type" => AttSQL::TYPE_IREF, "class" => "Etude", "att_ref" => "child"),
+				),
+			);
+		}
 
 		public function var_defaults() {
 			return array(

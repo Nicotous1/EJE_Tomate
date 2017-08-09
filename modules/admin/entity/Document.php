@@ -1,26 +1,30 @@
 <?php
+	namespace Admin\Entity;
+	use Core\PDO\Entity\Entity;
+	use Core\PDO\Entity\AttSQL;
+
 	use \Exception;
 	use Core\Routeur;
+	use \Exception;
+
 	require_once "plugins/Random/random.php";
-
-	$handler = new EntitySQLHandler();
-
-	$handler->add((array(
-			"class" => "Document",
-			"atts" => array(
-				array("att" => "nom", "type" => AttSQL::TYPE_STR),
-				array("att" => "path", "type" => AttSQL::TYPE_STR),
-				array("att" => "owner", "type" => AttSQL::TYPE_USER),
-				array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
-		))))
-	;	
-
+	
 	class Document extends Entity {
 
 		protected $tmp_name;
 		protected $type;
 
 		const pathStorage = "uploadedFiles/";
+
+		protected static function get_array_EntitySQL() {
+			return array(
+				"atts" => array(
+					array("att" => "nom", "type" => AttSQL::TYPE_STR),
+					array("att" => "path", "type" => AttSQL::TYPE_STR),
+					array("att" => "owner", "type" => AttSQL::TYPE_USER),
+					array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
+			));
+		}
 
 		public function __construct($params = null, $conv = false) {
 			//COMES FROM $_FILES

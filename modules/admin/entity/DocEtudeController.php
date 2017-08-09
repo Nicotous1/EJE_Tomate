@@ -1,10 +1,12 @@
 <?php
+	namespace Admin\Entity;
+	use Core\PDO\PDO;
+
 	class DocEtudeController {
 
 		public function __construct() {
 			$this->pdo = PDO::getInstance();
-			$handler = new EntitySQLHandler();
-			$this->strct = $handler->get("DocEtude");
+			$this->strct = DocEtude::getEntitySQL();
 		}
 
 		public function countOfTypeWithIds($e_id, $t_id) {

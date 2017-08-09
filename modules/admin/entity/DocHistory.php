@@ -1,6 +1,7 @@
 <?php 
-	namespace Admin\Entity\DocHistory;
+	namespace Admin\Entity;
 	use \Exception;
+	use Core\PDO\EntityPDO;
 	
 	class DocHistory {
 		private $etude;
