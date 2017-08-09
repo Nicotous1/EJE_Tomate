@@ -12,5 +12,6 @@
 					array("att" => "var_name", "type" => AttSQL::TYPE_STR),
 					array("att" => "content", "type" => AttSQL::TYPE_STR),
 			));
+		}
 	}
 ?>

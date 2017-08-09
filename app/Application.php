@@ -78,8 +78,11 @@
 				$code  = ($res) ? 200 : 400;
 				$this->httpResponse->setCode($code);
 			}
+			elseif(is_string($res)) {
+				$this->httpResponse->getPage()->addContent($res);
+			}
 			else {
-				throw new Exception("The method '$controllerName'->'$methodName' dit not return any correct value. You can only return Page, array, int or bool. It returned '".gettype($res)."'", 1);
+				throw new Exception("The method '$controllerName'->'$methodName' dit not return any correct value. You can only return Page, array, int, bool or string. It returned '".gettype($res)."'", 1);
 			}
 			
 			return $this;

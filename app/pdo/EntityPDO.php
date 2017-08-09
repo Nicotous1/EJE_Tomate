@@ -137,7 +137,7 @@
 			if (!$x->inBDD()) {throw new Exception("saveAtt need an entity already in the bdd to work !", 1);}
 
 			$id = $x->getId();
-			$attSQL = $class::getEntitySQL()->getAtt($att);
+			$attSQL = $x::getEntitySQL()->getAtt($att);
 
 			switch ($attSQL->getType()) {
 				case AttSQL::TYPE_MREF: return $this->saveMRefsWithIds($attSQL, $id, $x->get_Ids($att));

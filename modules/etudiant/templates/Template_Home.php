@@ -37,7 +37,7 @@
   require("templates/Template_Footer_1.php"); ?>
 
 <?php
-  $ressources->js(".home", $vars);
+  $ressources->js("etudiant/home", $vars);
 ?>
 
 <?php require("templates/Template_Footer_2.php"); ?>

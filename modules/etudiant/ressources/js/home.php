@@ -1,3 +1,7 @@
+<?php 
+  use Admin\Entity\WorkRequest;
+?>
+
 <script type="text/javascript">
   app.controller('HomeController', function($scope, $http, $mdDialog, FileUploader) {
   	$scope.etudes = <?php echo json_encode($etudes); ?>;
@@ -18,7 +22,7 @@
        $mdDialog.show({
          parent: parentEl,
          targetEvent: $event,
-         templateUrl: "<?php echo $ressources->html_url("etudiant.Template_WorkRequest_New.html"); ?>",
+         templateUrl: "<?php echo $ressources->html_url("etudiant/Template_WorkRequest_New.html"); ?>",
          controller: DocDialogController,
          locals: {
            etude: etude,
