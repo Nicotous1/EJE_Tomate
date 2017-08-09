@@ -296,6 +296,10 @@
 			throw new Exception("Convertion impossible en Id !", 1);
 		}
 
+		public function getStr() {
+			return $this->str;
+		}
+
 	}
 
 
