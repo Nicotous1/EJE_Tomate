@@ -7,7 +7,7 @@
 		
 		public function html_url($name) {
 			$path = $this->get_path($name, "templates", "html");
-			return $this->get_url_path($path)
+			return $this->get_url_path($path);
 		}
 
 		public function css($name, $vars = array()) {
@@ -43,9 +43,11 @@
 
 		public function get_path($name, $folder = null, $ext = null) {
 			$name = str_replace(" ", "", $name);
-			$params = explode(".", $name);
+			if ($name == null) { throw new Exception("The name given to get_path should not a blank string !", 1); }
+
+			$params = explode("/", $name);
 			if (count($params) < 2) {
-				throw new Exception("The ressource named '$name' should at least contain one '.' !", 1);	
+				throw new Exception("The ressource named '$name' should at least contain one '/' !", 1);	
 			}
 
 			// Handles folder ressources -> ressources/$folder$/
@@ -55,34 +57,19 @@
 				$folder = $params[1]; //Save the folder given directly in name
 			}
 
-			if ($ext !== null) {
-				$params[] = $ext;
-			}
-
 			// Find root folder for the ressources
-			$module = $params[0]
-			$root = ($module != '') ? "modules/" . strtolower($params[0]) . "/" : '';
-			$root .= "ressources/";
+			$module = $params[0];
+			$root = ($module != '') ? "modules/" . strtolower($params[0]) : '';
+			$root .= "ressources";
+			$path = $root . implode("/", $params);
 
-			// Append folder to the path
-			$path_params = array_slice($params, 1, count($params) - 2);
-			$path = $root . implode("/", $path_params);
-
-
-			// Handles the last param meaning possibility
-			$last_param = end($params);
-			
-			// Last param is the extension
-			$path .= "." . $last_param;
+			// Full path given (with extension)
 			if (file_exists($path)) {return $path;}
 
-			if ($ext !== null) { // if ext given last param could only be the extension
-				// Last param is the file name and extension can be '.php' or '.$folder_ressource$'
-				$path .= "/" . $last_param;
-				foreach (array("php", $folder) as $ext) {
-					$full_path = $path . "." . $ext;
-					if (file_exists($full_path)) {return $full_path;}
-				}
+			// Extension not given it can be '.php' or '.$folder_ressource$'
+			foreach (array("php", $folder) as $ext) {
+				$full_path = $path . "." . $ext;
+				if (file_exists($full_path)) {return $full_path;}
 			}
 
 			// The name can't be match with anything
@@ -111,7 +98,7 @@
 		      <meta name="msapplication-TileImage" content="icon/ms-icon-144x144.png">
 		      <meta name="theme-color" content="#ffffff">
 EOT;
-			$str = str_replace("href=\"", "href=\"" . $root, $str)
+			$str = str_replace("href=\"", "href=\"" . $root, $str);
 			echo $str;
 			return $this;
 		}

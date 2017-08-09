@@ -33,7 +33,7 @@
        $mdDialog.show({
          parent: parentEl,
          targetEvent: $event,
-         templateUrl: "<?php echo $ressources->html_url("admin.Template_Template_New"); ?>",
+         templateUrl: "<?php echo $ressources->html_url("admin/Template_Template_New"); ?>",
          controller: TemplateDialogController,
          locals: {
            doctypes: $scope.doctypes,
@@ -144,7 +144,7 @@
        $mdDialog.show({
          parent: parentEl,
          targetEvent: $event,
-         templateUrl: "<?php echo $ressources->html_url("admin.Template_DocType_New"); ?>",
+         templateUrl: "<?php echo $ressources->html_url("admin/Template_DocType_New"); ?>",
          controller: DocTypeDialogController,
          locals: {
            doctype: $scope.doctype
@@ -194,7 +194,7 @@
        $mdDialog.show({
          parent: parentEl,
          targetEvent: $event,
-         templateUrl: "<?php echo $ressources->html_url("admin.Template_VarQuali_New"); ?>",
+         templateUrl: "<?php echo $ressources->html_url("admin/Template_VarQuali_New"); ?>",
          controller: DialogController,
          locals: {
            var_quali: var_quali,

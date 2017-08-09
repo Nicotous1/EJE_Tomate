@@ -429,7 +429,7 @@
   require("templates/Template_Footer_1.php"); ?>
 
 <?php
-  $ressources->js("admin.etude_edit", $vars);
+  $ressources->js("admin/etude_edit", $vars);
 ?>
 
 <?php require("templates/Template_Footer_2.php"); ?>

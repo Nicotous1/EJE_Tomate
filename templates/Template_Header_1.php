@@ -21,13 +21,13 @@
 <?php $ressources->icon(); ?>
 
       <!-- Angular Material style sheet -->
-<?php $routeur->css("angular-material.min")->css("icon")->css("lf-ng-md-file-input.min"); ?>
+<?php $ressources->css("/angular-material.min")->css("/icon")->css("/lf-ng-md-file-input.min"); ?>
 
     <title><?php if (isset($HeaderTitre)) { echo $HeaderTitre . " | "; }?>Ensae Junior Etudes</title>
 
 <?php
     if (!isset($sheetsCSS)) {$sheetsCSS = array();}
     foreach ($sheetsCSS as $sheet) {
-        $routeur->css($sheet);
+        $ressources->css($sheet);
     }
 ?>
