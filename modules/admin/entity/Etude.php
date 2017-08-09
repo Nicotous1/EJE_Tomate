@@ -282,7 +282,7 @@
 					if ($w->isAccepted()) {$eds[] = $w->get_Ids("etudiant");}
 				}
 				$pdo = new EntityPDO();
-				$eds = $pdo->get("User", array("id IN :", $eds), false);
+				$eds = $pdo->get("Auth\Entity\User", array("id IN :", $eds), false);
 				$this->etudiants = $eds;
 			}
 			return $this->etudiants;

@@ -19,7 +19,7 @@
 			$num = (int) substr($name, $pos + 1);
 			
 			$pdo = new EntityPDO();
-			$type = $pdo->get("DocType", array("#s.var_name = :", $type_var));
+			$type = $pdo->get("Admin\Entity\DocType", array("#s.var_name = :", $type_var));
 
 			if ($type === null) {
 				throw new Exception("'$name' faire référence au DocType '$type_var' qui n'existe pas !", 1);

@@ -14,7 +14,7 @@
 			$id = $this->httpRequest->get("id");
 			if ($id != null) {
 				$pdo = new EntityPDO();
-				$etude = $pdo->get("Etude", $id);
+				$etude = $pdo->get("Admin\Entity\Etude", $id);
 				if ($etude == null) {return 404;}
 			} else {
 				$etude = new Etude();
@@ -32,10 +32,10 @@
 			}
 
 			$pdo = new EntityPDO();
-			$es = $pdo->get("Entreprise", null, false);
-			$cs = $pdo->get("Client", null, false);
-			$ds = $pdo->get("DocType", null, false);
-			$ts = $pdo->get("DocTemplate", null, false);
+			$es = $pdo->get("Admin\Entity\Entreprise", null, false);
+			$cs = $pdo->get("Admin\Entity\Client", null, false);
+			$ds = $pdo->get("Admin\Entity\DocType", null, false);
+			$ts = $pdo->get("Admin\Entity\DocTemplate", null, false);
 			//$this->SC->getPDO()->stats();
 
 			
@@ -55,7 +55,7 @@
 
 		public function home() {
 			$pdo = new EntityPDO();
-			$es = $pdo->get("Etude", "#s.child IS NULL", false);
+			$es = $pdo->get("Admin\Entity\Etude", "#s.child IS NULL", false);
 
 			//AFFICHAGE
 			$page = new Page();
@@ -68,9 +68,9 @@
 
 		public function Quali() {
 			$pdo = new EntityPDO();
-			$ds = $pdo->get("DocType", null, false);
-			$ts = $pdo->get("DocTemplate", null, false);
-			$vs = $pdo->get("VarQuali", null, false);
+			$ds = $pdo->get("Admin\Entity\DocType", null, false);
+			$ts = $pdo->get("Admin\Entity\DocTemplate", null, false);
+			$vs = $pdo->get("Admin\Entity\VarQuali", null, false);
 
 			//AFFICHAGE
 			$page = new Page();
