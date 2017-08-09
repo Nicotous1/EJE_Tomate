@@ -12,6 +12,7 @@
 		protected $firewall;
 
 		protected function __construct() {
+			ob_start();
 			$this->httpRequest = httpRequest::getInstance();
 			$this->httpResponse = httpResponse::getInstance();
 			$this->firewall = Firewall::getInstance();
@@ -19,7 +20,6 @@
 		}
 
 		public function RunAndDie() {
-			ob_start();
 			$this->runRouteur()
 			     ->runFirewall()
 			     ->runMethod()

@@ -15,6 +15,7 @@
 			$this->httpRequest = httpRequest::getInstance();
 			$this->httpResponse = httpResponse::getInstance();
 			$this->firewall = Firewall::getInstance();
+			$this->routeur = Routeur::getInstance();
 			$this->user = $this->firewall->getuser();
 			$this->pdo = new EntityPDO();
 		}
