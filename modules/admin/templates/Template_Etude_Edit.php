@@ -429,7 +429,7 @@
   require("templates/Template_Footer_1.php"); ?>
 
 <?php
-  $routeur->baliseJS("etude_edit", true, $vars);
+  $routeur->baliseJS("admin.etude_edit", true, $vars);
 ?>
 
 <?php require("templates/Template_Footer_2.php"); ?>

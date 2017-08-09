@@ -27,8 +27,10 @@
 
 
 
+<?php require("templates/Template_Footer_1.php"); ?>
 <?php
-  require("templates/Template_Footer_1.php"); ?>
+  use Admin\Entity\Etude;
+?>
 
 <script type="text/javascript">
 var url = "";
