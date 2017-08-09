@@ -67,9 +67,7 @@ namespace Core\PDO\Entity;
 					if (!isset($params["att_ref"])) {throw new Exception("A reference attribut need the att_ref of the reference to be handle !", 1);}
 
 					$this->class =  $this->add_namespace($params["class"]);
-					$this->att_ref =  ($this->class)::getEntitySQL()->getAtt($params["att_ref"]);
-					$this->table = $this->att_ref->getTable();
-					$this->col = $this->att_ref->getCol();
+					$this->att_ref = $params["att_ref"];
 					break;
 				case AttSQL::TYPE_ARRAY:
 					if (!isset($params["list"])) {throw new Exception("A AttSQL of TYPE_ARRAY must have a list parameter ! (where it fetch the array with an id)", 1);}
@@ -127,17 +125,15 @@ namespace Core\PDO\Entity;
 		}
 
 		public function getAttRef() {
-			return $this->att_ref;
+			return ($this->getClass())::getEntitySQL()->getAtt($this->att_ref);
 		}
 
 		public function getList() {
 			return $this->list;
 		}
 
-
-
 		public function getCol() {
-			return $this->col;
+			return ($this->getType() == AttSQL::TYPE_IREF) ? $this->getAttRef()->getCol() : $this->col;
 		}
 
 		public function getType() {
@@ -153,7 +149,7 @@ namespace Core\PDO\Entity;
 		}
 
 		public function getTable() {
-			return $this->table;
+			return ($this->getType() == AttSQL::TYPE_IREF) ? $this->getAttRef()->getTable() : $this->table;
 		}
 
 		public function getRefCol() {
