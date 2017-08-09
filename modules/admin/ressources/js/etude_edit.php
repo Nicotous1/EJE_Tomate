@@ -1,3 +1,9 @@
+<?php
+  use Admin\Entity\Etude; 
+  use Admin\Entity\Client; 
+  use Auth\Entity\User; 
+?>
+
 <script type="text/javascript">
   app.controller('EditController', function($scope, $mdDialog, $http) {
     $scope.etude = <?php echo json_encode($etude); ?>;

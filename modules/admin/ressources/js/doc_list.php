@@ -1,3 +1,9 @@
+<?php
+  use Admin\Entity\DocTemplate; 
+  use Admin\Entity\DocType; 
+  use Admin\Entity\VarQuali; 
+?>
+
 <script type="text/javascript">
   app.controller('DocListController', function($scope, $http, $mdDialog, FileUploader) {
     $scope.doctypes = <?php echo json_encode($doc_types); ?>;
