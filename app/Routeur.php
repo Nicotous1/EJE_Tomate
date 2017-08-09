@@ -20,9 +20,19 @@
 			     ->setRoute()
 			     ->setGET();
 
+			$this->applySSL();
+
 			//DEBUG -> MAKE BUG HEADER (COOKIE, REDIRECT)
 			// var_dump($this); 
 			// die();
+		}
+
+		protected function applySSL() {
+			if (self::$params["ssl"] === True and $_SERVER["REQUEST_SCHEME"] != "https") {
+				$url_ssl = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+				header("Location: " . $url_ssl);
+				die();
+			}
 		}
 
 		/*
@@ -115,15 +125,13 @@
 		private function setRoot() {
 			$url = $this->generalFilter($_SERVER['SCRIPT_NAME']);
 			$lastSlashPos = strrpos($url, "/");
-			// $server_url =    $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER['SERVER_NAME'] . "/";
-			$ssl = ($this->hasSSL()) ? "https" : "http";
-			$server_url = $ssl . "://" . $_SERVER['SERVER_NAME'] . "/";
+			$server_url =    $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER['SERVER_NAME'] . "/";
 			if ($lastSlashPos === false) { // A la racine
 				$root = $server_url;
 			} else { // Dans un sous dossier
 				$root = $server_url . substr($url, 0, $lastSlashPos + 1); // Contient le dernier slash
 			}
-			
+
 			$this->root = $root;
 			return $this;
 		}

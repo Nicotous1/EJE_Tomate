@@ -11,7 +11,7 @@
 			$this->errorCode = $errorCode;
 			$this->addVar('HeaderTitre', 'Erreur ' . $this->errorCode);
 			$this->addVar('ErrorCode', $this->errorCode);
-			$thi->addFile($this->getErrorFile());
+			$this->addFile($this->getErrorFile());
 		}
 
 		private function getErrorFile() {
