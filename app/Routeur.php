@@ -28,7 +28,7 @@
 		}
 
 		protected function applySSL() {
-			if (self::$params["ssl"] === True and $_SERVER["REQUEST_SCHEME"] != "https") {
+			if ($this->enabledSSL() && !$this->isSSL()) {
 				$url_ssl = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 				header("Location: " . $url_ssl);
 				die();
@@ -105,7 +105,8 @@
 		private function setRoot() {
 			$url = $this->generalFilter($_SERVER['SCRIPT_NAME']);
 			$lastSlashPos = strrpos($url, "/");
-			$server_url =    $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER['SERVER_NAME'] . "/";
+			$ssl = ($this->enabledSSL()) ? "https" : "http";
+			$server_url =    $ssl . "://" . $_SERVER['SERVER_NAME'] . "/";
 			if ($lastSlashPos === false) { // A la racine
 				$root = $server_url;
 			} else { // Dans un sous dossier
@@ -140,8 +141,12 @@
 			return substr($url, 0, strpos($url, "?"));
 		}
 
-		private function hasSSL() {
+		private function enabledSSL() {
 			return (self::$params["ssl"]);
+		}
+
+		private function isSSL() {
+			return (isset($_SERVER['HTTPS']));
 		}
 
 
