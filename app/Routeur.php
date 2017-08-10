@@ -144,10 +144,6 @@
 			return (self::$params["ssl"]);
 		}
 
-		private function isLocal() {
-			return ( $_SERVER['HTTP_HOST'] == self::$params["local_domain"]);
-		}
-
 
 		/*
 			DEBUG FUNCTION
