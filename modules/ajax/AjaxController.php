@@ -377,7 +377,8 @@
 
 			//Lien du fichier
 			$history = $pathPlugin.'history.txt';
-			$n = ((int) file_get_contents($history) + 1) % 20;
+			$n = file_exists($history) ? file_get_contents($history) : 0;
+			$n = ((int) $n + 1) % 20;
 			file_put_contents($history, $n);
 			$link = $pathPlugin."Generation/Gen_".$n.".docx";
 
