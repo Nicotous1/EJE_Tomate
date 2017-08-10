@@ -71,7 +71,7 @@
 
 			if ($this->file !== null) {
 		    	readfile($this->file[0]);
-		    	if ($this->file[1]) {unlink($path);}
+		    	if ($this->file[1]) {unlink($this->file[0]);}
 		    	return $this;
 			}
 

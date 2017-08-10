@@ -294,9 +294,9 @@
 		public function TemplateGet() {
 			$n = $this->httpRequest->get("id");
 			$path = "plugins/WordTemplate/Generation/Gen_".$n.".docx";
-	        if (!file_exists($path)) { return 404;}
+	        if (!file_exists($path)) {return 404;}
 
-			return $this->httpResponse->setFile("Tomate_Gen", "docx", $path);
+			return $this->httpResponse->setFile("Tomate_Gen", "docx", $path, true);
 		}
 
 		public function DownloadDocEtude() {
@@ -332,7 +332,7 @@
 				$zip->addFile($path, $key);
 			}
 			$zip->close();
-			return $this->httpResponse->setFile($name, "zip", $filename);
+			return $this->httpResponse->setFile($name, "zip", $filename, true);
 		}
 
 
