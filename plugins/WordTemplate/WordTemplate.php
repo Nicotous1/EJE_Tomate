@@ -1,6 +1,7 @@
 <?php
 	namespace WordTemplate;
 	use \Exception;
+	use \ZipArchive;
 	
 	class WordTemplate {
 		

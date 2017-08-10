@@ -543,7 +543,7 @@
             } else {
               var msg ="Une erreur complexe est arrivée. Contactez votre DSI !";
               if (data.msg !== undefined) {msg = data.msg;}
-              console.log("yolo" + msg);
+              console.log(msg);
               $scope.error = msg;
             }
           }).error(function() {

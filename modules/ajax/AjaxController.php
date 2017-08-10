@@ -275,7 +275,7 @@
 		public function DownloadWorkRequest() {
 			$id_work_request = $this->httpRequest->get("id");
 
-			$w = $this->pdo->get("WorkRequest", $id_work_request);
+			$w = $this->pdo->get("Admin\Entity\WorkRequest", $id_work_request);
 			if ($w === null) {return 404;}
 			$ed = $w->get("etudiant");
 			$etude = $w->get("etude");
@@ -314,8 +314,7 @@
 			$doc = $pdo->get("Admin\Entity\Document", $id);
 			if ($doc === null) {return 404;}
 
-			$this->httpResponse->setFile($doc->get("nom"), $doc->get("ext"), $doc->get("path"));
-			return True;
+			return $this->httpResponse->setFile($doc->get("nom"), $doc->get("ext"), $doc->get("path"));
 		}
 
 		private function zip($name, $files) {
@@ -333,8 +332,7 @@
 				$zip->addFile($path, $key);
 			}
 			$zip->close();
-			$this->httpResponse->setFile($name, "zip", $filename);
-			return True;
+			return $this->httpResponse->setFile($name, "zip", $filename);
 		}
 
 
@@ -390,7 +388,7 @@
 			}
 
 			//FINI
-			return $this->success(array("link" => $this->SC->getRouteur()->getUrlFor("AjaxTemplateGet",array("id"=>$n))));
+			return $this->success(array("link" => $this->routeur->getUrlFor("AjaxTemplateGet",array("id"=>$n))));
 		}
 
 

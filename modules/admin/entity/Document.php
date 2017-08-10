@@ -1,10 +1,11 @@
 <?php
 	namespace Admin\Entity;
 	use Core\PDO\Entity\Entity;
+	use Core\PDO\EntityPDO;
 	use Core\PDO\Entity\AttSQL;
+	use Core\Routeur;
 
 	use \Exception;
-	use Core\Routeur;
 	use \DateTime;
 
 	require_once "plugins/Random/random.php";
@@ -108,7 +109,7 @@
 		public function getType() {
 			$path = $this->get("path");
 			if (file_exists($path)) {
-				switch (mime_content_type()) {
+				switch (mime_content_type($path)) {
 					case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
 						return "word";
 
@@ -120,7 +121,15 @@
 				}				
 			} else {
 				$pos = strrpos($path, ".");
-				return ($pos === False) ? null : substr($path, $pos + 1);
+				$ext = ($pos === False) ? null : substr($path, $pos + 1);
+				switch ($ext) {
+					case 'pdf':
+						return "pdf";
+					case 'docx':
+						return "word";
+					default:
+						return -1;
+				}
 			}
 
 

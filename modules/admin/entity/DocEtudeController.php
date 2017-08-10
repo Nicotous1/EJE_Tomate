@@ -14,7 +14,7 @@
 			$etude_col = $this->strct->getAtt("etude")->getCol();
 			$table = $this->strct->getTable();
 			
-			$r = $this->SC->getPDO()->prepare("SELECT COUNT(*) FROM $table WHERE $type_col = :type AND $etude_col = :etude");
+			$r = $this->pdo->prepare("SELECT COUNT(*) FROM $table WHERE $type_col = :type AND $etude_col = :etude");
 			$r->bindValue(':type', $t_id, PDO::PARAM_INT);
 			$r->bindValue(':etude', $e_id, PDO::PARAM_INT);
 			$res = $r->execute();

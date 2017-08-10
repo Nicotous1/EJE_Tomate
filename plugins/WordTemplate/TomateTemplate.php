@@ -25,7 +25,8 @@
 			//Find first tag (position d'ouverture minimum)
 			$firstTag = null;
 			foreach ($this->tags as $tag) {
-				$tag = new $tag($str);
+				$class = "WordTemplate\\" . $tag;
+				$tag = new $class($str);
 				$start =  $tag->getOpenTagPos();
 				if ($start !== false && ($firstTag === null || $start[0] < $firstTag->getOpenTagPos()[0])) {
 					$firstTag = $tag;

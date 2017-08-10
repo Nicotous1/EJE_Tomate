@@ -40,7 +40,9 @@
 		}
 
 		public function setFile($name, $ext, $path, $delete = false) {
-			if (!file_exists($path)) {return false;}
+			if (!file_exists($path)) {
+				return false;
+			}
 			$this->no_render = true;
 		    $this->addHeader('Content-Description: File Transfer')
 		    	 ->addHeader('Content-Type: application/octet-stream')
@@ -51,6 +53,7 @@
 		    	 ->addHeader('Content-Length: ' . filesize($path))
 		    ;
 		   	$this->file = array($path, $delete);
+		   	return true;
 		}
 
 		private function flushHeader() {
