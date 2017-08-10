@@ -1,0 +1,6 @@
+Refaire Token System -> don't delete token after signout
+Gerer Heritage dans EntityPDO
+remove display error$
+
+
+check is_a with namespace

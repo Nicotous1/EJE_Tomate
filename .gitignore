@@ -1,0 +1,5 @@
+# Ignore private config file
+*private.config
+*.docx
+*.pdf
+*.zip
