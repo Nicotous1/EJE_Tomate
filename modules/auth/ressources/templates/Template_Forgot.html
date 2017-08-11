@@ -1,0 +1,29 @@
+<md-dialog aria-label="Mot de passe oublié">
+  <form ng-cloak ng-submit="save()" >
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Mot de passe oublié</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row">
+          <md-input-container class="md-block flex">
+            <label>Votre email</label>
+            <input type="text" ng-model="e.mail" md-maxlength="130" required ng-change="e.mail = main.updateMail(e.mail)">
+          </md-input-container>
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="close()">Annuler</md-button>
+      <span flex></span>
+      <md-button type="submit" ng-disabled="sending">{{sending ? 'Envoie en cours...' : 'Envoyer'}}</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

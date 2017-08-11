@@ -20,7 +20,7 @@
 					<md-content class="md-padding">
 						<md-input-container class="md-block flex">
 						  <label>Mail de l'Ensae</label>
-						  <input type="text" ng-model="etudiant.mail"  class="mail_inputs" required md-maxlength="130" ng-change="updateMail()">
+						  <input type="text" ng-model="etudiant.mail"  class="mail_inputs" required md-maxlength="130" ng-change="etudiant.mail = updateMail(etudiant.mail)">
 						</md-input-container>
 
 						<md-input-container class="md-block flex">
@@ -28,7 +28,8 @@
 						  <input type="password" ng-model="etudiant.password" required md-maxlength="72">
 						</md-input-container>
 
-						<div>
+						<div layout="row" layout-align="space-around center">
+							<md-button ng-click="reset()" ng-disabled="sending">Mot de passe oublié</md-button>		
 							<md-button type="submit" ng-disabled="sending">{{sending ? 'Connexion en cours...' : 'Se connecter'}}</md-button>	
 						</div>
 					</md-content>
@@ -46,7 +47,7 @@
 						<div layout="row">
 							<md-input-container class="md-block flex">
 							  <label>Mail de l'Ensae</label>
-							  <input type="text" ng-model="etudiant.mail" md-maxlength="130" required ng-change="updateMail()">
+							  <input type="text" ng-model="etudiant.mail" md-maxlength="130" required ng-change="etudiant.mail = updateMail(etudiant.mail)">
 							</md-input-container>
 
 							<md-input-container class="md-block flex">
@@ -76,7 +77,7 @@
 				                </md-select>
 			                </md-input-container>	
 						</div>
-						<div layout-align="center center">
+						<div  layout="row" layout-align="center center">
 							<md-button type="submit" ng-disabled="sending">{{sending ? 'Inscription en cours...' : 'S\'inscrire'}}</md-button>		
 						</div>
 					</md-content>
@@ -98,7 +99,7 @@
 	use Auth\Entity\User;
 ?>
 <script type="text/javascript">
-	    app.controller('EditController', function($scope, $http, $mdToast) {
+	    app.controller('EditController', function($scope, $http, $mdToast, $mdDialog) {
 
 	    	$scope.etudiant = {};
 	    	$scope.sending = false;
@@ -133,19 +134,38 @@
 	    		send("<?php echo $routeur->getUrlFor("AuthSignIn") ?>");
 	    	};
 
-			$scope.updateMail = function() {
+			$scope.updateMail = function(mail) {
+				if (mail == null) {return "";}
 				var end = "@ensae.fr";
-				var mail = $scope.etudiant.mail;
 				var i = mail.indexOf("@");
-				if (i < 0) {return;}
-				if (i == 0) {$scope.etudiant.mail = ""; return;}
+				if (i < 0) {return mail;}
+				if (i == 0) {return "";}
 				var m = mail.substr(0,i); //Identifiants du mail
 				var l = (mail.length - i) 
 				if (l == 1 || l >= end.length) { //Juste un @
 					m += end;
 				}
-				$scope.etudiant.mail = m;
+				return m;
 			};
+
+			$scope.reset = $scope.modal_edit_handler({
+		        templateUrl : "<?php echo $ressources->html_url("auth/Template_Forgot.html"); ?>",
+		        scope : $scope,
+		        e_default : $scope.etudiant,
+
+		        //Attention $scope de la modal
+		        saveHandler : function($scope) {
+		          $scope.sending = true;
+		          var resHandler = handle_response({
+		            success : function(data, msg) {
+		                        alert("Un email vous a été envoyé avec un lien pour réinitialiser votre mot de passe.")
+		                        $mdDialog.hide(data.client);
+		                      },
+		            all : function(data, msg) {$scope.sending = false;}, 
+		          });
+		          $http.post("<?php echo $routeur->getUrlFor("AuthForgotInit") ?>", {mail : $scope.e.mail}).then(resHandler, resHandler);   
+		        },
+		      });
 
 	    });
 </script>

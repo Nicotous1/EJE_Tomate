@@ -57,7 +57,7 @@
 			$res = $pdo->save($user);
 			if (!$res) {return $this->error();}
 
-			$this->firewall->signIn($user);
+			AuthHandler::getInstance()->setUser($user, false); // No remember
 
 			return $this->success();
 	
@@ -115,7 +115,6 @@
 		public function ForgotInit() {
 			//Handle POST Data
 			//Important to rewrite for security
-			$_POST["mail"] = "nicolas.toussaint@ensae.fr";
 			$params = array(
 				"mail" => $this->httpRequest->post("mail"),
 			);
@@ -123,7 +122,7 @@
 			$userPOST = new User($params);
 			$userBDD = $this->pdo->get("Auth\Entity\User", array("#mail~", $userPOST), true);
 			if ($userBDD === null) {
-				echo "Not a correct user"; return False;
+				return $this->error("Ce compte n'existe pas encore.\nVeuillez vous inscrire.");
 			}
 
 			// Save new Token
@@ -143,13 +142,13 @@
 				$userBDD->get("mail"),
 				"Réinitialisation de votre mot de passe",
 <<<EOT
-	Pour réinitialiser votre mot de passe : <a href="$url">Cliquez ici</a><br>
+	Pour réinitialiser votre mot de passe : <a href="$url">Cliquez ici</a><br><br>
 	Si le lien ne fonctionne pas rendez vous ici : "$url"
 EOT
 			);
 			$mail->send();
 
-			return $this->success($url);
+			return $this->success();
 		}
 
 		public function ForgotSet() {
