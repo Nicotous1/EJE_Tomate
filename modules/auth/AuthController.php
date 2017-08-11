@@ -6,6 +6,7 @@
 	use Core\PDO\EntityPDO;
 	use Core\PDO\Request;
 	use Auth\Entity\User;
+	use Core\SessionController;
 
 	use \Exception;
 
@@ -17,7 +18,8 @@
 		public function Home() {
 			//SI DEJA CONNECTER REDIRECTION
 			if($this->firewall->isConnected()) {
-				$this->httpResponse->redirect($this->firewall->getUrlFor("success_road"));
+				$url = $this->getSuccessUrl();
+				$this->httpResponse->redirect($url);
 				return;
 			}
 
@@ -74,7 +76,7 @@
 			$userBDD->set("password", $userPOST->get("password"));
 			if (!$userBDD->check()) {return $this->error("Les identifiants sont incorrects !");}
 
-			AuthHandler::getInstance()->setUser($userBDD, false);
+			AuthHandler::getInstance()->setUser($userBDD, false); // No remember
 
 			return $this->success();
 
@@ -85,8 +87,15 @@
 			$this->httpResponse->redirect($this->firewall->getUrlFor("login_road"));
 		}
 
+		protected function getSuccessUrl() {
+			$sessions = new SessionController();
+			$url = ($sessions->isset("firewall_last_refused_url")) ? $sessions->get("firewall_last_refused_url") : $this->firewall->getUrlFor("success_road");
+			$sessions->remove("firewall_last_refused_url");
+			return $url;
+		}
+
 		protected function success($url = null) {
-			$url = ($url == null) ? $this->firewall->getUrlFor("success_road") : $url;
+			$url = ($url == null) ? $this->getSuccessUrl() : $url;
 			return array("url" => $url, "res" => true);
 		}
 

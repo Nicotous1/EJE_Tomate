@@ -98,6 +98,10 @@
 			return $this->root;
 		}
 
+		public function getUrl() {
+			return $this->getRoot() . substr($_SERVER["REQUEST_URI"],1);
+		}
+
 
 		/*
 			DETERMINE L'ADRESSE ABSOLU DU ROOT

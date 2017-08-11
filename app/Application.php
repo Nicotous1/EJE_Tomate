@@ -39,17 +39,7 @@
 			VERIFIE AUTORISATION 
 		*/
 		private function runFirewall() {
-			if(!$this->firewall->isAllowed($this->route)) { //ACCES REFUSER
-				$url = $this->firewall->getRedirection(); //CHERCHE UNE REDIRECTION
-				
-				if($url == null) { //SI AUCUNE REDIRECTION POSSIBLE
-					$this->httpResponse->setCode(403); //ERROR 403 -> Not allowed
-				} else {
-					$this->httpResponse->redirect($url); //REDIRECTION
-				}
-
-				$this->end();
-			}
+			$this->firewall->getInstance()->run();
 			return $this;
 		}
 
@@ -92,7 +82,7 @@
 			ROUTINE DE FIN
 			ENVOI DE LA REPONSE
 		*/
-		private function end() {
+		public function end() {
 			// This is done to prevent any output before the header are sent (necesary for cookie)
 			$pre_render_contents = ob_get_contents();
 			ob_end_clean();

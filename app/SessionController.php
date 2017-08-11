@@ -40,5 +40,9 @@
 			session_write_close();
 			return $this;
 		}
+
+		public function isset($id) {
+			return (isset($_SESSION[$id]));
+		}
 	}
 ?>
