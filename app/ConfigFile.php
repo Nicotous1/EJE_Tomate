@@ -2,7 +2,7 @@
 	namespace Core;
 	use \Exception;
 
-	class ConfigFile
+	class ConfigFile implements ArrayAccess
 	{
 		
 		private $data;
@@ -47,5 +47,32 @@
 		public function getModule() {
 			return $this->module;
 		}
+
+		/*
+			Array methods
+		*/
+	    public function offsetSet($offset, $value) {
+	        if (is_null($offset)) {
+	            $this->data[] = $value;
+	        } else {
+	            $this->data[$offset] = $value;
+	        }
+	    }
+
+	    public function offsetExists($offset) {
+	        return isset($this->data[$offset]);
+	    }
+
+	    public function offsetUnset($offset) {
+	    	throw new Exception("Yan can't unset a variable from a config file !", 1);
+	    }
+
+	    public function offsetGet($offset) {
+	    	if (isset($this->data[$offset])) {
+	    		return $this->data[$offset];
+	    	} else {
+	    		throw new Exception("'$offset' index does not exists in the config file : $this->id !", 1);
+	    	}
+	    }		
 	}
 ?>

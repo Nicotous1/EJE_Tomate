@@ -43,7 +43,7 @@
 				$url = $this->firewall->getRedirection(); //CHERCHE UNE REDIRECTION
 				
 				if($url == null) { //SI AUCUNE REDIRECTION POSSIBLE
-					$this->httpResponse->setCode(403); //ERROR 403
+					$this->httpResponse->setCode(403); //ERROR 403 -> Not allowed
 				} else {
 					$this->httpResponse->redirect($url); //REDIRECTION
 				}
