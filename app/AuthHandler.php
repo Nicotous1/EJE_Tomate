@@ -7,7 +7,7 @@
 		However there is already an Auth module available.
 	*/
 	
-	class AuthHandler extends Signleton {
+	class AuthHandler extends Singleton {
 		protected $user;
 
 		protected function __construct() {

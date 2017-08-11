@@ -1,8 +1,24 @@
 <?php
 	namespace Auth;
+	use Core\ConfigHandler;
+	use Core\CookieController;
+	use Core\SessionController;
+	use Core\PDO\EntityPDO;
+	use Core\AuthHandler as ApiAuth;
 	use \Exception;
 
-	class AuthHandler {
+	use Auth\Entity\TokenController;
+	use Auth\Entity\Token;
+	use Auth\Entity\User;
+
+	class AuthHandler extends ApiAuth {
+
+		protected $user;
+		protected $cookies;
+
+		protected function __construct() {
+			$this->cookies = new CookieController();
+		}
 
 		/*
 			Défini l'utilisateur courant dans le firewall
@@ -10,7 +26,7 @@
 				-> Si remenber : Persistence avec token dans un cookie
 		*/
 		public function setUser(User $user, $remenber = false) {
-			if ($user->isVisiteur()) {throw new Exception("Firewall can't accept user not authentificated. User must have an id !");}
+			if ($user->isVisiteur()) {throw new Exception("The AuthHandler can't persist a user without an id !");}
 
 			$this->killOldUserWithNoTrace(); //Some Cleaning before hard work !
 
@@ -26,7 +42,7 @@
 			}
 
 
-			$this->currentUser = $user; //Sauvegarde dans le firewall
+			$this->user = $user; //Sauvegarde dans le firewall
 			return $this;
 		}
 
@@ -44,7 +60,7 @@
 				$pdo = new EntityPDO();
 				$user = $pdo->get("Auth\Entity\User", $userId);
 				if ($user != null) {
-					$this->currentUser = $user;
+					$this->user = $user;
 					return $this;
 				}
 			}
@@ -62,7 +78,7 @@
 						$tokenController->update($token);
 						$this->cookies->set("auth_token", $token->serialize(), Token::TOKEN_LIFE);
 
-						$this->currentUser = $user;
+						$this->user = $user;
 						return $this;
 					}
 				} else {
@@ -77,8 +93,8 @@
 		}
 
 		public function getUser() {
-			if($this->currentUser == null) {$this->setUserFromData();}
-			return $this->currentUser;
+			if($this->user == null) {$this->setUserFromData();}
+			return $this->user;
 		}
 
 		public function signIn(User $user, $remenber = false) {
@@ -105,15 +121,9 @@
 
 		private function killOldUserWithNoTrace() {
 			$this->removeCookie()->removeSession(); //Removing Trace
-			$this->currentUser = new User();
+			$this->user = new User();
 			return $this;
-		}
-
-
-
-		public function isConnected() {
-			return ($this->getUser()->getId() > 0) ? true : false; 
-		}		
+		}	
 		
 	}
 ?>

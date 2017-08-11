@@ -74,6 +74,10 @@
 			array("id" => 1, "titre" => "Mr", "long" => "Monsieur"),
 			array("id" => 2, "titre" => "Mme", "long" => "Madame"),
 		);
+
+		public function isAllowed($level) {
+			return ($this->level >= $level);
+		}
 		
 		public function var_defaults() {
 			return array(

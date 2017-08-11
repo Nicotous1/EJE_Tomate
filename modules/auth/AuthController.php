@@ -74,14 +74,14 @@
 			$userBDD->set("password", $userPOST->get("password"));
 			if (!$userBDD->check()) {return $this->error("Les identifiants sont incorrects !");}
 
-			$this->firewall->signIn($userBDD, false);
+			AuthHandler::getInstance()->setUser($userBDD, false);
 
 			return $this->success();
 
 		}
 
 		public function SignOut() {
-			$this->firewall->signOut();
+			AuthHandler::getInstance()->signOut();
 			$this->httpResponse->redirect($this->firewall->getUrlFor("login_road"));
 		}
 

@@ -2,7 +2,7 @@
 	namespace Core;
 	use \Exception;
 
-	class ConfigFile implements ArrayAccess
+	class ConfigFile implements \ArrayAccess
 	{
 		
 		private $data;
