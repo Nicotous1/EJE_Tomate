@@ -110,7 +110,7 @@
 	Forgot password Interface
 
 */
-		public function Forgot() {
+		public function ForgotInit() {
 			//Handle POST Data
 			//Important to rewrite for security
 			$_POST["mail"] = "nicolas.toussaint@ensae.fr";
@@ -124,14 +124,42 @@
 				echo "Not a correct user"; return False;
 			}
 
-
+			// Save new Token
 			$token = new Token(array("user" => $userBDD, "type" => 1));
-			$token->create_selector();
+			$token->create_selector(); // Create an unique selector
 			$res = $this->pdo->save($token);
+			if (!$res) {return $this->error();}
 
-			$r = new Request
+			// Disable old token
+			$r = new Request("UPDATE #^ SET #activated = FALSE WHERE #user~ AND #type~ AND #selector != :selector"  ,$token);
+			$res = $r->execute();
+			if (!$res) {return $this->error();}
 
-			echo $token;
+			// Send mail
+			$url = $this->routeur->getUrlFor("AuthForgotSet", array("raw_token" => strval($token)));
+
+			return $this->success($url);
+		}
+
+		public function ForgotSet() {
+			// Check authenticity of token
+			$raw = $this->httpRequest->get("raw_token");
+			$selector = substr($raw, 0, Token::SIZE_SELECTOR);
+			$token = $this->pdo->get("Auth\Entity\Token", array("#s.selector = :", $selector));
+			if ($token === null) {return 404;}
+			if (!$token->get("activated")) {
+				echo "Ce lien n'est plus actif. Le token a expiré !";
+				return False;
+			}
+
+			$validator = substr($raw, Token::SIZE_SELECTOR, Token::SIZE_VALIDATOR);
+			$token->set("validator", $validator);
+			if (!$token->check()) {return 404;}
+
+
+			// Handles POST
+
+			// Formulaire
 		}
 	}
 ?>

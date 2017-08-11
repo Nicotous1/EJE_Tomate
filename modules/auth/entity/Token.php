@@ -70,12 +70,17 @@
 		}
 
 		public function check() {
-			return  !$this->isExpired() &&
+			return  $this->get("activated") && //Check also if it has expired
 				   	$this->hash_equals($this->hash,$this->hashOf($this->validator))
 			;
 		}
 
+		public function getActivated() {
+			return $this->activated && !$this->isExpired();
+		}
+
 		public function isExpired() {
+			$now = new DateTime();
 			return ($this->expires < $now);
 		}
 
