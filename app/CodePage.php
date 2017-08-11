@@ -6,9 +6,10 @@
 
 		private $code;
 
-		public function __construct($code) {
+		public function __construct($code, $message = null) {
 			if (!is_int($code)) {throw new Exception("A CodePage must have an integer as parameter !", 1);}
 			$this->code = $code;
+
 
 			parent::__construct();
 
@@ -20,6 +21,7 @@
 
 			$this->addVar('HeaderTitre', 'Code ' . $this->code);
 			$this->addVar('code', $this->code);
+			$this->addVar('message', $message);
 			$this->addFile($this->getCodeFile());
 		}
 

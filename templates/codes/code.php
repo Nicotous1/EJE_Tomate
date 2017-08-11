@@ -4,6 +4,7 @@
 	<section>
 		<div>
 			<h1>La page a retournée <?php echo $code; ?></h1>
+			<p><?php show($message); ?></p>
 			<button type="button" onClick="javascript:window.history.go(-1)">Retour</button>
 		</div>
 	</section>

@@ -8,6 +8,7 @@
 	use Auth\Entity\User;
 	use Core\SessionController;
 	use Auth\Entity\Token;
+	use Core\CodePage;
 
 	use \Exception;
 	require_once "plugins/Random/random.php";
@@ -75,7 +76,7 @@
 			$userBDD = $pdo->get("Auth\Entity\User", array("#mail~", $userPOST), true);
 			if ($userBDD == null ) {return $this->error("Ce compte n'existe pas encore.\nVeuillez vous inscrire.");}
 
-			$userBDD->set("password", $userPOST->get("password"));
+			$userBDD->setPassword($userPOST->get("password"), False); // False disable the update of the hash
 			if (!$userBDD->check()) {return $this->error("Le mot de passe est incorrect !");}
 
 			AuthHandler::getInstance()->setUser($userBDD, false); // No remember
@@ -148,8 +149,7 @@
 			$token = $this->pdo->get("Auth\Entity\Token", array("#s.selector = :", $selector));
 			if ($token === null) {return 404;}
 			if (!$token->get("activated")) {
-				echo "Ce lien n'est plus actif. Le token a expiré !";
-				return False;
+				return new CodePage(404, "Ce lien n'est plus actif. Le token a expiré !");
 			}
 
 			$validator = substr($raw, Token::SIZE_SELECTOR, Token::SIZE_VALIDATOR);
@@ -158,8 +158,31 @@
 
 
 			// Handles POST
+			$password = $this->httpRequest->post("password");
+			if ($password != null) {
+				// Update password
+				$user = $token->get("user");
+				$user->set("password", $password);
+				$res = $this->pdo->save($user);
+				if (!$res) {return $this->error();}
 
-			// Formulaire
+				// Disabled token
+				$token->set("activated", False);
+				$res = $this->pdo->save($token);
+				if (!$res) {return $this->error();}
+
+				// Signin user
+				AuthHandler::getInstance()->setUser($user, false);
+
+
+				return $this->success();
+			} else {
+				//AFFICHAGE
+				$page = new Page();
+			    $page->addFile(dirname(__FILE__) . "/templates/Template_Forget.php")
+			    	 ->addVar("HeaderTitre", "Réinitialiser votre mot de passe");
+			    return $page;				
+			}	
 		}
 	}
 ?>

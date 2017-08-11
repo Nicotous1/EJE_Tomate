@@ -87,8 +87,12 @@
 			);
 		}
 
+		private function loadHash() {
+			$this->hash = password_hash($this->password, PASSWORD_DEFAULT);
+			return $this;
+		}
+
 		public function getHash() {
-			if ($this->hash == null && $this->password != null) $this->hash = password_hash($this->password, PASSWORD_DEFAULT);
 			return $this->hash;
 		}
 
@@ -120,8 +124,11 @@
 			return $this->id == null;
 		}
 
-		public function setPassword($p) {
+		public function setPassword($p, $hash_update = True) {
 			$this->password = $p;
+			if ($hash_update) {
+				$this->loadHash();
+			}
 			return $this;
 		}
 
