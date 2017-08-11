@@ -157,8 +157,11 @@ EOT
 			$selector = substr($raw, 0, Token::SIZE_SELECTOR);
 			$token = $this->pdo->get("Auth\Entity\Token", array("#s.selector = :", $selector));
 			if ($token === null) {return 404;}
+
+			$password = $this->httpRequest->post("password");
 			if (!$token->get("activated")) {
-				return new CodePage(404, "Ce lien n'est plus actif. Le token a expiré !");
+				$msg = "Ce lien n'est plus actif. Le token a expiré !";
+				return ($password == null) ? new CodePage(404, $msg) : $this->error($msg);
 			}
 
 			$validator = substr($raw, Token::SIZE_SELECTOR, Token::SIZE_VALIDATOR);
@@ -167,7 +170,6 @@ EOT
 
 
 			// Handles POST
-			$password = $this->httpRequest->post("password");
 			if ($password != null) {
 				// Update password
 				$user = $token->get("user");
