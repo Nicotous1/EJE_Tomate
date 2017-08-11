@@ -13,7 +13,7 @@
 		private $data;
 
 		private static  $start = array("#", ":");
-		private static  $end = array(" ", ",", "=", ")", "(");
+		private static  $end = array(" ", ",", "=", ")", "(", ";");
 
 		public function __construct($str, $data = null, $over = array()) {
 			$this->r = null;
@@ -298,6 +298,10 @@
 
 		public function getStr() {
 			return $this->str;
+		}
+
+		public function __toString() {
+			return $this->getStr();
 		}
 
 	}
