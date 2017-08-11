@@ -9,6 +9,7 @@
 	use Core\SessionController;
 	use Auth\Entity\Token;
 	use Core\CodePage;
+	use Core\Mail;
 
 	use \Exception;
 	require_once "plugins/Random/random.php";
@@ -138,6 +139,15 @@
 
 			// Send mail
 			$url = $this->routeur->getUrlFor("AuthForgotSet", array("raw_token" => strval($token)));
+			$mail = new Mail(
+				$userBDD->get("mail"),
+				"Réinitialisation de votre mot de passe",
+<<<EOT
+	Pour réinitialiser votre mot de passe : <a href="$url">Cliquez ici</a><br>
+	Si le lien ne fonctionne pas rendez vous ici : "$url"
+EOT
+			);
+			$mail->send();
 
 			return $this->success($url);
 		}

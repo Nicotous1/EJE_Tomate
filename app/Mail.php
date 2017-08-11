@@ -1,13 +1,22 @@
 <?php 
-	class MyMail
+	namespace Core;
+
+	class Mail
 	{
 
 		private $receivers;
 		private $page;
 		private $title;
+
+		private static $params = null;
 		
 		public function __construct($receivers, $title, $page)
 		{
+			// Set params
+			if (self::$params === null) {
+				self::$params = ConfigHandler::getInstance()->get(".mail");
+			}
+
 			$this->title = $title;
 
 			if (!is_array($receivers)) {
@@ -45,31 +54,12 @@
 
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
-		    $headers .= "From: Smooedis Facturation <compte@smooedis.com> \r\n";
+		    $headers .= "From: ".self::$params["name"]." <".self::$params["mail"]."> \r\n";
 
 			$content = $this->getPage()->getRender();
 
-			if ( $_SERVER['HTTP_HOST'] != "localhost" ) {
-				return mail($receiversString, $title, $content, $headers);
-			} else {
-				$file = 'last_mail.txt';
-				$content = $headers . "\n\n\n" . $title . "\n\n" . $content . "\n\n";
-				file_put_contents($file, $content);
-				return true;	
-			}
-
+			return mail($receiversString, $title, $content, $headers);
 		}
-
-		private function convertUserToHeader($user) {
-			if (is_array($user) && count($user) >= 2) {
-				$str =  $user[1] . "dzdzddz <" . $user[0] . ">";
-				return $str;
-			} else {
-				return $user;
-			}
-			return false;
-		}
-
 
 	}
 ?>
