@@ -7,8 +7,10 @@
 	use Core\PDO\Request;
 	use Auth\Entity\User;
 	use Core\SessionController;
+	use Auth\Entity\Token;
 
 	use \Exception;
+	require_once "plugins/Random/random.php";
 
 	
 	class AuthController extends Controller {
@@ -71,10 +73,10 @@
 			
 			$pdo = new EntityPDO();
 			$userBDD = $pdo->get("Auth\Entity\User", array("#mail~", $userPOST), true);
-			if ($userBDD == null ) {return $this->error("Les identifiants sont incorrects !");}
+			if ($userBDD == null ) {return $this->error("Ce compte n'existe pas encore.\nVeuillez vous inscrire.");}
 
 			$userBDD->set("password", $userPOST->get("password"));
-			if (!$userBDD->check()) {return $this->error("Les identifiants sont incorrects !");}
+			if (!$userBDD->check()) {return $this->error("Le mot de passe est incorrect !");}
 
 			AuthHandler::getInstance()->setUser($userBDD, false); // No remember
 
@@ -103,5 +105,33 @@
 			return array("res" => false, "msg" => $msg);
 		}
 
+/*
+
+	Forgot password Interface
+
+*/
+		public function Forgot() {
+			//Handle POST Data
+			//Important to rewrite for security
+			$_POST["mail"] = "nicolas.toussaint@ensae.fr";
+			$params = array(
+				"mail" => $this->httpRequest->post("mail"),
+			);
+
+			$userPOST = new User($params);
+			$userBDD = $this->pdo->get("Auth\Entity\User", array("#mail~", $userPOST), true);
+			if ($userBDD === null) {
+				echo "Not a correct user"; return False;
+			}
+
+
+			$token = new Token(array("user" => $userBDD, "type" => 1));
+			$token->create_selector();
+			$res = $this->pdo->save($token);
+
+			$r = new Request
+
+			echo $token;
+		}
 	}
 ?>

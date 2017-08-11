@@ -8,7 +8,7 @@
 			$t = microtime();
 			$res = parent::execute($params);
 			PDO::$time += microtime() - $t;
-			if (!$res && ($_SERVER['HTTP_HOST'] == "localhost")) {$this->debugDumpParams();print_r($this->errorInfo());}
+			if (!$res) {$this->debugDumpParams();print_r($this->errorInfo());}
 			return $res;
 		}
 

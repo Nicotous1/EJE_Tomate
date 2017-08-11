@@ -1,44 +1,72 @@
 <?php
 	namespace Auth\Entity;
+
+	use \DateTime;
+	use \DateInterval;
+	use Core\PDO\Entity\AttSQL;
+	use Core\PDO\Request;
+	use Core\PDO\PDO;
+	use Core\PDO\Entity\Entity;
+
+	require_once "plugins/Random/random.php";
 	
-	class Token {
+	class Token extends Entity {
 
-		private $id;
-		private $selector;
-		private $validator;
-		private $hash;
-		private $userid;
-		private $expires;
-
-		const SIZE_SELECTOR = 12;
-		const SIZE_TOKEN = 64;
-		const SIZE_VALIDATOR = 64;
-		const TOKEN_LIFE = 20; //En jours
-
-		public function __construct(array $params = null) {
-			//DEFAULT VARS
-			$defaults = array(
-				"token_id" => null,
-				"selector" => null,
-				"validator" => null,
-				"hash" => null,
-				"user" => null, 
-				"expires" => null
+		protected static function get_array_EntitySQL() {
+			return array(
+				"atts" => array(
+					array("att" => "selector", "type" => AttSQL::TYPE_STR),
+					array("att" => "hash", "type" => AttSQL::TYPE_STR),
+					array("att" => "user", "type" => AttSQL::TYPE_DREF, "class" => "User"),
+					array("att" => "type", "type" => AttSQL::TYPE_INT),
+					array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
+					array("att" => "expires", "type" => AttSQL::TYPE_DATE),
+					array("att" => "activated", "type" => AttSQL::TYPE_BOOL),
+				),
 			);
-			$params = ($params != null) ? array_replace($defaults,$params) : $defaults;
-
-
-			//ATTRIBUTION VARIABLES
-			$this->id = $params['token_id'];
-			$this->selector = $params['selector']; //MUST BE UNIQUE
-			$this->validator = $params['validator'];
-			$this->hash = $params['hash'];
-			$this->userid = $params['user'];
-			$this->expires = $params['expires'];	
 		}
 
-		private function hashOf($str) {
-			return hash("sha256", $str);
+		protected $id;
+		protected $selector;
+		protected $validator;
+		protected $hash;
+		protected $type;
+		protected $user;
+		protected $date_created;
+		protected $expires;
+		protected $activated;
+
+		const SIZE_SELECTOR = 12;
+		const SIZE_VALIDATOR = 40;
+		const LIFE_DAYS = 3;
+
+		public function var_defaults() {
+			$now = new DateTime();
+			$expires = $now->add(new DateInterval('P'. self::LIFE_DAYS	 .'D'));
+			return array(
+				"date_created" => new DateTime(),
+				"activated" => true,
+				"hash" => "-1",
+				"validator" => $this->getRandom(Token::SIZE_VALIDATOR),
+				"expires" => $expires,
+			);
+		}
+
+		public function create_selector($try = 3) {
+			if (strlen($this->selector) == TOKEN::SIZE_SELECTOR) {return $this;} //Already done
+			$success = False;
+			for ($i=0; $i < $try; $i++) { 
+				$this->selector = $this->getRandom(TOKEN::SIZE_SELECTOR);
+				$r = new Request("SELECT COUNT(*) AS n FROM #^ WHERE #selector~", $this);
+				$r->execute();
+				$res = $r->fetch(PDO::FETCH_ASSOC);
+				if($res["n"] == 0) {
+					$success = True;
+					break;
+				}
+			}
+			if (!$success) {throw new Exception("Token did not succeed to generate a selector ! Did you exhaust the infinite ?", 1);}
+			return $this;
 		}
 
 		public function check() {
@@ -48,62 +76,31 @@
 		}
 
 		public function isExpired() {
-			$now = new DateTime();
 			return ($this->expires < $now);
 		}
 
-		public function getUserId() {
-			return $this->userid;
-		}
-
-		public function getSelector() {
-			return $this->selector;
-		}
-
-		public function getValidator() {
-			return $this->validator;
+		private function hashOf($str) {
+			return hash("sha256", $str);
 		}
 
 		public function getHash() {
-			if ($this->hash == null) {
-				if ($this->validator == null) {return null;}
-				else { $this->hash = $this->hashOf($this->validator);}
+			if ($this->hash == "-1") {
+				$this->hash = $this->hashOf($this->validator);
 			}
 			return $this->hash;
 		}
 
-		public function getExpires() {
-			return $this->expires;
-		}
-
-		public function serialize() {
-			return $this->getSelector().$this->getValidator();
-		}
-
-		public function setHash($hash) {
-			$this->hash = $hash;
-			return $this;
-		}
-
-		public function setUserId($id) {
-			$this->userid = $id;
-			return $this;
-		}
-
-		public function setSelector($selector) {
-			$this->selector = $selector;
-			return $this;
+		public function __toString() {
+			return $this->get("selector").$this->get("validator");
 		}
 
 		public function setValidator($validator) {
 			$this->validator = $validator;
-			$this->hash = null;
 			return $this;
 		}
 
-		public function setExpires($expires) {
-			$this->expires = $expires;
-			return $this;
+		public function getValidator() {
+			return $this->validator;
 		}
 
 		private  function hash_equals($str1, $str2) {
@@ -115,6 +112,11 @@
 				for($i = strlen($res) - 1; $i >= 0; $i--) $ret |= ord($res[$i]);
 				return !$ret;
 			}
+		}
+
+		private function getRandom($length) {
+			if ($length % 2 != 0) {throw new Exception("random_bytes give twice the length asked. So you need a 2 multiple for the length !");}
+			return bin2hex(random_bytes($length/2));
 		}
 		
 	}
