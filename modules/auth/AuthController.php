@@ -50,7 +50,7 @@
 			if(!$user->isValid()) {return $this->error("Le formulaire n'est pas valide !");}
 			
 			$pdo = new EntityPDO();
-			$exist = $pdo->exist("Auth\Entity\User", array("#s.mail = :", $user->get("mail")));
+			$exist = $pdo->exist("Auth\Entity\User", array("#mail~", $user));
 			if ($exist) {return $this->error("Cet email est déjà utilisé !");}
 
 			$user->set("level", 1);
@@ -74,7 +74,7 @@
 			$userPOST = new User($params);
 			
 			$pdo = new EntityPDO();
-			$userBDD = $pdo->get("Auth\Entity\User", array("#mail~", $userPOST), true);
+			$userBDD = $pdo->get("Auth\Entity\User", array("#mail~", $userPOST), 1);
 			if ($userBDD == null ) {return $this->error("Ce compte n'existe pas encore.\nVeuillez vous inscrire.");}
 
 			$userBDD->setPassword($userPOST->get("password"), False); // False disable the update of the hash
@@ -120,7 +120,7 @@
 			);
 
 			$userPOST = new User($params);
-			$userBDD = $this->pdo->get("Auth\Entity\User", array("#mail~", $userPOST), true);
+			$userBDD = $this->pdo->get("Auth\Entity\User", array("#mail~", $userPOST), 1);
 			if ($userBDD === null) {
 				return $this->error("Ce compte n'existe pas encore.\nVeuillez vous inscrire.");
 			}
