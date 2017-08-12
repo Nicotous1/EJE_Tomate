@@ -2,6 +2,7 @@
 	namespace Admin\Entity;
 	use Core\PDO\Entity\Entity;
 	use Core\PDO\Entity\AttSQL;
+	use Core\Firewall;
 
 	use Core\Routeur;
 	use Core\PDO\PDO;
@@ -91,12 +92,25 @@
 		}
 
 		public function toArray() {
+			$user = Firewall::getInstance()->getUser();
 			$r = parent::toArray();
-			if ($this->get("id") > 0) {
-				$r["link"] = Routeur::getInstance()->getUrlFor("AdminEdit", array("id" => $this->get("id")));
+			if ($user->get("level") >= 2) {
+				if ($this->get("id") > 0) {
+					$r["link"] = Routeur::getInstance()->getUrlFor("AdminEdit", array("id" => $this->get("id")));
+				}
+				$r["admins"] = $this->get_Ids("admins");
+				return $r;
+			} else {
+				return array(
+					"id" => $r["id"],
+					"numero" => $r["numero"],
+					"pub" => $r["pub"],
+					"pub_titre" => $r["pub_titre"],
+					"statut" => $r["statut"],
+				);
 			}
-			$r["admins"] = $this->get_Ids("admins");
-			return $r;
+
+
 		}
 
 		public function generateNum() {
