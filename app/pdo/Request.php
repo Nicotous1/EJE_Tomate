@@ -2,6 +2,7 @@
 	namespace Core\PDO;
 	use Core\PDO\Entity\AttSQL;
 	use Core\PDO\Entity\Entity;
+	use Core\PDO\PDO;
 	use \Exception;
 
 	class Request {
@@ -12,39 +13,39 @@
 		private $overData;
 		private $data;
 
-		private static  $start = array("#", ":");
-		private static  $end = array(" ", ",", "=", ")", "(", ";");
+		private static  $start = array("#", ":"); // Characters that start a tag to analyse
+		private static  $end = array(" ", ",", "=", ")", "(", ";"); // Characters that ends a tag to analyse
 
 		public function __construct($str, $data = null, $over = array()) {
-			$this->r = null;
-			$this->res = null;
-			$this->toBind = array();
-			$this->overData = $over;
+			$this->r = null; // PDOStatement
+			$this->res = null; // Result of execute PDOStatement
+			$this->toBind = array(); // Params to bind to the request durign the execution
+			$this->overData = $over; // Over params for tag, over means that if there are no direct params given to use for the tag this one will be taken if it exists
 			
-			$this->str = $this->preHandle($str, $data);
+			$this->str = $this->build_str($str, $data); // String of the request
 
 		}
 
-		public function fetch($type) {
-			return  $this->getR()->fetch($type);
-		}
-
-		public function addOverData($key, $value) {
-			$this->overData[$key] = $value;
-			return $this;
-		}
-
+/*
+	Fonctions d'interface
+*/
+		/*
+			This enables you to build your request by chunck
+		*/
 		public function append($str, $data = null) {
 			if ($str == "") {return $this;}
-			$this->str .= " " . $this->preHandle($str, $data);
+			$this->str .= " " . $this->build_str($str, $data);
 			return $this;
 		}
 
-		public function getR() {
-			if ($this->r === null) {
-				$this->bindValues();
-			}
-			return $this->r;
+		public function fetch($type = PDO::FETCH_ASSOC) {
+			$this->execute();
+			return $this->getR()->fetch($type);
+		}
+
+		public function fetchAll($type = PDO::FETCH_ASSOC) {
+			$this->execute();
+			return $this->getR()->fetchAll($type);
 		}
 
 		public function execute() {
@@ -54,14 +55,38 @@
 			return $this->res;
 		}
 
+		public function getR() {
+			if ($this->r === null) {
+				$this->bindValues();
+			}
+			return $this->r;
+		}
+
+		public function addOverData($key, $value) {
+			$this->overData[$key] = $value;
+			return $this;
+		}
+
 		public function lastId() {
 			return PDO::getInstance()->lastInsertId();
+		}
+
+
+
+/*
+	Binding functions
+*/
+
+		private function addToBind($data, $att = false) {
+			$key = ":" . (count($this->toBind));
+			$this->toBind[$key] = array($data, $att);
+			return $key;
 		}
 
 		private function bindValues() {
 			$this->r = PDO::getInstance()->prepare($this->str);
 			foreach ($this->toBind as $key => $val) {
-				$this->bindValue(":".$key, $val[0], $val[1]);
+				$this->bindValue($key, $val[0], $val[1]);
 			}
 
 			return $this;
@@ -106,34 +131,46 @@
 			throw new Exception("Can't bindvalue to '$key' with this type !", 1);
 		}
 
-		public function preHandle($str, $data = null) {	
+
+/*
+
+	Compilation function -> transforms the tags 
+
+*/
+		private function build_str($str, $data = null) {	
 			$this->data = $data; //Set the contexte for all other method	
 			$c = 0;
 			while ($c < strlen($str)) {
-				//Récupération du tag
-				$a = $this->mult_strpos($str, $this::$start, $c);
-				if ($a === false) {break;}
-				$a_p = (substr($str, $a, 1) == ":") ? ($a-1) : $this->mult_pre($str, $this::$end, $a); //Pas de prefixe pour les variables !
-				if ($a_p === false) {$a_p = -1;}
-
+				//Find the start of the tag
+				$a = $this->mult_strpos($str, $this::$start, $c); // Find the first pos of one of the start characters
+				if ($a === false) {break;} // No start characters, process is finished
+				//Find the end of the tag
 				$b = $this->mult_strpos($str,$this::$end, $a);
 				if ($b === false) {$b = strlen($str);}
-				$tag = substr($str, $a, $b - $a);
-				$prefix = substr($str, $a_p + 1, $a - $a_p - 1);
 
+				$tag = substr($str, $a, $b - $a);
+				
+
+				// Find if there is a prefix -> only for # (no need for variable value ;)
+				// Find the start of the prefix by finding a end character before the start_character (mult_pre) (often it will be blank)
+				$start_character = substr($str, $a, 1); 
+				if ($start_character == ":") {
+					$end_pos = $this->mult_pre($str, $this::$end, $a);
+					$a_p = ($end_pos === False) ? $a : $end_pos + 1; // +1 because for example the white space isn't in the tag
+				} else {
+					$a_p = $a;
+				}
+				$prefix = substr($str, $a_p, $a - $a_p);
+
+				// Convert the tag
 				$res = $this->convertTag($tag, $prefix);
 
-				$a = $a_p + 1; //On rempalcera aussi le prefixe
-				$str = substr_replace($str, $res, $a, $b - $a);
-				$c = $a + strlen($res); //accurate pos for cursor
+				// Replace the tags with the response (replace also the prefix)
+				$str = substr_replace($str, $res, $a_p, $b - $a_p);
+				$c = $a_p + strlen($res); //accurate pos for cursor -> must used the return data (res)
 
 			}
 			return $str;
-		}
-
-		private function addToBind($data, $att = false) {
-			$this->toBind[] = array($data, $att);
-			return ":" . (count($this->toBind) - 1);
 		}
 
 		private function convertTag($tag, $prefix = null) {
@@ -179,16 +216,22 @@
 
 			if ($type == ":") {
 				$val = $this->getRefValue($ref);
+				
+				// Entity bind
 				if (is_a($val, "Core\PDO\Entity\Entity")) {
-					if ($format == "^") {return $this->addToBind($val->getId());}
+					if ($format == "^") {return $this->addToBind($val->getId());} // Shortcut for #.id
 					$res = "";
 					foreach ($val::getEntitySQL()->getDAtts() as $a) {
 						$res .= $this->addToBind($val->get($a), $a) . ",";
 					}
 					return substr($res, 0, -1);
 				}
+
+				// Add array of ids directly -> can't be bind by the pdo
 				$att = $this->getRefSql($ref, false); //Pas d'erreur si on tombe sur false !
 				if (is_array($val) && $att === false) {return $this->IdsToSQL($val);}
+
+				// Classic bind
 				return $this->addToBind($val);
 			}
 
@@ -227,6 +270,12 @@
 			return $res;
 		}
 
+
+
+/*
+	Data fetchers
+*/
+		// From the tag string (REF) return the SQL data
 		private function getRefSql($ref, $error = true) {
 			$p = $this->data ;
 			foreach (explode(".", $ref) as $i => $key) {
@@ -257,6 +306,7 @@
 			return (is_a($p, "Core\PDO\Entity\EntitySQL") || is_a($p, "Core\PDO\Entity\AttSQL")) ? $p : false;		
 		}
 
+		// From the tag string (REF) return the value
 		private function getRefValue($ref) {
 			$p = $this->data;
 			$keys = explode(".", $ref);
@@ -278,6 +328,12 @@
 			return $p;		
 		}
 
+
+
+
+/*
+	Format functions
+*/
 		private function IdsToSQL($ids) {
 			$str = "(-1,";
 			foreach ($ids as $raw) {
@@ -295,6 +351,13 @@
 			if (is_a($e, "Core\PDO\Entity\Entity")) {return $e->getId();} //ADD CHECK IF NULL AND RAISE EXCEPTION -> SAVE BEFORE
 			throw new Exception("Convertion impossible en Id !", 1);
 		}
+
+
+
+
+/*
+	Output functions
+*/
 
 		public function getStr() {
 			return $this->str;
