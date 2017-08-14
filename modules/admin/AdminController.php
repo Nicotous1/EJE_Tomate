@@ -2,10 +2,12 @@
 	namespace Admin;
 	use Core\Controller;
 	use Core\PDO\EntityPDO;
+	use Core\PDO\Request;
+	use Core\PDO\PDO;
 	use Core\Page;
 	use \Exception;
 
-	use Admn\Entity\Etude;
+	use Admin\Entity\Etude;
 	use Auth\Entity\UserPDO;
 
 	class AdminController extends Controller {

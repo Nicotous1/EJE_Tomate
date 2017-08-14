@@ -1,3 +1,7 @@
+<?php
+  use Core\PDO\Request;
+  use Admin\Entity\Etude;
+?>
   </head>
 
   <body ng-app="BlankApp" layout="column" ng-cloak style="background-color: rgb(240,240,240);">
@@ -15,6 +19,18 @@
         <md-divider></md-divider>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminNew") ?>')">Nouvelle étude</md-list-item>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminHome") ?>')">Dernières études</md-list-item>
+<?php 
+      // Beautifull no ?
+      $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1.id ORDER BY e.#0.date_modified LIMIT 3", array(Etude::getEntitySQL(), $user));
+      $r = $r->getR();
+      $res = $r->execute();
+      $etudes_shortcut = $r->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($etudes_shortcut as $e) {
+?>
+        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminEdit", array("id" => $e["id"])); ?>')"><?php show("#" . $e["numero"] . " : " . $e["pseudo"]); ?></md-list-item>
+<?php
+      }
+?>        
         <md-divider></md-divider>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminQuali") ?>')">Pôle Qualité</md-list-item>
       <?php } ?>
