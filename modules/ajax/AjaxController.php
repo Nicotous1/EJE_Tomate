@@ -49,30 +49,6 @@
 			return $this->success(array("etude" => $etude));
 		}
 
-		public function SaveClient() {
-			//Handle POST Data
-			//Important to rewrite for security
-			$params = $this->httpRequest->post(array(
-				"id", "nom", "prenom", "mail", "titre", "adresse", "code_postal", "fixe", "mobile", "ville", "last_contact", "entreprise",
-			));
-			$client = new Client($params);
-
-			$res = $this->pdo->save($client);
-			return ($res) ? $this->success(array("client" => $client)) : $this->error();
-		}
-
-		public function SaveEntreprise() {
-			//Handle POST Data
-			//Important to rewrite for security
-			$params = $this->httpRequest->post(array(
-				"id", "nom", "type", "secteur", "presentation",
-			));
-			$entreprise = new Entreprise($params);
-
-			$res = $this->pdo->save($entreprise);			
-			return ($res) ? $this->success(array("entreprise" => $entreprise)) : $this->error();
-		}
-
 		
 		public function SaveEtapes() {
 			//Récupération de l'étude
@@ -121,6 +97,31 @@
 			$pdo->save($e);
 
 			return $this->success(array("link" => $this->routeur->getUrlFor("AdminEdit",array("id"=>$copy->getId()))));
+		}
+		
+
+		public function SaveClient() {
+			//Handle POST Data
+			//Important to rewrite for security
+			$params = $this->httpRequest->post(array(
+				"id", "nom", "prenom", "mail", "titre", "adresse", "code_postal", "fixe", "mobile", "ville", "last_contact", "entreprise",
+			));
+			$client = new Client($params);
+
+			$res = $this->pdo->save($client);
+			return ($res) ? $this->success(array("client" => $client)) : $this->error();
+		}
+
+		public function SaveEntreprise() {
+			//Handle POST Data
+			//Important to rewrite for security
+			$params = $this->httpRequest->post(array(
+				"id", "nom", "type", "secteur", "presentation",
+			));
+			$entreprise = new Entreprise($params);
+
+			$res = $this->pdo->save($entreprise);			
+			return ($res) ? $this->success(array("entreprise" => $entreprise)) : $this->error();
 		}
 
 
