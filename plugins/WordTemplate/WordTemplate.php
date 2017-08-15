@@ -16,6 +16,8 @@
 		public function compile($path) {
 			//Création d'un fichier temporaire
 			$temp = tempnam(sys_get_temp_dir(), 'TMP_');
+			
+			if (!file_exists($this->template)) {throw new Exception("Le fichier du template n'existe pas !\n Le fichier doit être uploadé dans le pôle qualité.", 1);}
 			file_put_contents($temp, file_get_contents($this->template));			
 
 			$zip = new ZipArchive();

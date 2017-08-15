@@ -76,7 +76,7 @@
 
 			//AFFICHAGE
 			$page = new Page();
-		    $page->addFile(dirname(__FILE__) . "/templates/Template_Doc_List.php")
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_Quali_Home.php")
 		    	 ->addVar("HeaderTitre", "Pôle Qualité")
 		    	 ->addVar("doc_types", $ds)
 		    	 ->addVar("templates", $ts)

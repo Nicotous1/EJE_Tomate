@@ -155,5 +155,9 @@
 			return $this->get("nom") . "." . $this->get("ext");
 		}
 
+		public function exists() {
+			return file_exists($this->getPath());
+		}
+
 	}
 ?>
