@@ -39,14 +39,14 @@
 					}
 					continue; //IMPORTANT
 				}
-				if (is_a($r, "WordTemplate\DocHistory")) {
+				if (is_a($r, "Admin\Entity\DocHistory")) {
 					$r = $r->get($name_var);
 					continue; //IMPORTANT
 				}
 				if ($r == null) {
 				throw new Exception("La variable '" . $ref[$i-1] . "' dans '$ref_str' est vide ! Elle ne possede donc pas d'attribut '".$name_var."' !" , 1);
 				}
-				throw new Exception("La variable '" . $ref[$i-1] . "' dans '$ref_str' n'est pas un tableau ou un objet ! Elle ne possede donc pas d'attribut '".$name_var."' !" , 1);
+				throw new Exception("La variable '" . $ref[$i-1] . "' dans '$ref_str' n'est pas un tableau ou un objet (".gettype($r).") ! Elle ne possede donc pas d'attribut '".$name_var."' !" , 1);
 				
 			}
 
