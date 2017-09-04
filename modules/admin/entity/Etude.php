@@ -30,8 +30,8 @@
 		);
 
 		public static $lieuArray = array(
-			array("id" => 1, "short" => "A l'ENSAE", "long" => "en_long"),
-			array("id" => 2, "short" => "Chez le client", "long" => "client_long"),
+			array("id" => 1, "short" => "A l'ENSAE", "long" => "dans les locaux d'ENSAE Junior études"),
+			array("id" => 2, "short" => "Chez le client", "long" => "chez le client"),
 		);
 
 		protected static function get_array_EntitySQL() {
