@@ -56,14 +56,10 @@
 		}
 
 		public function home() {
-			$pdo = new EntityPDO();
-			$es = $pdo->get("Admin\Entity\Etude", "#s.child IS NULL", false);
-
 			//AFFICHAGE
 			$page = new Page();
 		    $page->addFile(dirname(__FILE__) . "/templates/Template_Dashboard.php")
 		    	 ->addVar("HeaderTitre", "Dernières études")
-		    	 ->addVar("etudes", $es)
 		  	;
 		    return $page;
 		}
