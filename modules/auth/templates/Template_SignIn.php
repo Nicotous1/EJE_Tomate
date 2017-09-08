@@ -38,7 +38,7 @@
 	        </md-tab>
 
 
-	        <md-tab label="S'inscrire" ng-disabled="sending" md-active="true">
+	        <md-tab label="S'inscrire" ng-disabled="sending">
 
 				<form ng-submit="register()">
 					<md-content class="md-padding">
