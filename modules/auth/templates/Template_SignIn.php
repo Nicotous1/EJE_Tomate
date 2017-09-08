@@ -38,44 +38,47 @@
 	        </md-tab>
 
 
-	        <md-tab label="S'inscrire" ng-disabled="sending">
+	        <md-tab label="S'inscrire" ng-disabled="sending" md-active="true">
 
 				<form ng-submit="register()">
 					<md-content class="md-padding">
 
-						<md-subheader>Identifiants de connexion :</md-subheader>
-						<div layout="row">
-							<md-input-container class="md-block flex">
-							  <label>Mail de l'Ensae</label>
-							  <input type="text" ng-model="etudiant.mail" md-maxlength="130" required ng-change="etudiant.mail = updateMail(etudiant.mail)">
-							</md-input-container>
+						<div layout="column">
+							<md-subheader>Identifiants de connexion :</md-subheader>
+							<div layout="row" layout-xs="column">
+								<md-input-container class="md-block flex-gt-xs">
+								  <label>Mail de l'Ensae</label>
+								  <input type="text" ng-model="etudiant.mail" md-maxlength="130" required ng-change="etudiant.mail = updateMail(etudiant.mail)">
+								</md-input-container>
 
-							<md-input-container class="md-block flex">
-							  <label>Mot de passe</label>
-							  <input type="password" ng-model="etudiant.password" md-maxlength="72" required>
-							</md-input-container>  
+								<md-input-container class="md-block flex-gt-xs">
+								  <label>Mot de passe</label>
+								  <input type="password" ng-model="etudiant.password" md-maxlength="72" required>
+								</md-input-container>  
+							</div>
 						</div>
-						<md-subheader>Quelques informations</md-subheader>
-						<div layout="row"  class="md-block">
-			                <md-input-container>
-			                  <md-select ng-model="etudiant.titre" placeholder="Titre" required>  
-			                    <md-option ng-value="t.id" ng-repeat="t in formEtudiant.titres track by t.id">{{t.titre}}</md-option>
-			                  </md-select>
-			                </md-input-container>
-							<md-input-container class="md-block flex">
-							  <label>Nom</label>
-							  <input type="text" ng-model="etudiant.nom" md-maxlength="40"  required>
-							</md-input-container>
-							<md-input-container class="md-block flex">
-							  <label>Prénom</label>
-							  <input type="text" ng-model="etudiant.prenom" md-maxlength="40"  required>
-							</md-input-container>
-
-			                <md-input-container>
-				                <md-select ng-model="etudiant.annee" placeholder="Classe" required>  
-				                  <md-option ng-value="annee.id" ng-repeat="annee in formEtudiant.annees track by annee.id">{{annee.name}}</md-option>
-				                </md-select>
-			                </md-input-container>	
+						<div layout="column">
+							<md-subheader>Quelques informations</md-subheader>
+							<div layout="column" layout-gt-sm="row">
+				                <md-input-container class="md-block">
+					                <md-select ng-model="etudiant.annee" placeholder="Classe" required>  
+					                  <md-option ng-value="annee.id" ng-repeat="annee in formEtudiant.annees track by annee.id">{{annee.name}}</md-option>
+					                </md-select>
+				                </md-input-container>	
+				                <md-input-container class="md-block">
+				                  <md-select ng-model="etudiant.titre" placeholder="Titre" required>  
+				                    <md-option ng-value="t.id" ng-repeat="t in formEtudiant.titres track by t.id">{{t.titre}}</md-option>
+				                  </md-select>
+				                </md-input-container>
+								<md-input-container class="md-block flex">
+								  <label>Nom</label>
+								  <input type="text" ng-model="etudiant.nom" md-maxlength="40"  required>
+								</md-input-container>
+								<md-input-container class="md-block flex">
+								  <label>Prénom</label>
+								  <input type="text" ng-model="etudiant.prenom" md-maxlength="40"  required>
+								</md-input-container>
+							</div>
 						</div>
 						<div  layout="row" layout-align="center center">
 							<md-button type="submit" ng-disabled="sending">{{sending ? 'Inscription en cours...' : 'S\'inscrire'}}</md-button>		
