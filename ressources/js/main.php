@@ -165,6 +165,7 @@
 
   app.filter('cut', function () {
         return function (str, lim = 200) {
+            if (str == undefined) {return "";}
             if (str.length > lim) {
               return str.substring(0, lim - 3) + "...";
             }

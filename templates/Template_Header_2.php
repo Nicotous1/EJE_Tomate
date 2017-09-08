@@ -6,7 +6,7 @@
 
   <body ng-app="BlankApp" layout="column" ng-cloak style="background-color: rgb(240,240,240);">
 
-  <div layout="row" ng-controller="MainController">
+  <div layout="row" ng-controller="MainController" style="height: 100%;">
 
 
 <?php if ($firewall->isConnected()) { ?>

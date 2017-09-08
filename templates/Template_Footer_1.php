@@ -1,4 +1,5 @@
     </div>
+  </div>
 
 <?php
 	$ressources->js("/moment")
