@@ -21,7 +21,7 @@
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminHome") ?>')">Dernières études</md-list-item>
 <?php 
       // Beautifull no ?
-      $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1^ ORDER BY e.#0.date_modified LIMIT 3", array(Etude::getEntitySQL(), $user));
+      $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1^ AND #0.child IS NULL ORDER BY e.#0.numero DESC LIMIT 3", array(Etude::getEntitySQL(), $user));
       $etudes_shortcut = $r->fetchAll(PDO::FETCH_ASSOC);
       foreach ($etudes_shortcut as $e) {
 ?>
