@@ -565,4 +565,29 @@
     };
 
   });
+
+
+
+
+/*
+
+  ComsController
+
+*/
+  app.controller("ComsController", function($scope, $http, $mdDialog) {
+    $scope.coms = handle_date(<?php echo json_encode($etude->get("coms")); ?>);
+    $scope.sending = false;
+
+    $scope.save = function(com) { // Je sais pas pourquoi il y a besoin de passer com et que $scope.com marche pas
+      $scope.sending = true;
+      var url = "<?php echo $routeur->getUrlFor("AdminAjaxSaveCom") ?>";
+      var resHandler = handle_response({
+        success : function(data, msg) {
+          $scope.coms.push(handle_date(data.com));
+        },
+        all : function(data, msg) {$scope.sending = false;}, 
+      });
+      $http.post(url, {com : com, etude_id : $scope.etude.id}).then(resHandler, resHandler);      
+    };
+  });
 </script>

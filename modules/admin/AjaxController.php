@@ -7,6 +7,7 @@
 	use \Exception;	
 
 	use Admin\Entity\Etude;
+	use Admin\Entity\Com;
 
 	class AjaxController extends Controller {
 
@@ -31,6 +32,22 @@
 			$n = $r->fetch()["n"];
 
 			return $this->success(array("etudes" => $res, "n" => $n));
+		}
+
+
+		public function SaveCom() {
+			$content = $this->httpRequest->post("com");
+			$etude_id = (int) $this->httpRequest->post("etude_id");
+
+
+			$e = $this->pdo->get("Admin\Entity\Etude", $etude_id);
+			if ($e == null) {return $this->error("L'étude que vous souhaitez commenter a été supprimée !");}
+
+			$com = new Com(array("content" => $content, "etude" => $e));
+			$res = $this->pdo->save($com);
+			if (!$res) {$this->error("Une erreur s'est produite lors de la sauvegarde votre commentaire.");}
+
+			return $this->success(array("com" => $com));
 		}
 
 	}

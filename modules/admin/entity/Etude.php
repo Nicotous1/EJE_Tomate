@@ -74,6 +74,7 @@
 					array("att" => "docs", "type" => AttSQL::TYPE_IREF, "class" => "DocEtude", "att_ref" => "etude"),
 					array("att" => "etapes", "type" => AttSQL::TYPE_IREF, "class" => "Etape", "att_ref" => "etude"),
 					array("att" => "parent", "type" => AttSQL::TYPE_IREF, "class" => "Etude", "att_ref" => "child"),
+					array("att" => "coms", "type" => AttSQL::TYPE_IREF, "class" => "Com", "att_ref" => "etude"),
 				),
 			);
 		}

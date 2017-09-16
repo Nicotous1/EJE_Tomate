@@ -67,6 +67,7 @@
 			$search_by_id = (is_numeric($conds));
 			if ($search_by_id) {
 				$id = (int) $conds;
+				if ($id <= 0) {return null;}
 				$cached = $this->cache->get($class, $id);
 				if ($cached !== false) {return clone $cached;}
 				$limit = 1;

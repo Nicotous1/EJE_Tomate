@@ -174,7 +174,7 @@
 
                         <md-input-container  class="md-block flex">
                           <label>Prix de la JEH</label>
-                          <input type="number" min="80" max="340" ng-model="etude.p_jeh" step="10" ng-disabled="etude.locked"></textarea>
+                          <input type="number" min="80" max="340" ng-model="etude.p_jeh" step="10" ng-disabled="etude.locked">
                         </md-input-container>    
 
                         <md-input-container class="md-block flex" ng-disabled="etude.locked">
@@ -414,6 +414,33 @@
                 </section>
 
               </md-tab-body>
+            </md-tab>
+          </div>
+
+          <div ng-controller="ComsController">
+            <md-tab label="Coms ({{(coms).length}})" md-active="true">
+              <md-tab-body layout="row">
+                <md-list>
+                  <md-list-item ng-if="coms.length == 0" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);">
+                    <div>Aucun commentaire</div>
+                  </md-list-item>
+
+                  <md-list-item ng-repeat="c in coms" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);">
+                    <div style="white-space: pre-line;">{{c.content}}</div>
+                    <div class="md-secondary">{{c.date | date:'yyyy-MM-dd HH:mm'}}</div>
+                  </md-list-item>
+
+                </md-list>
+                <form ng-submit="save(com)" layout="column" class="md-padding" ng-if="!etude.locked">
+                  <md-input-container flex>
+                    <label>Nouveau commentaire</label>
+                    <textarea ng-model="com"  rows="5"  md-maxlength="600" required></textarea>
+                  </md-input-container>
+                  <div layout="row" layout-align="center">
+                    <md-button class="md-accent md-raised" ng-if="!etude.locked" ng-disabled="sending" type="submit">{{sending ? 'Sauvegarde en cours...' : 'Poster'}}</md-button>   
+                  </div>
+                </form>
+              </md-tab-body>            
             </md-tab>
           </div>
 
