@@ -576,18 +576,25 @@
 */
   app.controller("ComsController", function($scope, $http, $mdDialog) {
     $scope.coms = handle_date(<?php echo json_encode($etude->get("coms")); ?>);
+    $scope.com = {};
     $scope.sending = false;
 
-    $scope.save = function(com) { // Je sais pas pourquoi il y a besoin de passer com et que $scope.com marche pas
+    $scope.save = function() { // Je sais pas pourquoi il y a besoin de passer com et que $scope.com marche pas
+      if (!$scope.com.content) {
+        return alert("Votre commentaire est vide !");
+      }
+
       $scope.sending = true;
+      $scope.com.etude_id = $scope.etude.id;
       var url = "<?php echo $routeur->getUrlFor("AdminAjaxSaveCom") ?>";
       var resHandler = handle_response({
         success : function(data, msg) {
           $scope.coms.push(handle_date(data.com));
+          $scope.com.content = "";
         },
         all : function(data, msg) {$scope.sending = false;}, 
       });
-      $http.post(url, {com : com, etude_id : $scope.etude.id}).then(resHandler, resHandler);      
+      $http.post(url, $scope.com).then(resHandler, resHandler);      
     };
   });
 </script>

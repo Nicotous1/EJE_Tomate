@@ -431,10 +431,10 @@
                   </md-list-item>
 
                 </md-list>
-                <form ng-submit="save(com)" layout="column" class="md-padding" ng-if="!etude.locked">
+                <form ng-submit="save()" layout="column" class="md-padding" ng-if="!etude.locked">
                   <md-input-container flex>
                     <label>Nouveau commentaire</label>
-                    <textarea ng-model="com"  rows="5"  md-maxlength="600" required></textarea>
+                    <textarea ng-model="com.content"  rows="5"  md-maxlength="600"></textarea>
                   </md-input-container>
                   <div layout="row" layout-align="center">
                     <md-button class="md-accent md-raised" ng-if="!etude.locked" ng-disabled="sending" type="submit">{{sending ? 'Sauvegarde en cours...' : 'Poster'}}</md-button>   

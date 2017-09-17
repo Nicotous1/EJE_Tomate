@@ -36,7 +36,7 @@
 
 
 		public function SaveCom() {
-			$content = $this->httpRequest->post("com");
+			$content = $this->httpRequest->post("content");
 			$etude_id = (int) $this->httpRequest->post("etude_id");
 
 
