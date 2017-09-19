@@ -347,7 +347,7 @@
                     <p>Aucun document enregistré.</p>
                   </md-list-item>
                   <md-list-item ng-repeat="d in docs" ng-click="redirect(d.link)">
-                    <div>{{d.nom}} <small>({{d.ref}})</small></div>         
+                    <div>{{d.nom}} <small ng-if="d.ref != false">({{d.ref}})</small></div>         
                     <md-button class="md-icon-button md-secondary" ng-click="redirect(d.link)"><i class="material-icons">file_download</i></md-button>
                   </md-list-item>
                 </md-list>

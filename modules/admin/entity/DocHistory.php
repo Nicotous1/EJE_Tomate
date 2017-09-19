@@ -27,7 +27,7 @@
 
 			$docs = $this->etude->get("docs");
 			$n = count($docs);
-			if ($n <= $num) {
+			if ($n < $num) { // strict est important !
 				throw new Exception("L'étude ne contient que $n documents du type '$type_var', le document n°$num n'existe donc pas !", 1);
 			}
 			$res = array();
@@ -47,7 +47,7 @@
 				    return ($a > $b) ? -1 : 1;
 				}
 			);
-			return $res[$num];
+			return $res[$num-1]; // -1 parce que les references commencent à 1 et pas 0 !
 		}
 	}
 ?>

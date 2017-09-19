@@ -59,9 +59,8 @@
 		public function getRef() {
 			if ($this->get("n") > 0 && $this->get("type") !== null && $this->get("etude") != null) {
 				return $this->get("etude")->get("numero") . "-" . $this->get("type")->get("var_name") . "-" . $this->get("n");
-			} else {
-				return $this->getNom();
 			}
+			return false; // Ces documents ne peuvent être referencés
 		}
 	}
 ?>
