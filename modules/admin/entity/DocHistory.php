@@ -17,6 +17,8 @@
 			}
 			$type_var = substr($name, 0, $pos);
 			$num = (int) substr($name, $pos + 1);
+
+			if ($num < 1) {throw new Exception("La référence '$name' n'est pas correcte. '$num' < 1 or l'index des documents commence à 1 ! (".$type_var ."_1)", 1);}
 			
 			$pdo = new EntityPDO();
 			$type = $pdo->get("Admin\Entity\DocType", array("#s.var_name = :", $type_var));
