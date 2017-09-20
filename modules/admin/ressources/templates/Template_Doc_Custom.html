@@ -16,7 +16,7 @@
           <label>Type de document</label>
           <md-select ng-model="doc.type" placeholder="Choisir un type">
             <md-option ng-value="-1">Custom</md-option>
-            <md-option ng-value="doct.id" ng-repeat="doct in doctypes">{{doct.nom}} ({{doct.var_name}})</md-option>
+            <md-option ng-value="doct.id" ng-repeat="doct in doctypes | orderBy:'nom' track by doct.id">{{doct.nom}} ({{doct.var_name}})</md-option>
           </md-select>
         </md-input-container>
 
