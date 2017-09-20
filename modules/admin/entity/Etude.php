@@ -290,9 +290,14 @@
 			return $this->dochistory;
 		}
 
+		public function getRem_ed() {
+			$n_ed = count($this->get("etudiants"));
+			return ($n_ed > 0) ? ($this->get("per_rem")/100)*$this->get("p_jeh")*$this->get("n_jeh")/($n_ed) : 0;
+		}
+
 		public function getEtudiants() {
 			$id = $this->get("id");
-			if (!($id > 0)) {return array();}
+			if (!($id > 0)) {return array();} //Forcement nulle car ca marche avec des work_requests qui ne peuvent exister sans id ;)
 
 			if ($this->etudiants === null) {
 				$w_s = $this->get("work_requests");

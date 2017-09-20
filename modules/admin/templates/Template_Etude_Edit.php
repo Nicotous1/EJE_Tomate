@@ -1,6 +1,5 @@
 <?php require("templates/Template_Header.php"); ?>
 
-
     <div  class="md-whiteframe-z2" style="padding: 0;" ng-controller="EditController">
       <md-toolbar>
         <div class="md-toolbar-tools">
