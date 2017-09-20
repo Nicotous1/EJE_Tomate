@@ -44,6 +44,7 @@
 					array("att" => "bdd", "type" => AttSQL::TYPE_STR),
 					array("att" => "specifications", "type" => AttSQL::TYPE_STR),
 					array("att" => "but", "type" => AttSQL::TYPE_STR),
+					array("att" => "but_short", "type" => AttSQL::TYPE_STR),
 					array("att" => "competences", "type" => AttSQL::TYPE_STR),
 					array("att" => "context", "type" => AttSQL::TYPE_STR),
 					array("att" => "domaines", "type" => AttSQL::TYPE_STR),
@@ -57,6 +58,7 @@
 					array("att" => "fee", "type" => AttSQL::TYPE_FLOAT),
 					array("att" => "break_jeh", "type" => AttSQL::TYPE_INT),
 					array("att" => "break_fee", "type" => AttSQL::TYPE_FLOAT),
+					array("att" => "per_rem", "type" => AttSQL::TYPE_INT),
 					
 					array("att" => "provenance", "type" => AttSQL::TYPE_ARRAY, "list" => self::$provenanceArray),
 					array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => self::$statutArray),
@@ -89,6 +91,7 @@
 				"statut" => 0,
 				"locked" => false,
 				"p_jeh" => 340,
+				"per_rem" => 60,
 			);
 		}
 

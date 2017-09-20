@@ -172,6 +172,11 @@
                           <input type="number" ng-model="etude.fee" ng-disabled="etude.locked" step="0.01">
                         </md-input-container>
 
+                        <md-input-container class="md-block flex">
+                          <label>Pourcentage de rémunération</label>
+                          <input type="number" ng-model="etude.per_rem" ng-disabled="etude.locked" step="1" min="0" max="100">
+                        </md-input-container>
+
                         <md-input-container  class="md-block flex">
                           <label>Prix de la JEH</label>
                           <input type="number" min="80" max="340" ng-model="etude.p_jeh" step="10" ng-disabled="etude.locked">
@@ -199,6 +204,10 @@
                       <md-input-container  class="md-block flex-gt-sm">
                         <label>But</label>
                         <textarea ng-model="etude.but"  rows="4" ng-disabled="etude.locked"></textarea>
+                      </md-input-container>
+                      <md-input-container  class="md-block flex-gt-sm">
+                        <label>L'étude consite en</label>
+                        <textarea ng-model="etude.but_short"  rows="4" ng-disabled="etude.locked" md-maxlength="400"></textarea>
                       </md-input-container>
                       <md-input-container  class="md-block flex-gt-sm">
                         <label>Contexte</label>
