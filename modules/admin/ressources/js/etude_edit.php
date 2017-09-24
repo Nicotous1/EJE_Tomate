@@ -341,9 +341,20 @@
     };
 
     $scope.save = function() {
+      $scope.sending = true;
+
+      // Fixed pour les jours qui se décalent avec le timezone (pas très propre) : met le même jour met avec le timezone UTC
+      // Je sais pas pourquoi le $http.post envoie en UTC se qui décalait le jour
+      angular.forEach($scope.etapes, function(x,i) {      
+        var d = x.date_start;
+        x.date_start = new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+
+        var d = x.date_end;
+        x.date_end = new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+      });
+
       console.log("posting etapes :");
       console.log($scope.etapes);
-      $scope.sending = true;
 
       var resHandler = handle_response({
         success : function(data, msg) {
