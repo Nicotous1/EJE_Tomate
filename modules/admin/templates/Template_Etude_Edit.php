@@ -436,7 +436,7 @@
                   <md-list-item ng-repeat="c in coms" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);" layout="row">
                     <div class="md-list-item-text" layout="column" flex>
                       <p style="white-space: pre-line;" flex>{{c.content}}</p>
-                      <p style="text-align: right;" flex>{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à hh:mm'}}</p>
+                      <p style="text-align: right;" flex>{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}</p>
                     </div>
                   </md-list-item>
 
