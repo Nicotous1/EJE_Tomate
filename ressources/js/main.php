@@ -112,7 +112,7 @@
       for (var property in obj) {
         if (obj.hasOwnProperty(property)) {
           if (property.substring(0,4) == "date") {
-            obj[property] = new Date(parseInt(obj[property]*1000));
+            obj[property] = new Date(obj[property]);
           }
         }
       }
@@ -147,10 +147,11 @@
     // Example uses moment.js to parse and format dates.
     $mdDateLocaleProvider.parseDate = function(dateString) {
       var m = moment(dateString, 'DD/MM/YYYY', true);
-      return m.isValid() ? m.toDate() : new Date(NaN);
+      return m.isValid() ? new Date(dateString) : new Date(NaN);
     };
 
     $mdDateLocaleProvider.formatDate = function(date) {
+      console.log(date);
       var m = moment(date);
       return m.isValid() ? m.format('DD/MM/YYYY') : '';
     };

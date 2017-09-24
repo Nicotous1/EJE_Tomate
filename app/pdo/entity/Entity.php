@@ -290,7 +290,7 @@ use \Exception;
 					
 					case AttSQL::TYPE_DATE:
 						$val = $this->get($attSQL->getAtt());
-						$r[$attSQL->getAtt()] = ($val == null) ? null : $val->getTimestamp();
+						$r[$attSQL->getAtt()] = ($val == null) ? null : $val->format('c');
 						break;
 					case AttSQL::TYPE_DREF:
 						$r[$attSQL->getAtt()] = $this->get_Ids($attSQL->getAtt());
