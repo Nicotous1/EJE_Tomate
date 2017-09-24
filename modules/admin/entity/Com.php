@@ -21,5 +21,11 @@
 		public function var_defaults() {
 			return array("date" => new DateTime());
 		}
+
+		public function toArray() {
+			$a = parent::toArray();
+			$a["author"] = $this->get("author")->toArray();
+			return $a;
+		}
 	}
 ?>
