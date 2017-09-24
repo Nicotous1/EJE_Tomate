@@ -433,9 +433,11 @@
                     <div>Aucun commentaire</div>
                   </md-list-item>
 
-                  <md-list-item ng-repeat="c in coms" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);">
-                    <div style="white-space: pre-line;">{{c.content}}</div>
-                    <div class="md-secondary">{{c.date | date:'yyyy-MM-dd HH:mm'}}</div>
+                  <md-list-item ng-repeat="c in coms" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);" layout="row">
+                    <div class="md-list-item-text" layout="column" flex>
+                      <p style="white-space: pre-line;" flex>{{c.content}}</p>
+                      <p style="text-align: right;" flex>{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à hh:mm'}}</p>
+                    </div>
                   </md-list-item>
 
                 </md-list>
