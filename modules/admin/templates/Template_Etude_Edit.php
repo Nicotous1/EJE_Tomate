@@ -4,7 +4,7 @@
       <md-toolbar>
         <div class="md-toolbar-tools">
           <span><span ng-if="etude.numero">#{{etude.numero}} : </span><span ng-if="etude.pseudo">{{etude.pseudo}}</span></span>
-          <span ng-if="!etude.nom && !etude.pseudo">Nouvelle étude</span>
+          <span ng-if="!etude.id && !etude.pseudo">Nouvelle étude</span>
           <span flex></span>
 
           <md-button class="md-icon-button" ng-if="parent != null" ng-click="redirect(parent.link)">
