@@ -50,8 +50,7 @@
 		public function getN() {
 			if ($this->n < 1 && $this->get("type") !== null) {
 				$c = new DocEtudeController();
-				$n = $c->countOfTypeWithIds($this->get_Ids("etude"), $this->get_Ids("type"));
-				$this->n = $n + 1;
+				$this->n = $c->nextN($this);
 			}
 			return $this->n;
 		}

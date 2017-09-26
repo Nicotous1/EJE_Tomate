@@ -1,6 +1,8 @@
 <?php
 	namespace Admin\Entity;
 	use Core\PDO\PDO;
+	use Core\PDO\Request;
+
 
 	class DocEtudeController {
 
@@ -9,16 +11,11 @@
 			$this->strct = DocEtude::getEntitySQL();
 		}
 
-		public function countOfTypeWithIds($e_id, $t_id) {
-			$type_col = $this->strct->getAtt("type")->getCol();
-			$etude_col = $this->strct->getAtt("etude")->getCol();
-			$table = $this->strct->getTable();
-			
-			$r = $this->pdo->prepare("SELECT COUNT(*) FROM $table WHERE $type_col = :type AND $etude_col = :etude");
-			$r->bindValue(':type', $t_id, PDO::PARAM_INT);
-			$r->bindValue(':etude', $e_id, PDO::PARAM_INT);
-			$res = $r->execute();
-			return (int) $r->fetch(PDO::FETCH_NUM)[0];
+		public function nextN(Docetude $d) {
+			$r = new Request("SELECT MAX(#n) AS n FROM #^ WHERE #type~ AND #etude~", $d);
+			$res = $r->fetch();
+			$n = (int) $res["n"];
+			return $n + 1;
 		}
 
 	}
