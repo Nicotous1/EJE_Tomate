@@ -42,9 +42,10 @@
 
 			
 			//AFFICHAGE
+			$title = ($etude->inBDD()) ? "#" . $etude->get("numero") : "Nouvelle étude";
 			$page = new Page();
 		    $page->addFile(dirname(__FILE__) . "/templates/Template_Etude_Edit.php")
-		    	 ->addVar("HeaderTitre", "Édition")
+		    	 ->addVar("HeaderTitre", $title)
 		    	 ->addVar("etude", $etude)
 		    	 ->addVar("admins", $adminsSecured)
 		    	 ->addVar("entreprises", $es)
