@@ -59,8 +59,8 @@
 		public function home() {
 			//AFFICHAGE
 			$page = new Page();
-		    $page->addFile(dirname(__FILE__) . "/templates/Template_Dashboard.php")
-		    	 ->addVar("HeaderTitre", "Dernières études")
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_Infos.php")
+		    	 ->addVar("HeaderTitre", "Dernières infos")
 		  	;
 		    return $page;
 		}
