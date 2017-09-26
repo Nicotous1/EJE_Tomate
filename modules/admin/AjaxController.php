@@ -8,6 +8,7 @@
 
 	use Admin\Entity\Etude;
 	use Admin\Entity\Com;
+	use Admin\Entity\DocEtude;
 
 	class AjaxController extends Controller {
 
@@ -48,6 +49,18 @@
 			if (!$res) {$this->error("Une erreur s'est produite lors de la sauvegarde votre commentaire.");}
 
 			return $this->success(array("com" => $com));
+		}
+
+/*
+	Fonctions DocEtude
+*/
+
+		public function DeleteDocEtude() {
+			$id = (int) $this->httpRequest->post("id");
+			$d = new DocEtude(array("id" => $id));
+			$res = $this->pdo->remove($d);
+			return ($res) ? $this->success() : $this->error();
+
 		}
 
 	}

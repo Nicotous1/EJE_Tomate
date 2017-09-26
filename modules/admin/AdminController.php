@@ -44,7 +44,7 @@
 			//AFFICHAGE
 			$page = new Page();
 		    $page->addFile(dirname(__FILE__) . "/templates/Template_Etude_Edit.php")
-		    	 ->addVar("HeaderTitre", "Edition")
+		    	 ->addVar("HeaderTitre", "Édition")
 		    	 ->addVar("etude", $etude)
 		    	 ->addVar("admins", $adminsSecured)
 		    	 ->addVar("entreprises", $es)

@@ -217,7 +217,7 @@
                         <textarea ng-model="etude.competences"  rows="4" ng-disabled="etude.locked"></textarea>
                       </md-input-container>
                       <md-input-container  class="md-block flex-gt-sm">
-                        <label>Cahier des charges</label>
+                        <label>(Cahier des charges ) EJE fournira au client les prestations suivantes :</label>
                         <textarea ng-model="etude.specifications"  rows="4" ng-disabled="etude.locked"></textarea>
                       </md-input-container>
                       <md-input-container  class="md-block flex-gt-sm">
@@ -260,7 +260,7 @@
 
 
           <div ng-controller="EtapeEditController">          
-            <md-tab label="Etapes ({{etapes.length}})" ng-disabled="!($parent.etude.id > 0)">
+            <md-tab label="étapes ({{etapes.length}})" ng-disabled="!($parent.etude.id > 0)">
               <md-tab-body>
                 
                 <div layout="row" layout-align="center" style="margin-bottom: 20px;" ng-if="etapes.length == '0'">
@@ -268,7 +268,7 @@
                 </div>
 
                 <md-tabs md-dynamic-height md-border-bottom  md-autoselect md-selected="vm.selectedIndex" ng-if="etapes.length != '0'">
-                  <md-tab label="Etape n°{{etape.n}}" ng-repeat="etape in etapes | orderBy:'n' track by etape.n">
+                  <md-tab label="étape n°{{etape.n}}" ng-repeat="etape in etapes | orderBy:'n' track by etape.n">
                     <md-tab-body>
                       <div class="layout-padding">
 
@@ -357,6 +357,9 @@
                   <md-list-item ng-repeat="d in docs" ng-click="redirect(d.link)">
                     <div>{{d.nom}} <small ng-if="d.ref != false">({{d.ref}})</small></div>         
                     <md-button class="md-icon-button md-secondary" ng-click="redirect(d.link)"><i class="material-icons">file_download</i></md-button>
+<?php if ($user->get("can_delete_doc")) { ?>
+                    <md-button class="md-icon-button md-secondary" ng-click="delete($event, d)"><i class="material-icons">delete</i></md-button>
+<?php } ?>                    
                   </md-list-item>
                 </md-list>
                 <p style="color:red; text-align: center;">{{error}}</p>

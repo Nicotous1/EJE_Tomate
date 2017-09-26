@@ -575,6 +575,25 @@
       }
     };
 
+
+    $scope.delete = function(ev, d) {
+      var confirm = $scope.confirmDialog(ev, "Vous vous apprêtez à supprimer '" + d.nom + "' !", "Confimer la suppresion ?");
+
+      $mdDialog.show(confirm).then(function() {
+        var url = "<?php echo $routeur->getUrlFor("AdminAjaxDeleteDocEtude") ?>";
+        var resHandler = handle_response({
+          success : function(data, msg) {
+            angular.forEach($scope.docs, function(d2,i) {
+              if (d.id == d2.id) {
+                $scope.docs.splice(i, 1);
+              }
+            });
+          },
+        });
+        $http.post(url, d).then(resHandler, resHandler);
+      });
+    }; 
+
   });
 
 

@@ -1,0 +1,1 @@
+ALTER TABLE `etudiant` ADD `can_delete_doc` BOOLEAN NOT NULL DEFAULT FALSE;
