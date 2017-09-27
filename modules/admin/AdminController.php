@@ -57,9 +57,22 @@
 		}
 
 		public function home() {
+			return $this->LastInfos();
+		}
+
+		public function LastInfos() {
 			//AFFICHAGE
 			$page = new Page();
-		    $page->addFile(dirname(__FILE__) . "/templates/Template_Dashboard.php")
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_Infos.php")
+		    	 ->addVar("HeaderTitre", "Dernières infos")
+		  	;
+		    return $page;
+		}
+
+		public function LastEtudes() {
+			//AFFICHAGE
+			$page = new Page();
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_LastEtudes.php")
 		    	 ->addVar("HeaderTitre", "Dernières études")
 		  	;
 		    return $page;

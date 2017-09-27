@@ -18,7 +18,7 @@
       <?php if ($user->isAdmin()) { ?>
         <md-divider></md-divider>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminNew") ?>')">Nouvelle étude</md-list-item>
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminHome") ?>')">Dernières études</md-list-item>
+        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminLastEtudes") ?>')">Dernières études</md-list-item>
 <?php 
       // Beautifull no ?
       $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1^ AND #0.child IS NULL ORDER BY e.#0.numero DESC LIMIT 3", array(Etude::getEntitySQL(), $user));
@@ -29,6 +29,7 @@
 <?php
       }
 ?>        
+        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminLastInfos") ?>')">Dernières infos</md-list-item>
         <md-divider></md-divider>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminQuali") ?>')">Pôle Qualité</md-list-item>
       <?php } ?>

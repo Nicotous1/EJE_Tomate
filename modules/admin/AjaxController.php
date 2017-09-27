@@ -9,6 +9,7 @@
 	use Admin\Entity\Etude;
 	use Admin\Entity\Com;
 	use Admin\Entity\DocEtude;
+	use Admin\Entity\Info;
 
 	class AjaxController extends Controller {
 
@@ -35,6 +36,23 @@
 			return $this->success(array("etudes" => $res, "n" => $n));
 		}
 
+		public function LastInfos() {
+			$page = (int) $this->httpRequest->post("page");
+			$page_size = (int) $this->httpRequest->post("page_size");
+
+			$offset = $page*$page_size; // pas de +1 car commence à zero
+
+			$res = $this->pdo->get("Admin\Entity\Info", array(
+				"TRUE ORDER BY #s.date DESC LIMIT :0 OFFSET :1",
+				array($page_size, $offset)
+			), false);
+
+			$r = new Request("SELECT COUNT(*) AS n FROM #^", Info::getEntitySQL());
+			$n = $r->fetch()["n"];
+
+			return $this->success(array("infos" => $res, "n" => $n));
+		}
+
 
 		public function SaveCom() {
 			$content = $this->httpRequest->post("content");
@@ -47,6 +65,9 @@
 			$com = new Com(array("content" => $content, "etude" => $e));
 			$res = $this->pdo->save($com);
 			if (!$res) {$this->error("Une erreur s'est produite lors de la sauvegarde votre commentaire.");}
+
+			//Info modification
+			$this->pdo->save(new Info(array("etude" => $e, "type" => 2, "com" => $com)));
 
 			return $this->success(array("com" => $com));
 		}
