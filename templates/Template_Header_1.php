@@ -23,7 +23,7 @@
       <!-- Angular Material style sheet -->
 <?php $ressources->css("/angular-material.min")->css("/icon")->css("/lf-ng-md-file-input.min"); ?>
 
-    <title><?php if (isset($HeaderTitre)) { echo $HeaderTitre; }?> | Lucas est un bg</title>
+    <title><?php if (isset($HeaderTitre)) { echo $HeaderTitre; }?> | Ensae Junior Études | Lucas est un BG</title>
 
 <?php
     if (!isset($sheetsCSS)) {$sheetsCSS = array();}

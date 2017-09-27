@@ -54,7 +54,7 @@
            <i class="material-icons">menu</i>
           </md-button>
 <?php } ?> 
-          <a href="<?php echo $routeur->getUrlFor("EdHome"); ?>">Ensae Junior Études - Lucas est un bg</a>
+          <a href="<?php echo $routeur->getUrlFor("EdHome"); ?>">Ensae Junior Études</a>
           <span flex></span>
 <?php if ($firewall->isConnected()) { ?>
           <md-menu>
