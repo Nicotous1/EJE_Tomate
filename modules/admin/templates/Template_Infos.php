@@ -10,8 +10,8 @@
         <md-content>
           <md-list>
             <md-virtual-repeat-container style="height: 70%;" md-auto-shrink>                      
-              <md-list-item class="md-2-line" md-virtual-repeat="infos in dynamicItems" md-on-demand ng-click="redirect()" style="border-bottom: solid 1px rgb(220,220,220);">
-                <div class="md-list-item-text" layout="column">
+              <md-list-item class="md-2-line" md-virtual-repeat="info in dynamicItems" md-on-demand ng-click="redirect_com(info)" style="border-bottom: solid 1px rgb(220,220,220);">
+                <div class="md-list-item-text" layout="column" style="padding-top: 10px;">
                   <p style="color: black;">Nicolas Toussaint a commenté #4456</p>
                   <p style="padding-left: 15px;">foiafjoiezjfoezfezfjjhfzeuhfzhuiehf<br>iojdiuezyrgfheiuzhug</p>
                   <p style="text-align: right;">à 19h45 le 26/07/09</p>
@@ -33,14 +33,9 @@
 
 <script type="text/javascript">
   app.controller("DashboardController", function($scope, $timeout, $http) {
-    $scope.etude_statuts = <?php echo json_encode(Etude::$statutArray); ?>;
 
-    $scope.new = function() {
-      location.href = "<?php echo $routeur->getUrlFor("AdminNew"); ?>";
-    };
-
-    $scope.edit = function(etude) {
-      location.href = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);;
+    $scope.redirect_com = function(info) {
+      location.href = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", info.etude);
     }
 
 
@@ -84,7 +79,7 @@
       // promise. In real code, this function would likely contain an
       // $http request.
       console.log("fetchMoreItems_...");
-      var url = "<?php echo $routeur->getUrlFor("AdminAjaxLastEtudes") ?>";
+      var url = "<?php echo $routeur->getUrlFor("AdminAjaxLastInfos") ?>";
       var c = this;
       this.full_loaded = true;
       var resHandler = handle_response({
@@ -95,7 +90,7 @@
                       c.loadedPages = [];
                     }
 
-                    c.loadedPages[pageNumber] = data.etudes;
+                    c.loadedPages[pageNumber] = data.infos;
                   },
         failed : function(data, msg) {
           //c.full_loaded = true;

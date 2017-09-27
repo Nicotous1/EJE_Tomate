@@ -35,6 +35,23 @@
 			return $this->success(array("etudes" => $res, "n" => $n));
 		}
 
+		public function LastInfos() {
+			$page = (int) $this->httpRequest->post("page");
+			$page_size = (int) $this->httpRequest->post("page_size");
+
+			$offset = $page*$page_size; // pas de +1 car commence à zero
+
+			$res = $this->pdo->get("Admin\Entity\Info", array(
+				"ORDER BY #s.date DESC LIMIT :0 OFFSET :1",
+				array($page_size, $offset)
+			), false);
+
+			$r = new Request("SELECT COUNT(*) AS n FROM #^", Info::getEntitySQL());
+			$n = $r->fetch()["n"];
+
+			return $this->success(array("infos" => $res, "n" => $n));
+		}
+
 
 		public function SaveCom() {
 			$content = $this->httpRequest->post("content");
