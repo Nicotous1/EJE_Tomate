@@ -16,7 +16,7 @@
               <md-list-item class="md-2-line" md-virtual-repeat="info in dynamicItems" md-on-demand ng-click="redirect_com(info)" style="border-bottom: solid 1px rgb(220,220,220);">
                 <div class="md-list-item-text" layout="column">
                   <p style="color: black;">#{{info.etude.numero}} : {{info.author.prenom}} {{info.author.nom}} {{info.type.str_action}}.</p>
-                  <p style="padding-left: 15px;" ng-if="info.details">{{info.details}}</p>
+                  <p style="padding-left: 15px; white-space: pre-line;" ng-if="info.details">{{info.details}}</p>
                   <p style="text-align: right;">{{info.date | date:'à HH:mm le dd/MM/yyyy'}}</p>
                   <div class="md-secondary" style="padding-left: 15px;"><md-icon>{{info.type.icon}}</md-icon></div>
                 </div>
