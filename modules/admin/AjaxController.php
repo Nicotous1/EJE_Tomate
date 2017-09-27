@@ -9,6 +9,7 @@
 	use Admin\Entity\Etude;
 	use Admin\Entity\Com;
 	use Admin\Entity\DocEtude;
+	use Admin\Entity\Info;
 
 	class AjaxController extends Controller {
 
@@ -42,7 +43,7 @@
 			$offset = $page*$page_size; // pas de +1 car commence à zero
 
 			$res = $this->pdo->get("Admin\Entity\Info", array(
-				"ORDER BY #s.date DESC LIMIT :0 OFFSET :1",
+				"TRUE ORDER BY #s.date DESC LIMIT :0 OFFSET :1",
 				array($page_size, $offset)
 			), false);
 
@@ -64,6 +65,9 @@
 			$com = new Com(array("content" => $content, "etude" => $e));
 			$res = $this->pdo->save($com);
 			if (!$res) {$this->error("Une erreur s'est produite lors de la sauvegarde votre commentaire.");}
+
+			//Info modification
+			$this->pdo->save(new Info(array("etude" => $e, "type" => 2, "com" => $com)));
 
 			return $this->success(array("com" => $com));
 		}

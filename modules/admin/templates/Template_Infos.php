@@ -1,6 +1,6 @@
 <?php require("templates/Template_Header.php"); ?>
 
-  <div ng-controller="DashboardController">
+  <div ng-controller="InfosController">
       <div class="md-whiteframe-z2" style="padding: 0; margin-bottom: 20px;">
         <md-toolbar>
           <div class="md-toolbar-tools">
@@ -8,14 +8,17 @@
           </div>
         </md-toolbar>
         <md-content>
-          <md-list>
-            <md-virtual-repeat-container style="height: 70%;" md-auto-shrink>                      
+          <md-list>      
+            <md-list-item ng-if="dynamicItems.getLength() == '0'">
+              <p>On dirait qu'il ne se passe rien dans cette JE.</p>
+            </md-list-item>                
+            <md-virtual-repeat-container style="height: 70%;" md-auto-shrink> 
               <md-list-item class="md-2-line" md-virtual-repeat="info in dynamicItems" md-on-demand ng-click="redirect_com(info)" style="border-bottom: solid 1px rgb(220,220,220);">
-                <div class="md-list-item-text" layout="column" style="padding-top: 10px;">
-                  <p style="color: black;">Nicolas Toussaint a commenté #4456</p>
-                  <p style="padding-left: 15px;">foiafjoiezjfoezfezfjjhfzeuhfzhuiehf<br>iojdiuezyrgfheiuzhug</p>
-                  <p style="text-align: right;">à 19h45 le 26/07/09</p>
-                  <div class="md-secondary" style="padding-left: 15px;"><md-icon>insert_comment</md-icon></div>
+                <div class="md-list-item-text" layout="column">
+                  <p style="color: black;">#{{info.etude.numero}} : {{info.author.prenom}} {{info.author.nom}} {{info.type.str_action}}.</p>
+                  <p style="padding-left: 15px;" ng-if="info.details">{{info.details}}</p>
+                  <p style="text-align: right;">{{info.date | date:'à HH:mm le dd/MM/yyyy'}}</p>
+                  <div class="md-secondary" style="padding-left: 15px;"><md-icon>{{info.type.icon}}</md-icon></div>
                 </div>
               </md-list-item>
             </md-virtual-repeat-container>  
@@ -32,10 +35,10 @@
 ?>
 
 <script type="text/javascript">
-  app.controller("DashboardController", function($scope, $timeout, $http) {
+  app.controller("InfosController", function($scope, $timeout, $http) {
 
     $scope.redirect_com = function(info) {
-      location.href = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", info.etude);
+      location.href = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", info.etude.id);
     }
 
 

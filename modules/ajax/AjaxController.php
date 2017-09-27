@@ -13,6 +13,8 @@
 	use Admin\Entity\DocType;
 	use Admin\Entity\DocTemplate;
 	use Admin\Entity\VarQuali;
+	use Admin\Entity\Info;
+	use Admin\Entity\InfoController;
 
 	require_once("plugins/WordTemplate/loader.php");
 	use WordTemplate\Scope;
@@ -46,6 +48,9 @@
 			$res = $this->pdo->saveAtt("admins",$etude);
 			if(!$res) {return $this->error("Une erreur est arrivée lors de la sauvegarde des administrateurs de l'étude ! Contactez le DSI !");}
 
+			//Info modification
+			$this->pdo->save(new Info(array("etude" => $etude, "type" => 0)));
+
 			return $this->success(array("etude" => $etude));
 		}
 
@@ -69,6 +74,9 @@
 				$etape->optimizeSEtapes();
 				$pdo->saveAtt("sEtapes", $etape, array("save" => true));
 			}
+
+			//Info modification
+			$this->pdo->save(new Info(array("etude" => $etude, "type" => 3)));
 
 			return $this->success(array("etapes" => $etude->get("etapes")));
 		}
@@ -95,6 +103,9 @@
 				$pdo->saveAtt("sEtapes", $etape, array("save" => true));
 			}
 			$pdo->save($e);
+
+			//Info modification
+			$this->pdo->save(new Info(array("type" => 4, "etude" => $copy)));
 
 			return $this->success(array("link" => $this->routeur->getUrlFor("AdminEdit",array("id"=>$copy->getId()))));
 		}
@@ -450,11 +461,16 @@
 			return $this->success(array("template" => $template));
 		}
 
+/*
 
+	A refaire car ne traite aucune erreur !!
+
+*/
 		public function AddDocEtude() {
+			$etude_id = $this->httpRequest->post("etude");
 			$params = array(
 				"type" =>  $this->httpRequest->post("type"),
-				"etude" =>  $this->httpRequest->post("etude"),
+				"etude" =>  $etude_id,
 				"doc" => $_FILES["doc"],
 			);
 
@@ -463,6 +479,9 @@
 			$doc->move();
 			$this->pdo->save($doc);
 			$this->pdo->save($docE);
+
+			//Info
+			$this->pdo->save(new Info(array("type" => 6, "doc" => $docE, "etude" => $etude_id)));
 
 			return $this->success(array("doc" => $docE));
 		}
