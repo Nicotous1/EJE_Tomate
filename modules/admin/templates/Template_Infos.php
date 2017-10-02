@@ -13,7 +13,7 @@
               <p>On dirait qu'il ne se passe rien dans cette JE.</p>
             </md-list-item>                
             <md-virtual-repeat-container style="height: 70%;" md-auto-shrink> 
-              <md-list-item class="md-2-line" md-virtual-repeat="info in dynamicItems" md-on-demand ng-click="redirect_com(info)" style="border-bottom: solid 1px rgb(220,220,220);">
+              <md-list-item class="md-3-line" md-virtual-repeat="info in dynamicItems" md-on-demand ng-click="redirect_com(info)" style="border-bottom: solid 1px rgb(220,220,220);">
                 <div class="md-list-item-text" layout="column">
                   <p style="color: black;">#{{info.etude.numero}} : {{info.author.prenom}} {{info.author.nom}} {{info.type.str_action}}.</p>
                   <p style="padding-left: 15px; white-space: pre-line;" ng-if="info.details">{{info.details}}</p>
