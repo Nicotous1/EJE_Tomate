@@ -52,7 +52,7 @@
     var DynamicItems = function() {
       this.loadedPages = {};
 
-      this.numItems = 0;
+      this.numItems = 1;
 
       this.PAGE_SIZE = 20;
 

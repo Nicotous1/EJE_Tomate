@@ -48,7 +48,7 @@
     var DynamicItems = function() {
       this.loadedPages = {};
 
-      this.numItems = 0;
+      this.numItems = 1;
 
       this.PAGE_SIZE = 20;
 
@@ -65,7 +65,7 @@
       } else if (page !== null) {
         this.fetchPage_(pageNumber);
       }
-      return {numero : "Loading..."};
+      return {etude : {numero : " Loading..."}};
     };
 
     // Required.
