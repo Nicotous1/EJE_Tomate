@@ -2,6 +2,7 @@
 	namespace Ajax;
 	
 	use Core\PDO\EntityPDO;
+	use Core\PDO\Request;
 	use Core\Controller;
 
 	use Admin\Entity\Etude;
@@ -49,7 +50,10 @@
 			if(!$res) {return $this->error("Une erreur est arrivée lors de la sauvegarde des administrateurs de l'étude ! Contactez le DSI !");}
 
 			//Info modification
-			$this->pdo->save(new Info(array("etude" => $etude, "type" => 0)));
+			$info = new Info(array("etude" => $etude, "type" => 0));
+			$r = new Request("DELETE FROM #^ WHERE #etude~ AND #type~", $info); //Remove old info of saving -> prevent spam
+			$r->execute();
+			$this->pdo->save($info);
 
 			return $this->success(array("etude" => $etude));
 		}
