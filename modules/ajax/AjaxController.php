@@ -80,7 +80,10 @@
 			}
 
 			//Info modification
-			$this->pdo->save(new Info(array("etude" => $etude, "type" => 3)));
+			$info = new Info(array("etude" => $etude, "type" => 3));
+			$r = new Request("DELETE FROM #^ WHERE #etude~ AND #type~", $info); //Remove old info of saving -> prevent spam
+			$r->execute();
+			$this->pdo->save($info);
 
 			return $this->success(array("etapes" => $etude->get("etapes")));
 		}
