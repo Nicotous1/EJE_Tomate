@@ -50,7 +50,7 @@
 
       this.numItems = 1;
 
-      this.PAGE_SIZE = 20;
+      this.PAGE_SIZE = 3;
 
       this.fetchPage_(0);
     };
@@ -89,8 +89,8 @@
         success : function(data, msg) {
                     c.numItems = data.n;
                     if (data.n != c.numItems) {
-                      angular.element(window).triggerHandler('resize');  
-                      c.loadedPages = [];
+                      angular.element(window).triggerHandler('resize');
+                      c.loadedPages.length = 0; // Empty array while keeping reference
                     }
 
                     c.loadedPages[pageNumber] = data.infos;

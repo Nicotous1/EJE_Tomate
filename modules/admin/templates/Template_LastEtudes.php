@@ -94,7 +94,7 @@
                     c.numItems = data.n;
                     if (data.n != c.numItems) {
                       angular.element(window).triggerHandler('resize');  
-                      c.loadedPages = [];
+                      c.loadedPages.length = 0; // Empty array while keeping reference
                     }
 
                     c.loadedPages[pageNumber] = data.etudes;
