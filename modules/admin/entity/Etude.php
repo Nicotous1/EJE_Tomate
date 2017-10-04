@@ -31,7 +31,7 @@
 
 		public static $lieuArray = array(
 			array("id" => 1, "short" => "A l'ENSAE", "long" => 
-				"<w:r><w:rPr><w:b/></w:rPr><w:t>ENSAE J</w:t></w:r><w:r><w:rPr><w:b/><w:i/></w:rPr><w:t>unior</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:t xml:space=\hpreserve\h> Études</w:t></w:r>"),
+				"dans les locaux d'ENSAE Junior Études"),
 			array("id" => 2, "short" => "Chez le client", "long" => "chez le client"),
 		);
 
