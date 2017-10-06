@@ -201,28 +201,33 @@
                     <div class="layout-padding">
 
                       <md-input-container  class="md-block flex-gt-sm">
-                        <label>But</label>
-                        <textarea ng-model="etude.but"  rows="4" ng-disabled="etude.locked"></textarea>
-                      </md-input-container>
-                      <md-input-container  class="md-block flex-gt-sm">
-                        <label>L'étude consite en</label>
-                        <textarea ng-model="etude.but_short"  rows="4" ng-disabled="etude.locked" md-maxlength="400"></textarea>
-                      </md-input-container>
-                      <md-input-container  class="md-block flex-gt-sm">
                         <label>Contexte</label>
                         <textarea ng-model="etude.context"  rows="4" ng-disabled="etude.locked"></textarea>
                       </md-input-container>
+
                       <md-input-container  class="md-block flex-gt-sm">
-                        <label>Compétences</label>
-                        <textarea ng-model="etude.competences"  rows="4" ng-disabled="etude.locked"></textarea>
+                        <label>But</label>
+                        <textarea ng-model="etude.but"  rows="4" ng-disabled="etude.locked"></textarea>
                       </md-input-container>
+
                       <md-input-container  class="md-block flex-gt-sm">
                         <label>(Cahier des charges ) EJE fournira au client les prestations suivantes :</label>
                         <textarea ng-model="etude.specifications"  rows="4" ng-disabled="etude.locked"></textarea>
                       </md-input-container>
+                      
                       <md-input-container  class="md-block flex-gt-sm">
                         <label>Base de données</label>
                         <textarea ng-model="etude.bdd"  rows="4" ng-disabled="etude.locked"></textarea>
+                      </md-input-container>
+
+                      <md-input-container  class="md-block flex-gt-sm">
+                        <label>Compétences</label>
+                        <textarea ng-model="etude.competences"  rows="4" ng-disabled="etude.locked"></textarea>
+                      </md-input-container>
+
+                      <md-input-container  class="md-block flex-gt-sm">
+                        <label>L'étude consite en</label>
+                        <textarea ng-model="etude.but_short"  rows="4" ng-disabled="etude.locked" md-maxlength="400"></textarea>
                       </md-input-container>
                     
                     </div>
