@@ -8,13 +8,13 @@
 
 
 		public static $typeArray = array(
-			array("id" => 0, "str_action" => "a modifé les propriétés de l'étude", "icon" => "mode_edit"),
+			array("id" => 0, "str_action" => "a modifé les propriétés", "icon" => "mode_edit"),
 			array("id" => 1, "str_action" => "a crée l'étude", "icon" => "mode_edit"),
-			array("id" => 2, "str_action" => "a commenté l'étude", "icon" => "insert_comment"),
-			array("id" => 3, "str_action" => "a modifié les étapes de l'étude", "icon" => "mode_edit"),
-			array("id" => 4, "str_action" => "a copié l'étude", "icon" => "content_copy"),
+			array("id" => 2, "str_action" => "a commenté", "icon" => "insert_comment"),
+			array("id" => 3, "str_action" => "a modifié les étapes", "icon" => "mode_edit"),
+			array("id" => 4, "str_action" => "a copié", "icon" => "content_copy"),
 			array("id" => 5, "str_action" => "a modifié le client de l'étude", "icon" => "mode_edit"),
-			array("id" => 6, "str_action" => "a ajouté un document à l'étude", "icon" => "picture_as_pdf"),
+			array("id" => 6, "str_action" => "a ajouté un document", "icon" => "picture_as_pdf"),
 		);
 
 		protected static function get_array_EntitySQL() {
