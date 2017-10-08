@@ -12,7 +12,7 @@
 
 		public function __construct($str, Scope $scope) {
 			$this->str = (is_a($str, "WordTemplate\StringPos")) ? $str : new StringPos($str);
-			$this->tags = array("TagShow", "TagRepeat", "TagExtend", "TagIf");
+			$this->tags = array("TagShow", "TagRepeat", "TagExtend", "TagIf", "TagC");
 			$this->scope = $scope;
 		}
 
