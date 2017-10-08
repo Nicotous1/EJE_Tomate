@@ -154,7 +154,7 @@
 			//Handle POST Data
 			//Important to rewrite for security
 			$params = $this->httpRequest->post(array(
-				"id", "nom", "prenom", "annee", "mobile", "fixe", "adresse", "code_postal", "mobile", "ville", "date_birth", "nationality", "secu",
+				"id", "nom", "prenom", "annee", "mobile", "fixe", "adresse", "code_postal", "mobile", "ville", "date_birth", "nationality", "secu", "titre"
 			));
 
 			$user = $this->user;
