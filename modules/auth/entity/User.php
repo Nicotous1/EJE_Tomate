@@ -78,6 +78,11 @@
 			array("id" => 2, "titre" => "Mme", "long" => "Madame"),
 		);
 
+		public function getSexe() {
+			$titre = $this->get("titre");
+			return (is_array($titre)) ? $titre["id"] : 0; //gere le cas du non défini (null)
+		}
+
 		public function isAllowed($level) {
 			return ($this->level >= $level);
 		}
