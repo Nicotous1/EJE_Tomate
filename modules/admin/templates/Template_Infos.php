@@ -50,7 +50,7 @@
 
       this.numItems = 1;
 
-      this.PAGE_SIZE = 3;
+      this.PAGE_SIZE = 20;
 
       this.fetchPage_(0);
     };
