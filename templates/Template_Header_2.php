@@ -19,17 +19,22 @@
         <md-divider></md-divider>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminNew") ?>')">Nouvelle étude</md-list-item>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminLastEtudes") ?>')">Dernières études</md-list-item>
+        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminLastInfos") ?>')">Dernières infos</md-list-item>
 <?php 
       // Beautifull no ?
-      $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1^ AND #0.child IS NULL ORDER BY e.#0.numero DESC LIMIT 3", array(Etude::getEntitySQL(), $user));
+      $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1^ AND #0.child IS NULL AND #0.statut < 5 ORDER BY e.#0.numero DESC LIMIT 5", array(Etude::getEntitySQL(), $user));
       $etudes_shortcut = $r->fetchAll(PDO::FETCH_ASSOC);
+      if (count($etudes_shortcut) > 0) {
+?>
+        <md-divider></md-divider>
+<?php
+      }
       foreach ($etudes_shortcut as $e) {
 ?>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminEdit", array("id" => $e["id"])); ?>')"><?php show("#" . $e["numero"] . " : " . $e["pseudo"]); ?></md-list-item>
 <?php
       }
 ?>        
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminLastInfos") ?>')">Dernières infos</md-list-item>
         <md-divider></md-divider>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminQuali") ?>')">Pôle Qualité</md-list-item>
       <?php } ?>
