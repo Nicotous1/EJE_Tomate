@@ -147,7 +147,7 @@
     // Example uses moment.js to parse and format dates.
     $mdDateLocaleProvider.parseDate = function(dateString) {
       var m = moment(dateString, 'DD/MM/YYYY', true);
-      return m.isValid() ? new Date(dateString) : new Date(NaN);
+      return m.isValid() ? m.toDate() : new Date(NaN);
     };
 
     $mdDateLocaleProvider.formatDate = function(date) {
