@@ -226,7 +226,7 @@
                       </md-input-container>
 
                       <md-input-container  class="md-block flex-gt-sm">
-                        <label>L'étude consite en</label>
+                        <label>L'étude consiste en</label>
                         <textarea ng-model="etude.but_short"  rows="4" ng-disabled="etude.locked" md-maxlength="400"></textarea>
                       </md-input-container>
                     
