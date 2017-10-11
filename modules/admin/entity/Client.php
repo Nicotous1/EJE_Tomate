@@ -9,9 +9,9 @@
 	class Client extends Entity {
 
 		public static $last_contactArray = array(
-			array("id" => 1, "short" => "Email", "long" => "email_l"),
-			array("id" => 2, "short" => "Téléphone", "long" => "tel_l"),
-			array("id" => 3, "short" => "Courrier", "long" => "c_l"),
+			array("id" => 1, "short" => "Email", "long" => "email"),
+			array("id" => 2, "short" => "Téléphone", "long" => "téléphone"),
+			array("id" => 3, "short" => "Courrier", "long" => "courrier"),
 		);
 
 		protected static function get_array_EntitySQL() {
