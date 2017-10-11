@@ -59,6 +59,12 @@
             </md-tab> 
           </div>
 
+          <md-tab label="Doc">
+              <md-tab-body>
+                <a href="https://drive.google.com/file/d/0B_a-YfIKjg5vYU5qZFgyaEVoRm8/" target="_blank">La documentation</a>
+              </md-tab-body>
+          </md-tab>
+
         </md-tabs>
       </md-content>
     </div>
