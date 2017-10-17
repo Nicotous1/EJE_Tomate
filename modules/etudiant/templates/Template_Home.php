@@ -19,6 +19,8 @@
                 <h4>#{{etude.numero}} : {{etude.pub_titre}}</h4>
                 <p ng-if="(etude.statut != '2')">Les candidatures sont terminées.</p>
                 <p style="white-space: pre-line;" ng-if="(etude.statut == '2')">{{etude.pub | cut}}</p>
+                <p ng-if="!etude.w.id && etude.statut == '2'" style="color: red;">Aucune candidature enregistrée.</p>
+                <p ng-if="etude.w.id && etude.statut == '2'" style="color: green;">Votre candidature est en attente.</p>
                 <p ng-if="(etude.w.statut == '1')">Vous allez recevoir un mail avec la réponse de la JE.</p>
                 <p ng-if="(etude.w.statut == '2')">Vous avez été accepté pour effectuer cette étude. Félicitations !</p>
                 <md-button class="md-secondary" ng-click="postuler($event, etude)" ng-if="!(etude.w.statut > '0') && (etude.statut == 2)">{{ !etude.w  ? 'Candidater' : 'Modifier la candidature'}}</md-button>

@@ -27,7 +27,9 @@
 
         
         <p>Vos fichiers doivent être au format PDF.</p>
-        <p ng-if="etude.w.statut == '0'">Votre candidature est en attente.</p>
+        <p ng-if="etude.w.statut == '0'" style="color: green;">Votre candidature est en attente.</p>
+        <p ng-if="!etude.w.id" style="color: red;">Votre candidature est incomplète.</p>
+
 
       </div>
     </md-dialog-content>
