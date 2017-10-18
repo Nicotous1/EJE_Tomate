@@ -15,6 +15,7 @@
 			array("id" => 4, "str_action" => "a copié", "icon" => "content_copy"),
 			array("id" => 5, "str_action" => "a modifié le client de l'étude", "icon" => "mode_edit"),
 			array("id" => 6, "str_action" => "a ajouté un document", "icon" => "picture_as_pdf"),
+			array("id" => 7, "str_action" => "a postulé", "icon" => "contact_mail"),
 		);
 
 		protected static function get_array_EntitySQL() {

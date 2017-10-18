@@ -222,6 +222,12 @@
 					$r = $pdo->save($w);
 					if (!$r) {return $lettre->remove(); $this->error("Nous n'avons pas réussi à enregistrer votre lettre de motivation ! Réessayer plus tard.");}
 
+						//Info modification
+						$info = new Info(array("etude" => $e, "type" => 7));
+						$r = new Request("DELETE FROM #^ WHERE #etude~ AND #type~", $info); //Remove old info of saving -> prevent spam
+						$r->execute();
+						$this->pdo->save($info);	
+
 				} 
 
 				//Ancienne candidature existante
