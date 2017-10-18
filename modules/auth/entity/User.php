@@ -161,5 +161,18 @@
 			unset($r["activation"]);
 			return $r;
 		}
+
+/*
+	Better looking name
+*/
+		public function setNom($str) {
+			$this->nom = ucwords(strtolower($str), " \t\r\n\f\v-");
+			return $this;
+		}
+
+		public function setPrenom($str) {
+			$this->prenom = ucwords(strtolower($str), " \t\r\n\f\v-");
+			return $this;
+		}
 	}
 ?>
