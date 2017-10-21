@@ -238,14 +238,22 @@
       selectedIndex: 0
     };    
 
+    $scope.updateDate = function(etape) {
+      if (etape.date_start > etape.date_end) {
+        etape.date_end = new Date(etape.date_start);
+        etape.date_end.setDate(etape.date_start.getDate()+1);
+      }
+
+    }
+
     $scope.new = function() {
       var etape = handle_date(<?php echo json_encode(new Etape()); ?>);
       if ($scope.etapes.length > 0) {
-        var d =$scope.etapes[$scope.etapes.length-1].date_end.getDate();
-        etape.date_start = new Date();
-        etape.date_start.setDate(d+1);
-        etape.date_end = new Date();
-        etape.date_end.setDate(d+2);
+        var d =$scope.etapes[$scope.etapes.length-1].date_end;
+        etape.date_start = new Date(d);
+        etape.date_start.setDate(d.getDate()+1);
+        etape.date_end = new Date(d);
+        etape.date_end.setDate(d.getDate()+2);
       }
 
       etape.etude = $scope.$parent.etude.id;

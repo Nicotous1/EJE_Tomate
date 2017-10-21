@@ -284,7 +284,7 @@
                           </md-input-container>
                           <md-input-container class="md-block">
                             <label>Date de début</label>
-                            <md-datepicker ng-model="etape.date_start" md-placeholder="Entrez une date :" md-open-on-focus ng-disabled="etude.locked"></md-datepicker>
+                            <md-datepicker ng-model="etape.date_start" ng-change="updateDate(etape)" md-placeholder="Entrez une date :" md-open-on-focus ng-disabled="etude.locked"></md-datepicker>
                           </md-input-container>
                           <md-input-container class="md-block">
                             <label>Date de fin</label>
@@ -339,7 +339,7 @@
                         <div layout="row" ng-repeat="etape in etapes | orderBy:'n' track by etape.n">
                           <md-input-container class="md-block">
                             <label>Date de début</label>
-                            <md-datepicker ng-model="etape.date_start" md-placeholder="Entrez une date :" md-open-on-focus ng-disabled="etude.locked"></md-datepicker>
+                            <md-datepicker ng-model="etape.date_start" ng-change="updateDate(etape)" md-placeholder="Entrez une date :" md-open-on-focus ng-disabled="etude.locked"></md-datepicker>
                           </md-input-container>
                           <md-input-container class="md-block">
                             <label>Date de fin</label>
