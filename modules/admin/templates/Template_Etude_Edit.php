@@ -330,6 +330,26 @@
                       </div>
                     </md-tab-body>
                   </md-tab>
+
+                  <md-tab label="Planning">
+
+                    <md-tab-body>
+                      <div class="layout-padding">
+
+                        <div layout="row" ng-repeat="etape in etapes | orderBy:'n' track by etape.n">
+                          <md-input-container class="md-block">
+                            <label>Date de début</label>
+                            <md-datepicker ng-model="etape.date_start" md-placeholder="Entrez une date :" md-open-on-focus ng-disabled="etude.locked"></md-datepicker>
+                          </md-input-container>
+                          <md-input-container class="md-block">
+                            <label>Date de fin</label>
+                            <md-datepicker ng-model="etape.date_end" md-placeholder="Entrez une date :" md-open-on-focus ng-disabled="etude.locked"></md-datepicker>
+                          </md-input-container>
+                        </div>
+                      </div>
+                    </md-tab-body>                      
+                  </md-tab>
+
                 </md-tabs>
 
                 <div layout="row" layout-align="center" style="margin-bottom: 20px;">
