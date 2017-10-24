@@ -14,7 +14,7 @@
 		private $data;
 
 		private static  $start = array("#", ":"); // Characters that start a tag to analyse
-		private static  $end = array(" ", ",", "=", ")", "(", ";"); // Characters that ends a tag to analyse
+		private static  $end = array(" ", ",", "=", ")", "(", ";", "'", "\""); // Characters that ends a tag to analyse
 
 		public function __construct($str, $data = null, $over = array()) {
 			$this->r = null; // PDOStatement
