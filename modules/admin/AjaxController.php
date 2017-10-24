@@ -42,12 +42,14 @@
 
 			$offset = $page*$page_size; // pas de +1 car commence à zero
 
+			$date_lim = date("Y-m-d", strtotime("-2 weeks"));
+
 			$res = $this->pdo->get("Admin\Entity\Info", array(
-				"TRUE ORDER BY #s.date DESC LIMIT :0 OFFSET :1",
-				array($page_size, $offset)
+				"#s.date > :2 ORDER BY #s.date DESC LIMIT :0 OFFSET :1",
+				array($page_size, $offset, $date_lim)
 			), false);
 
-			$r = new Request("SELECT COUNT(*) AS n FROM #^", Info::getEntitySQL());
+			$r = new Request("SELECT COUNT(*) AS n FROM #^ WHERE #date > '$date_lim'", Info::getEntitySQL());
 			$n = $r->fetch()["n"];
 
 			return $this->success(array("infos" => $res, "n" => $n));
