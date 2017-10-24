@@ -105,7 +105,7 @@
 			return $e;
 		}
 
-		private function dealWithOutput($r, $class) {
+		public function dealWithOutput($r, $class) {
 			$data = (is_array($r)) ?$data :  $r->fetch(PDO::FETCH_ASSOC);
 			
 			if (is_array($data)) {
@@ -116,7 +116,7 @@
 			}
 		}
 
-		private function dealWithOutputs($r, $class) {
+		public function dealWithOutputs($r, $class) {
 			$res = array();
 			while($data = $r->fetch(PDO::FETCH_ASSOC)){
 				$params = $class::getEntitySQL()->convColtoAtt($data);

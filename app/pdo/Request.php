@@ -71,6 +71,10 @@
 			return PDO::getInstance()->lastInsertId();
 		}
 
+		public function rowCount() {
+			return $this->getR()->rowCount();
+		}
+
 
 
 /*

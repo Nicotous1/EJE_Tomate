@@ -95,9 +95,31 @@
 		    return $page;
 		}
 
+		public function Clean() {
+			// This is not clean you should use alias but i'm lazy...
+			$r = new Request("
+				DELETE FROM document WHERE
+					    NOT EXISTS (SELECT 1 FROM doctemplate dt WHERE dt.doc = document.id)
+				    AND NOT EXISTS (SELECT 1 FROM etudiant e WHERE e.cv = document.id)
+				    AND NOT EXISTS (SELECT 1 FROM docetude de WHERE de.doc = document.id)
+				    AND NOT EXISTS (SELECT 1 FROM work_request w WHERE w.lettre = document.id)
+    		");
+			$r->execute();
+
+    		$n = $r->rowCount();
+    		echo "$n documents inutiles ont été suprimés.<br>";
+
+			$docs = $this->pdo->get("Admin\Entity\Document", null, false);
+			foreach ($docs as $i => $doc) {
+				if ($doc->exists()) {unset($docs[$i]);}
+			}
+			var_dump($docs);
+		}
+
 		public function test() {
 			$e = $this->pdo->get("Etude", 76);
 			var_dump($e->get("admins"));
 		}
+
 	}
 ?>
