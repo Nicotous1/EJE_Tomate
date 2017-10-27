@@ -25,7 +25,7 @@
 			//AFFICHAGE
 			$page = new Page();
 		    $page->addFile(dirname(__FILE__) . "/templates/Template_Home.php")
-		    	 ->addVar("HeaderTitre", "Candiater")
+		    	 ->addVar("HeaderTitre", "Candidater")
 		    	 ->addVar("etudes", $etudePostulable) //REND TOUT PUBLIC A MODIFIER PLUS TARD
 		   	;
 		    return $page;
