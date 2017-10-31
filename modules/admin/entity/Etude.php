@@ -27,6 +27,7 @@
 			array("id" => 4, "name" => "En cours"),
 			array("id" => 5, "name" => "Cloturée"),
 			array("id" => 6, "name" => "Morte"),
+			array("id" => 7, "name" => "À auditer"),
 		);
 
 		public static $lieuArray = array(
