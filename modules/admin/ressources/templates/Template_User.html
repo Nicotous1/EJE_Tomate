@@ -1,0 +1,43 @@
+<md-dialog aria-label="{{e.nom}} {{e.prenom}}">
+  <form ng-cloak ng-submit="save()" >
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2><span ng-if="!(e.nom || e.id)">Nouvelle entreprise</span><span ng-if="(e.nom || e.id)">{{e.nom}}</span></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row">
+          <md-input-container class="md-block flex">
+            <label>Nom</label>
+            <input type="text" ng-model="e.nom" md-maxlength="130" required>
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-input-container class="md-block flex">
+            <label>Type</label>
+            <input type="text" ng-model="e.type" md-maxlength="30" required>
+          </md-input-container>
+          <md-input-container class="md-block flex">
+            <label>Secteur</label>
+            <input type="text" ng-model="e.secteur" md-maxlength="30" required>
+          </md-input-container>
+        </div>
+        <md-input-container  class="md-block flex-gt-sm">
+          <label>Présentation</label>
+          <textarea ng-model="e.presentation"  rows="4"></textarea>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="close()">Annuler</md-button>
+      <span flex></span>
+      <md-button type="submit" ng-disabled="sending">{{sending ? 'Sauvegarde en cours...' : 'Sauvegarder'}}</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
