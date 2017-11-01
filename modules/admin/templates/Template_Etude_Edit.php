@@ -400,7 +400,7 @@
 
 
           <div ng-controller="EtudiantController">
-            <md-tab label="Intervenants ({{(work_requests).length}})"  ng-disabled="!($parent.etude.id > 0)" ng-if="etude.statut >= 2">
+            <md-tab label="Intervenants ({{(work_requests).length}})"  ng-disabled="!($parent.etude.id > 0)" ng-if="etude.statut >= 2" md-active="true">
               <md-tab-body>
                 <md-list-item ng-if="work_requests.length == '0'">
                   <p>Aucune candidature reçu pour le moment.</p>
@@ -427,6 +427,7 @@
                     <md-list-item ng-repeat="w in work_requests | filter:{statut : 2}" class="md-padding">
                       <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}})</div>
                       <div class="md-secondary">                
+                        <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
                         <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Supprimer l'intervenant</md-tooltip><i class="material-icons">clear</i></md-button>
                       </div>

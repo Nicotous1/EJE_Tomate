@@ -221,6 +221,38 @@
     $scope.openZipUrl = function(w) {
       document.location = w.zip_url;
     }
+
+
+    $scope.editUser = $scope.modal_edit_handler({
+      templateUrl : "<?php echo $ressources->html_url("admin/Template_User"); ?>",
+
+      initHandler : function(e) {
+        handle_date(e);
+      },
+
+      resultHandler : function(e) {
+        add_entity(e, $scope.formEtude.entreprises);
+        $scope.etude.entreprise = e.id;
+      },
+
+      handle_e : function(e) {
+        console.log(e);
+        return e;
+      },
+      
+      saveHandler : function($scope) {
+        $scope.sending = true;
+        var resHandler = handle_response({
+          success : function(data, msg) {
+                      $mdDialog.hide(data.entreprise);
+                    },
+          all : function(data, msg) {$scope.sending = false;}, 
+        });
+        $http.post("<?php echo $routeur->getUrlFor("AjaxSaveEntreprise") ?>", $scope.e).then(resHandler, resHandler);   
+      },
+    });
+
+
   });
 
 
