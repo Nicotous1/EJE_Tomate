@@ -16,6 +16,7 @@
 	use Admin\Entity\VarQuali;
 	use Admin\Entity\Info;
 	use Admin\Entity\InfoController;
+	use Auth\Entity\User;
 
 	require_once("plugins/WordTemplate/loader.php");
 	use WordTemplate\Scope;
@@ -152,12 +153,19 @@
 
 		public function SaveUser() {
 			//Handle POST Data
-			//Important to rewrite for security
 			$params = $this->httpRequest->post(array(
-				"id", "nom", "prenom", "annee", "mobile", "fixe", "adresse", "code_postal", "mobile", "ville", "date_birth", "nationality", "secu", "titre"
+				"nom", "prenom", "annee", "mobile", "fixe", "adresse", "code_postal", "mobile", "ville", "date_birth", "nationality", "secu", "titre"
 			));
 
-			$user = $this->user;
+			// Get the user to edit
+			if ($this->user->get("level") >= 2) {
+				$id = $this->httpRequest->post("id");
+				$user = $this->pdo->get("Auth\Entity\User", $id);
+			} else {
+				$user = $this->user; //Standard User can only edit themselves !
+			}
+			if ($user == null) {return $this->error("Cette utilisateur n'existe plus !");} 
+
 			$user->set_Array($params);
 			if(!$user->isValid()) {return $this->error("Le formulaire n'est pas valide !");}
 			

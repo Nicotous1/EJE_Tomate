@@ -191,8 +191,8 @@
         var resHandler = handle_response({
           success : function(data, msg) {
               console.log($scope.etude_etudiants);
-              $scope.etude_etudiants.length = 0;
 
+              $scope.etude_etudiants.length = 0;
               [].push.apply($scope.etude_etudiants, data.eds);
               add_entity(data.w, $scope.work_requests);
 
@@ -221,6 +221,56 @@
     $scope.openZipUrl = function(w) {
       document.location = w.zip_url;
     }
+
+    // Modal to see user
+    $scope.editUser = function(ev , user) {  
+      var e = jQuery.extend({}, user);
+      var parentEl = angular.element(document.body);
+      $mdDialog.show({
+        parent: parentEl,
+        targetEvent: ev,
+        templateUrl: "<?php echo $ressources->html_url("admin/Template_User"); ?>",
+        controller: EditModalController,
+        locals : {e : e, main : $scope},
+      });
+
+      function EditModalController(e, main, $scope, $mdDialog, $http) {
+        $scope.e = handle_date(e);
+        $scope.main = main;
+        $scope.formEtudiant = {
+         annees : <?php echo json_encode(User::$anneeArray); ?>,
+         titres : <?php echo json_encode(User::$titreArray); ?>,
+        };    
+        $scope.sending = false;
+
+        $scope.close = function() {
+          $mdDialog.hide();
+        }
+
+        $scope.save = function() {  
+          console.log("posting entity....");
+          console.log($scope.e);
+          $scope.sending = true;
+
+          var resHandler = handle_response({
+            success : function(data, msg) {
+                        jQuery.extend(user, $scope.e);
+                        $mdDialog.hide();
+                      },
+            all : function(data, msg) {
+                    $scope.sending = false;
+                  }, 
+          });
+          $http.post("<?php echo $routeur->getUrlFor("AjaxSaveUser") ?>", $scope.e).then(resHandler, resHandler);
+
+
+
+        }
+      }
+
+    }
+
+
   });
 
 
