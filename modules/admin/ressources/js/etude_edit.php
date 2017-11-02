@@ -191,8 +191,8 @@
         var resHandler = handle_response({
           success : function(data, msg) {
               console.log($scope.etude_etudiants);
-              $scope.etude_etudiants.length = 0;
 
+              $scope.etude_etudiants.length = 0;
               [].push.apply($scope.etude_etudiants, data.eds);
               add_entity(data.w, $scope.work_requests);
 
@@ -222,35 +222,53 @@
       document.location = w.zip_url;
     }
 
+    // Modal to see user
+    $scope.editUser = function(ev , user) {  
+      var e = jQuery.extend({}, user);
+      var parentEl = angular.element(document.body);
+      $mdDialog.show({
+        parent: parentEl,
+        targetEvent: ev,
+        templateUrl: "<?php echo $ressources->html_url("admin/Template_User"); ?>",
+        controller: EditModalController,
+        locals : {e : e, main : $scope},
+      });
 
-    $scope.editUser = $scope.modal_edit_handler({
-      templateUrl : "<?php echo $ressources->html_url("admin/Template_User"); ?>",
+      function EditModalController(e, main, $scope, $mdDialog, $http) {
+        $scope.e = handle_date(e);
+        $scope.main = main;
+        $scope.formEtudiant = {
+         annees : <?php echo json_encode(User::$anneeArray); ?>,
+         titres : <?php echo json_encode(User::$titreArray); ?>,
+        };    
+        $scope.sending = false;
 
-      initHandler : function(e) {
-        handle_date(e);
-      },
+        $scope.close = function() {
+          $mdDialog.hide();
+        }
 
-      resultHandler : function(e) {
-        add_entity(e, $scope.formEtude.entreprises);
-        $scope.etude.entreprise = e.id;
-      },
+        $scope.save = function() {  
+          console.log("posting entity....");
+          console.log($scope.e);
+          $scope.sending = true;
 
-      handle_e : function(e) {
-        console.log(e);
-        return e;
-      },
-      
-      saveHandler : function($scope) {
-        $scope.sending = true;
-        var resHandler = handle_response({
-          success : function(data, msg) {
-                      $mdDialog.hide(data.entreprise);
-                    },
-          all : function(data, msg) {$scope.sending = false;}, 
-        });
-        $http.post("<?php echo $routeur->getUrlFor("AjaxSaveEntreprise") ?>", $scope.e).then(resHandler, resHandler);   
-      },
-    });
+          var resHandler = handle_response({
+            success : function(data, msg) {
+                        jQuery.extend(user, $scope.e);
+                        $mdDialog.hide();
+                      },
+            all : function(data, msg) {
+                    $scope.sending = false;
+                  }, 
+          });
+          $http.post("<?php echo $routeur->getUrlFor("AjaxSaveUser") ?>", $scope.e).then(resHandler, resHandler);
+
+
+
+        }
+      }
+
+    }
 
 
   });
