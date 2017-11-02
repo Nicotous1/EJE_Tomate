@@ -18,7 +18,11 @@
 			$var_name = $parts[0]->content();
 			$value = $scope->get($var_name);
 			if (is_a($value, "\DateTime")) {$value = date_french($value->format("j F o"));}
-			if (is_array($value)) {throw new Exception("'$var_name' est un tableau et ne peut donc pas être affichée directement !", 1);}
+			if (is_array($value)) {
+				if (isset($value["long"])) {
+					$value = $value["long"];
+				} else {throw new Exception("'$var_name' est un tableau et ne peut donc pas être affichée directement !", 1);}
+			}
 			if ($value != null && !is_scalar($value)) {throw new Exception("'$var_name' ne peut être affichée directement (". get_class($value) .") !", 1);}
 			$format = (isset($parts[1])) ? $parts[1]->content() : null;
 
