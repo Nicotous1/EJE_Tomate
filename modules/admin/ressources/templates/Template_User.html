@@ -2,7 +2,7 @@
 
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2><span ng-if="!(e.nom || e.id)">Nouvelle entreprise</span><span ng-if="(e.nom || e.id)">{{e.nom}} {{e.prenom}}</span></h2>
+        <h2><span ng-if="!(e.nom || e.prenom)">Profil de l'intervenant</span><span ng-if="(e.nom || e.id)">{{e.prenom}} {{e.nom}}</span></h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="close()"><i class="material-icons">close</i></md-button>
       </div>
