@@ -200,6 +200,11 @@
                   <md-tab-body>
                     <div class="layout-padding">
 
+                      <md-input-container  class="md-block flex-gt-sm" ng-if="parent != null">
+                        <label>Raison de l'avenant</label>
+                        <textarea ng-model="etude.avn_motif"  rows="4" ng-disabled="etude.locked"></textarea>
+                      </md-input-container>
+
                       <md-input-container  class="md-block flex-gt-sm">
                         <label>Contexte</label>
                         <textarea ng-model="etude.context"  rows="4" ng-disabled="etude.locked"></textarea>

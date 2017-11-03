@@ -52,6 +52,7 @@
 					array("att" => "domaines", "type" => AttSQL::TYPE_STR),
 					array("att" => "pub", "type" => AttSQL::TYPE_STR),
 					array("att" => "pub_titre", "type" => AttSQL::TYPE_STR),
+					array("att" => "avn_motif", "type" => AttSQL::TYPE_STR),
 					array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
 					array("att" => "date_modified", "type" => AttSQL::TYPE_DATE),
 					array("att" => "date_end_recrute", "type" => AttSQL::TYPE_DATE),
