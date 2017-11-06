@@ -1,4 +1,4 @@
-<md-dialog aria-label="Nouvelle entreprise">
+<md-dialog aria-label="Nouvelle entreprise" style="min-width: 500px">
   <form ng-cloak ng-submit="save()" >
 
     <md-toolbar>
@@ -18,13 +18,15 @@
           </md-input-container>
         </div>
         <div layout="row">
-          <md-input-container class="md-block flex">
-            <label>Type</label>
-            <input type="text" ng-model="e.type" md-maxlength="30" required>
-          </md-input-container>
-          <md-input-container class="md-block flex">
-            <label>Secteur</label>
-            <input type="text" ng-model="e.secteur" md-maxlength="30" required>
+          <md-input-container  class="md-block flex">
+            <md-select ng-model="e.type" placeholder="Type" required>  
+                <md-option ng-value="t.id" ng-repeat="t in p.types track by t.id">{{t.name}}</md-option>
+            </md-select>
+          </md-input-container>  
+          <md-input-container  class="md-block flex">
+            <md-select ng-model="e.secteur" placeholder="Secteur" required>  
+                <md-option ng-value="t.id" ng-repeat="t in p.secteurs track by t.id">{{t.name}}</md-option>
+            </md-select>
           </md-input-container>
         </div>
         <md-input-container  class="md-block flex-gt-sm">

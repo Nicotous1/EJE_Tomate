@@ -3,6 +3,7 @@
   use Admin\Entity\Client; 
   use Admin\Entity\Etape; 
   use Admin\Entity\sEtape; 
+  use Admin\Entity\Entreprise; 
   use Auth\Entity\User; 
 ?>
 
@@ -106,6 +107,10 @@
 
     $scope.editEntreprise = $scope.modal_edit_handler({
       templateUrl : "<?php echo $ressources->html_url("admin/Template_Entreprise_New"); ?>",
+      locals : {
+        types : <?php echo json_encode(Entreprise::$typesArray); ?>,
+        secteurs : <?php echo json_encode(Entreprise::$secteursArray); ?>,
+      },
 
       resultHandler : function(e) {
         add_entity(e, $scope.formEtude.entreprises);
