@@ -12,6 +12,23 @@
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom >
 
+          <div ng-controller="EtudesController">
+            <md-tab label="À auditer">
+              <md-tab-body>
+                <md-list-item ng-if="etudes.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien a qualifier !</p></md-list-item>
+                <md-list style="padding: 0;">
+                  <md-list-item class="md-2-line" ng-repeat="etude in etudes" md-on-demand ng-click="edit(etude)">
+                    <div class="md-list-item-text" layout="column">
+                      <h4><span style="font-weight: bold;">#{{etude.numero}}</span> : {{etude.pseudo}} ({{etude_statuts[etude.statut].name}})</h4>
+                      <p style="white-space: pre-line;">{{etude.but | cut}}</p>
+                      <md-button class="md-icon-button md-secondary"><i class="material-icons">mode_edit</i></md-button>
+                    </div>
+                  </md-list-item>
+                </md-list>
+              </md-tab-body>
+            </md-tab> 
+          </div>
+
           <div ng-controller="TemplatesController" ng-if="doctypes.length > 0">
             <md-tab label="Templates">
               <md-tab-body>

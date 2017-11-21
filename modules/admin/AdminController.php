@@ -83,6 +83,10 @@
 			$ds = $pdo->get("Admin\Entity\DocType", null, false);
 			$ts = $pdo->get("Admin\Entity\DocTemplate", null, false);
 			$vs = $pdo->get("Admin\Entity\VarQuali", null, false);
+			$es = $pdo->get("Admin\Entity\Etude", array(
+				"#statut = 7",
+				Etude::getEntitySQL()
+			), false);
 
 			//AFFICHAGE
 			$page = new Page();
@@ -91,6 +95,7 @@
 		    	 ->addVar("doc_types", $ds)
 		    	 ->addVar("templates", $ts)
 		    	 ->addVar("vars_quali", $vs)
+		    	 ->addVar("etudes", $es)
 		  	;
 		    return $page;
 		}
