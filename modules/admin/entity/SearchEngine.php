@@ -15,7 +15,7 @@
 			foreach ($es as $e) {
 				if ($e == "") {continue;}
 				$e = "%" . $e . "%";
-				$r = new Request("SELECT id FROM #0.^ WHERE #0.child IS NULL AND (#0.numero LIKE :1 OR LOWER(#0.nom) LIKE :1 OR LOWER(#0.pseudo) LIKE :1)", array(Etude::getEntitySQL(), $e));
+				$r = new Request("SELECT id FROM #0.^ WHERE #0.child IS NULL AND (#0.numero LIKE :1 OR LOWER(#0.pseudo) LIKE :1)", array(Etude::getEntitySQL(), $e));
 				foreach ($r->fetchAll() as $res) {
 					$id = $res["id"];
 					if (!isset($sum_up[$id])) {$sum_up[$id] = 0;}
