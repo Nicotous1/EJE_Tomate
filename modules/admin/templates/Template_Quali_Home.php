@@ -15,7 +15,7 @@
           <div ng-controller="EtudesController">
             <md-tab label="À auditer">
               <md-tab-body>
-                <md-list-item ng-if="etudes.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien a qualifier !</p></md-list-item>
+                <md-list-item ng-if="etudes.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à auditer !</p></md-list-item>
                 <md-list style="padding: 0;">
                   <md-list-item class="md-2-line" ng-repeat="etude in etudes" md-on-demand ng-click="edit(etude)">
                     <div class="md-list-item-text" layout="column">
