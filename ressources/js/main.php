@@ -1,3 +1,7 @@
+<?php
+  use Core\Routeur;
+?>
+
 <script type="text/javascript">
 
     /**
@@ -72,8 +76,6 @@
           }
         }
       }
-
-
     });
 
   function handle_response(p) {
@@ -172,4 +174,33 @@
             return str;
         };
     });
+
+
+
+
+/* SEARCH BAR */
+    app.controller('SearchBar', function($scope, $q, $http) {
+      $scope.querySearch = function(search) {
+        deferred = $q.defer();
+
+        var resHandler = handle_response({
+          success : function(data, msg) {
+            deferred.resolve(data.items);
+          },
+          failed : function(data, msg) {
+            deferred.resolve([]);
+          }
+        });
+        var url = "<?php echo Routeur::getInstance()->getUrlFor("AdminAjaxSearch") ?>";
+        $http.post(url, {search : search}).then(resHandler, resHandler);
+ 
+        return deferred.promise;
+      }
+
+      $scope.load = function(item) {
+        location.href = "<?php echo Routeur::getInstance()->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", item.id);;
+      }
+    });
+
+
 </script>

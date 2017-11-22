@@ -10,6 +10,7 @@
 	use Admin\Entity\Com;
 	use Admin\Entity\DocEtude;
 	use Admin\Entity\Info;
+	use Admin\Entity\SearchEngine;
 
 	class AjaxController extends Controller {
 
@@ -84,6 +85,14 @@
 			$res = $this->pdo->remove($d);
 			return ($res) ? $this->success() : $this->error();
 
+		}
+
+
+		public function Search() {
+			$search = $this->httpRequest->post("search");
+			$s = new SearchEngine();
+			$res = $s->search($search);
+			return $this->success(array("items" => $res));
 		}
 
 	}

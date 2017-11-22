@@ -62,14 +62,25 @@
           <a href="<?php echo $routeur->getUrlFor("EdHome"); ?>">Ensae Junior Études</a>
           <span flex></span>
 <?php if ($firewall->isConnected()) { ?>
-          <md-menu>
-           <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open sample menu">
-            <i class="material-icons">account_circle</i>
-           </md-button>
-           <md-menu-content>
-             <md-menu-item ng-click="signOut()"><md-button>Se déconnecter</md-button></md-menu-item>
-           </md-menu-content>
-          </md-menu>
+        <div ng-controller="SearchBar" flex="40">
+  
+          <md-autocomplete
+              md-search-text="searchText"
+              md-items="item in querySearch(searchText)"
+              md-item-text="item.numero"
+              md-min-length="1"
+              md-selected-item-change="load(item)"
+              placeholder="Chercher">
+            <md-item-template>
+              <span class="item-title">
+                <span>#{{item.numero}} : {{item.pseudo}}</span>
+              </span>
+            </md-item-template>
+            <md-not-found>
+              Tomate n'a pu trouver de résultat !
+            </md-not-found>
+          </md-autocomplete>
+        </div>
 <?php } ?>          
         </div>
       </md-toolbar>
