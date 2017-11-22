@@ -8,9 +8,14 @@
 
 	class SearchEngine {
 
-		public function search($txt, $n_res = 6) {
+		private function explode($txt) {
 			$txt = strtolower(trim($txt));
-			$es = explode(" ", $txt);
+			$txt = str_replace("#", "", $txt);
+			return array_slice(explode(" ", $txt), 0, 3);
+		}
+
+		public function search($txt, $n_res = 6) {
+			$es = $this->explode($txt);
 			$sum_up = array();
 			foreach ($es as $e) {
 				if ($e == "") {continue;}
