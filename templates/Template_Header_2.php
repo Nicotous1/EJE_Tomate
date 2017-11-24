@@ -61,7 +61,7 @@
 <?php } ?> 
           <a href="<?php echo $routeur->getUrlFor("EdHome"); ?>">Ensae Junior Études</a>
           <span flex></span>
-<?php if ($firewall->isConnected()) { ?>
+<?php if ($firewall->isConnected() && $user->get("level") >= 2) { ?>
         <div ng-controller="SearchBar" flex="40">
   
           <md-autocomplete
