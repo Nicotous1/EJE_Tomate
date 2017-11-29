@@ -17,6 +17,7 @@
 
 		public function get($ref) {
 			$ref_str = str_replace(' ', '', $ref); //Clean space
+			$ref_str = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $ref_str);
 
 			
 			$ref = explode(".", $ref_str);
