@@ -261,6 +261,21 @@
 
 
 
+                <md-tab label="Notes" ng-disabled="">
+                  <md-tab-body>
+                    <div class="layout-padding">
+
+                      <md-input-container  class="md-block flex-gt-sm">
+                        <label>Notes diverses</label>
+                        <textarea ng-model="etude.notes"  rows="15" ng-disabled="etude.locked"></textarea>
+                      </md-input-container>
+
+                    </div>
+                  </md-tab-body>
+                </md-tab>
+
+
+
               </md-tabs>
               <div layout="row" layout-align="center" style="margin-bottom: 20px;">
                 <md-button ng-click="save()" class="md-accent md-raised" ng-if="!etude.locked" ng-disabled="sending">{{sending ? 'Sauvegarde en cours...' : 'Sauvegarder'}}</md-button>   

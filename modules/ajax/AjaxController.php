@@ -39,7 +39,7 @@
 			$params = $this->httpRequest->post(array(
 				"id", "nom", "pseudo", "but", "competences", "bdd", "specifications", "p_jeh", "context", "domaines", "provenance",
 				"lieu", "statut", "fee", "break_jeh", "break_fee", "locked", "child", "pub", "pub_titre", "client", "facturation",
-				"signataire","entreprise","numero", "admins", "per_rem", "but_short", "avn_motif",
+				"signataire","entreprise","numero", "admins", "per_rem", "but_short", "avn_motif", "notes",
 			));
 
 			$etude = new Etude($params);

@@ -47,6 +47,7 @@
 					array("att" => "specifications", "type" => AttSQL::TYPE_STR),
 					array("att" => "but", "type" => AttSQL::TYPE_STR),
 					array("att" => "but_short", "type" => AttSQL::TYPE_STR),
+					array("att" => "notes", "type" => AttSQL::TYPE_STR),
 					array("att" => "competences", "type" => AttSQL::TYPE_STR),
 					array("att" => "context", "type" => AttSQL::TYPE_STR),
 					array("att" => "domaines", "type" => AttSQL::TYPE_STR),
