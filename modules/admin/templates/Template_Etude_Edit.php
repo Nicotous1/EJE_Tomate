@@ -4,7 +4,7 @@
       <md-toolbar>
         <div class="md-toolbar-tools">
           <span><span ng-if="etude.numero">#{{etude.numero}} : </span><span ng-if="etude.pseudo">{{etude.pseudo}}</span></span>
-          <span ng-if="!etude.id && !etude.pseudo">Nouvelle étude</span>
+          <span ng-if="!etude.id && !etude.pseudo && !etude.numero">Nouvelle étude</span>
           <span flex></span>
 
           <md-button class="md-icon-button" ng-if="parent != null" ng-click="redirect(parent.link)">
@@ -241,16 +241,16 @@
 
 
 
-                <md-tab label="Recrutement">
+                <md-tab label="Recrutement" ng-disabled="!etude.numero">
                   <md-tab-body>
                     <div class="layout-padding">
 
                       <md-input-container class="md-block flex">
-                        <label>Nom</label>
+                        <label>#{{etude.numero}} :</label>
                         <input type="text" ng-model="etude.pub_titre" md-maxlength="50" ng-disabled="etude.locked">
                       </md-input-container>
                       <md-input-container  class="md-block flex-gt-sm">
-                        <label>Pub</label>
+                        <label>Description</label>
                         <textarea ng-model="etude.pub"  rows="4"  md-maxlength="200" ng-disabled="etude.locked"></textarea>
                       </md-input-container>
                     
