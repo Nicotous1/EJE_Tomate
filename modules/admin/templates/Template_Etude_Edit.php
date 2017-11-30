@@ -11,11 +11,11 @@
             <md-icon>arrow_back</md-icon>
           </md-button>
 
-          <md-button class="md-icon-button" ng-if="child != null" ng-click="redirect(child.link)">
+          <md-button class="md-icon-button" ng-if="etude.child != null" ng-click="redirect(child.link)">
             <md-icon>arrow_forward</md-icon>
           </md-button>
 
-          <md-button class="md-icon-button" ng-if="etude.locked && !child" ng-click="copy($event)">
+          <md-button class="md-icon-button" ng-if="etude.locked && !etude.child" ng-click="copy($event)">
             <md-icon>content_copy</md-icon>
           </md-button> 
 

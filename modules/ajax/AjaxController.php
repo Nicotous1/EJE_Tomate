@@ -96,25 +96,33 @@
 			$id = $this->httpRequest->post("id");
 			$pdo = new EntityPDO();
 			$e = $pdo->get("Admin\Entity\Etude", $id);
-			$copy = $e->infant();
+			$child = $e->get("child");
 
-			$pdo = new EntityPDO();
-			$pdo->save($copy);
-			$pdo->saveAtt("admins", $copy);
-			$pdo->saveAtt("docs", $copy, array("save" => true));
-			$pdo->saveAtt("etapes", $copy, array("save" => true));
-			$pdo->saveAtt("work_requests", $copy);
+			// Check that there is no already existing copy !
+			if ($child == null) {
+				$copy = $e->infant();
 
-			$pdo->saveAtt("work_requests", $e, array("save" => true));
+				$pdo = new EntityPDO();
+				$pdo->save($copy);
+				$pdo->saveAtt("admins", $copy);
+				$pdo->saveAtt("docs", $copy, array("save" => true));
+				$pdo->saveAtt("etapes", $copy, array("save" => true));
+				$pdo->saveAtt("work_requests", $copy);
 
-			$etapes = $copy->get("etapes");
-			foreach ($etapes as $i => $etape) {
-				$pdo->saveAtt("sEtapes", $etape, array("save" => true));
+				$pdo->saveAtt("work_requests", $e, array("save" => true));
+
+				$etapes = $copy->get("etapes");
+				foreach ($etapes as $i => $etape) {
+					$pdo->saveAtt("sEtapes", $etape, array("save" => true));
+				}
+				$pdo->save($e);
+
+				//Info modification
+				$this->pdo->save(new Info(array("type" => 4, "etude" => $copy)));
+			} else {
+				$copy = $child;
 			}
-			$pdo->save($e);
 
-			//Info modification
-			$this->pdo->save(new Info(array("type" => 4, "etude" => $copy)));
 
 			return $this->success(array("link" => $this->routeur->getUrlFor("AdminEdit",array("id"=>$copy->getId()))));
 		}
