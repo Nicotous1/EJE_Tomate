@@ -153,13 +153,9 @@
 
 				// Find if there is a prefix -> only for # (no need for variable value ;)
 				// Find the start of the prefix by finding a end character before the start_character (mult_pre) (often it will be blank)
-				$start_character = substr($str, $a, 1); 
-				if ($start_character == ":") {
-					$end_pos = $this->mult_pre($str, $this::$end, $a);
-					$a_p = ($end_pos === False) ? $a : $end_pos + 1; // +1 because for example the white space isn't in the tag
-				} else {
-					$a_p = $a;
-				}
+				$end_pos = $this->mult_pre($str, $this::$end, $a);
+				$a_p = ($end_pos === False) ? $a : $end_pos + 1; // +1 because for example the white space isn't in the tag
+
 				$prefix = substr($str, $a_p, $a - $a_p);
 
 				// Convert the tag
