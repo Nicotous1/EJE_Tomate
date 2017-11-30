@@ -15,7 +15,7 @@
             <md-icon>arrow_forward</md-icon>
           </md-button>
 
-          <md-button class="md-icon-button" ng-if="etude.locked && child == null" ng-click="copy($event)">
+          <md-button class="md-icon-button" ng-if="etude.locked && !child" ng-click="copy($event)">
             <md-icon>content_copy</md-icon>
           </md-button> 
 
