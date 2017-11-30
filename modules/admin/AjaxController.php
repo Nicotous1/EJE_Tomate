@@ -46,8 +46,8 @@
 			$date_lim = date("Y-m-d", strtotime("-2 weeks"));
 
 			$res = $this->pdo->get("Admin\Entity\Info", array(
-				"#s.date > :2 ORDER BY #s.date DESC LIMIT :0 OFFSET :1",
-				array($page_size, $offset, $date_lim)
+				"#s.date > :2 AND #s.author != :3.id ORDER BY #s.date DESC LIMIT :0 OFFSET :1",
+				array($page_size, $offset, $date_lim, $this->user)
 			), false);
 
 			$r = new Request("SELECT COUNT(*) AS n FROM #^ WHERE #date > '$date_lim'", Info::getEntitySQL());
