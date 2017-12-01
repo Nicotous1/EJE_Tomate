@@ -479,18 +479,30 @@
           </div>
 
           <div ng-controller="ComsController" >
-            <md-tab label="Coms ({{(coms).length}})" ng-disabled="!($parent.etude.id > 0)">
+            <md-tab label="Coms ({{(coms).length}})" ng-disabled="!($parent.etude.id > 0)" md-active="true">
               <md-tab-body layout="row">
                 <md-list>
                   <md-list-item ng-if="coms.length == 0" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);">
                     <div>Aucun commentaire</div>
                   </md-list-item>
 
-                  <md-list-item ng-repeat="c in coms" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);" layout="row">
+                  <md-list-item ng-mouseover="options = true" ng-mouseleave="options = false" ng-repeat="c in coms" ng-init="c.temp = ''; c.edit = false" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220); cursor:pointer;" layout="row">
                     <div class="md-list-item-text" layout="column" flex>
-                      <p style="white-space: pre-line;" flex>{{c.content}}</p>
-                      <p style="text-align: right;" flex>{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}</p>
+                      <p style="white-space: pre-line;" flex ng-if="!edit">{{c.content}}</p>
+
+                      <md-input-container  class="md-block flex-gt-sm" ng-if="edit">
+                        <label>Edition du commentaire :</label>
+                        <textarea ng-model="c.temp"  rows="4"></textarea>
+                      </md-input-container>
+
+                      <p style="text-align: right;" flex ng-if="!options">{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}</p>
+                      <div ng-if="options" style="text-align: center;">    
+                        <md-button class="md-icon-button" ng-click="c.temp = c.content; c.edit = true;" ng-disabled="sending"><i class="material-icons">mode_edit</i></md-button>            
+                        <md-button class="md-icon-button" ng-click="" ng-disabled="sending"><i class="material-icons">clear</i></md-button>
+                      </div>
                     </div>
+
+
                   </md-list-item>
 
                 </md-list>
