@@ -15,12 +15,14 @@
             <md-icon>arrow_forward</md-icon>
           </md-button>
 
-          <md-button class="md-icon-button" ng-if="etude.locked && !etude.child" ng-click="copy($event)">
+          <md-button class="md-icon-button" ng-if="!etude.child" ng-click="copy($event)">
             <md-icon>content_copy</md-icon>
+            <md-tooltip md-direction="down">Copier pour faire un avenant.</md-tooltip>
           </md-button> 
 
           <md-button class="md-icon-button" ng-if="!etude.locked && etude.id != null" ng-click="lockEtude($event)">
             <md-icon>lock_open</md-icon>
+            <md-tooltip md-direction="down">Vérouiller l'étude.</md-tooltip>
           </md-button>
 
           <md-button class="md-icon-button" ng-if="etude.locked">
