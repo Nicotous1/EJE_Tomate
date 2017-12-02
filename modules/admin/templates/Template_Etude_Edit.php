@@ -481,7 +481,7 @@
           </div>
 
           <div ng-controller="ComsController" >
-            <md-tab label="Coms ({{(coms).length}})" ng-disabled="!($parent.etude.id > 0)" md-active="true">
+            <md-tab label="Coms ({{(coms).length}})" ng-disabled="!($parent.etude.id > 0)">
               <md-tab-body layout="row">
                 <md-list>
                   <md-list-item ng-if="coms.length == 0" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);">
