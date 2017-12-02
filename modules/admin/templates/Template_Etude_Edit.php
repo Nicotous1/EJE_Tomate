@@ -249,7 +249,7 @@
                     <div class="layout-padding">
 
                       <md-input-container class="md-block flex">
-                        <label>#{{etude.numero}} :</label>
+                        <label>Titre</label>
                         <input type="text" ng-model="etude.pub_titre" md-maxlength="50" ng-disabled="etude.locked">
                       </md-input-container>
                       <md-input-container  class="md-block flex-gt-sm">
@@ -257,7 +257,18 @@
                         <textarea ng-model="etude.pub"  rows="4"  md-maxlength="200" ng-disabled="etude.locked"></textarea>
                       </md-input-container>
                     
-                      <p>Attention ces informations sont publics et seront accesibles par les étudiants !</p>
+                      <p style="margin-bottom: 0;">Aperçu de l'offre pour les étudiants :</p>
+
+                      <md-list>
+                          <md-list-item class="md-2-line">
+                            <div class="md-list-item-text" layout="column"  style="margin-top: 0;">
+                              <h4>#{{etude.numero}} : {{etude.pub_titre}}</h4>
+                              <p style="white-space: pre-line;">{{etude.pub | cut}}</p>
+                              <p style="color: red;">Aucune candidature enregistrée.</p>
+                            </div>
+                            <md-divider></md-divider>
+                          </md-list-item>
+                      </md-list>         
                     </div>
                   </md-tab-body>
                 </md-tab>
