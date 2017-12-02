@@ -6,28 +6,29 @@
           <span><span ng-if="etude.numero">#{{etude.numero}} : </span><span ng-if="etude.pseudo">{{etude.pseudo}}</span></span>
           <span ng-if="!etude.id && !etude.pseudo && !etude.numero">Nouvelle étude</span>
           <span flex></span>
+          <div ng-if="etude.id">   
+            <md-button class="md-icon-button" ng-if="parent != null" ng-click="redirect(parent.link)">
+              <md-icon>arrow_back</md-icon>
+            </md-button>
 
-          <md-button class="md-icon-button" ng-if="parent != null" ng-click="redirect(parent.link)">
-            <md-icon>arrow_back</md-icon>
-          </md-button>
+            <md-button class="md-icon-button" ng-if="etude.child != null" ng-click="redirect(child.link)">
+              <md-icon>arrow_forward</md-icon>
+            </md-button>
 
-          <md-button class="md-icon-button" ng-if="etude.child != null" ng-click="redirect(child.link)">
-            <md-icon>arrow_forward</md-icon>
-          </md-button>
+            <md-button class="md-icon-button" ng-if="!etude.child" ng-click="copy($event)">
+              <md-icon>content_copy</md-icon>
+              <md-tooltip md-direction="down">Copier pour faire un avenant.</md-tooltip>
+            </md-button> 
 
-          <md-button class="md-icon-button" ng-if="!etude.child" ng-click="copy($event)">
-            <md-icon>content_copy</md-icon>
-            <md-tooltip md-direction="down">Copier pour faire un avenant.</md-tooltip>
-          </md-button> 
+            <md-button class="md-icon-button" ng-if="!etude.locked" ng-click="lockEtude($event)">
+              <md-icon>lock_open</md-icon>
+              <md-tooltip md-direction="down">Vérouiller l'étude.</md-tooltip>
+            </md-button>
 
-          <md-button class="md-icon-button" ng-if="!etude.locked && etude.id != null" ng-click="lockEtude($event)">
-            <md-icon>lock_open</md-icon>
-            <md-tooltip md-direction="down">Vérouiller l'étude.</md-tooltip>
-          </md-button>
-
-          <md-button class="md-icon-button" ng-if="etude.locked">
-            <md-icon>lock_close</md-icon>
-          </md-button>
+            <md-button class="md-icon-button" ng-if="etude.locked">
+              <md-icon>lock_close</md-icon>
+            </md-button>
+          </div>
         </div>
       </md-toolbar>
 

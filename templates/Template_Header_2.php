@@ -70,7 +70,7 @@
               md-item-text="item.numero"
               md-min-length="1"
               md-selected-item-change="load(item)"
-              placeholder="Chercher une etude">
+              placeholder="Chercher une etude...">
             <md-item-template>
               <span class="item-title">
                 <span>#{{item.numero}} : {{item.pseudo}}</span>

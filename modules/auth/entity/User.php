@@ -71,6 +71,7 @@
 			array("id" => 2, "name" => "2A"),
 			array("id" => 3, "name" => "2AD"),
 			array("id" => 4, "name" => "3A"),
+			array("id" => 5, "name" => "Diplomé(e)"),
 		);
 
 		public static $titreArray = array(
