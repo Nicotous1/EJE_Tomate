@@ -58,21 +58,41 @@
 
 
 		public function SaveCom() {
-			$content = $this->httpRequest->post("content");
-			$etude_id = (int) $this->httpRequest->post("etude_id");
+			$params = $this->httpRequest->post(array(
+				"content", "etude", "id"
+			));
 
-
-			$e = $this->pdo->get("Admin\Entity\Etude", $etude_id);
+			$e = $this->pdo->get("Admin\Entity\Etude", $params["etude"]);
 			if ($e == null) {return $this->error("L'étude que vous souhaitez commenter a été supprimée !");}
 
-			$com = new Com(array("content" => $content, "etude" => $e));
+			if ($params["id"] > 0) {
+				$update = true;
+				$com = $this->pdo->get("Admin\Entity\Com", $params["id"]);
+				if ($com === null) {return $this->error("Ce commentaire a été supprimé !");}
+				$com->set_Array($params);
+			} else {
+				$update = false;
+				$com = new Com($params);
+			}
+
 			$res = $this->pdo->save($com);
-			if (!$res) {$this->error("Une erreur s'est produite lors de la sauvegarde votre commentaire.");}
+			if (!$res) {return $this->error("Une erreur s'est produite lors de la sauvegarde votre commentaire.");}
 
 			//Info modification
-			$this->pdo->save(new Info(array("etude" => $e, "type" => 2, "com" => $com)));
+			$info = new Info(array("etude" => $e, "type" => 2, "com" => $com));
+			if ($update) {				
+				$r = new Request("DELETE FROM #^ WHERE #etude~ AND #type~ AND #com~", $info);
+				$r->execute();
+			}
+			$this->pdo->save($info);
 
 			return $this->success(array("com" => $com));
+		}
+
+		public function DeleteCom() {
+			$id = (int) $this->httpRequest->post("id");
+			$res = $this->pdo->remove(new Com(array("id" => $id)));
+			return ($res) ? $this->success() : $this->error();
 		}
 
 /*

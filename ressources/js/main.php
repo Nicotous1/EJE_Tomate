@@ -132,6 +132,17 @@
     return true;
   }
 
+  function remove_entity(e, a) {
+    var done = false;
+    angular.forEach(a, function(x,i) {
+      if (done) {return;}
+      if (x === e || x.id == e.id) {
+        a.splice(i, 1)
+        done = true; return;
+      }
+    });    
+  }
+
 
 
 

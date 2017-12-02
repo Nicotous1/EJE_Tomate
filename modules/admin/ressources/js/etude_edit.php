@@ -667,27 +667,55 @@
   ComsController
 
 */
-  app.controller("ComsController", function($scope, $http, $mdDialog) {
+  app.controller("ComsController", function($scope, $http, $mdDialog, $mdToast) {
     $scope.coms = handle_date(<?php echo json_encode($etude->get("coms")); ?>);
     $scope.com = {};
     $scope.sending = false;
 
-    $scope.save = function() { // Je sais pas pourquoi il y a besoin de passer com et que $scope.com marche pas
-      if (!$scope.com.content) {
-        return alert("Votre commentaire est vide !");
-      }
+    $scope.save = function(c) {
+      var update = false;
+      var c_temp = Object.assign({}, c); 
 
+      if (c.id > 0) {c_temp.content = c.temp; update = true;}
+
+      if (!c_temp.content) {return alert("Votre commentaire est vide !");}
+      
       $scope.sending = true;
-      $scope.com.etude_id = $scope.etude.id;
+      c_temp.etude = $scope.etude.id;
       var url = "<?php echo $routeur->getUrlFor("AdminAjaxSaveCom") ?>";
       var resHandler = handle_response({
         success : function(data, msg) {
-          $scope.coms.push(handle_date(data.com));
-          $scope.com.content = "";
+          if (update) {
+            Object.assign(c, data.com);
+            c.edit = false; c.options = false;
+            var msg = "Le commentaire a été modifié.";
+          } else {            
+            $scope.coms.push(handle_date(data.com));
+            $scope.com.content = "";
+            var msg = "Le commentaire a été ajouté.";
+          }
+          $mdToast.show($mdToast.simple().textContent(msg).position("top right"));
         },
         all : function(data, msg) {$scope.sending = false;}, 
       });
-      $http.post(url, $scope.com).then(resHandler, resHandler);      
+      $http.post(url, c_temp).then(resHandler, resHandler);      
     };
+
+    $scope.delete = function(c, ev) {
+      var confirm = $scope.confirmDialog(ev, "Vous vous apprêtez à supprimer un commentaire !", "Confimer la suppresion ?");
+
+      $mdDialog.show(confirm).then(function() {
+        $scope.sending = true;
+        var url = "<?php echo $routeur->getUrlFor("AdminAjaxDeleteCom") ?>";
+        var resHandler = handle_response({
+          success : function(data, msg) {
+            remove_entity(c, $scope.coms);
+            $mdToast.show($mdToast.simple().textContent("Le commentaire a été supprimé.").position("top right"));
+          },
+          all : function(data, msg) {$scope.sending = false;}, 
+        });
+        $http.post(url, c).then(resHandler, resHandler);  
+      });
+    }; 
   });
 </script>
