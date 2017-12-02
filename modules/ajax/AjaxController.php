@@ -96,6 +96,7 @@
 			$id = $this->httpRequest->post("id");
 			$pdo = new EntityPDO();
 			$e = $pdo->get("Admin\Entity\Etude", $id);
+			if ($e === null) {return $this->error("Cette étude n'existe plus. Elle ne peut être copiée.");}
 			$child = $e->get("child");
 
 			// Check that there is no already existing copy !
