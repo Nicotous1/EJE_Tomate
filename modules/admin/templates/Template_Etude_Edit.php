@@ -446,7 +446,7 @@
                   <md-subheader>Candidature en attente :</md-subsubheader>
                   <md-list>
                     <md-list-item ng-repeat="w in work_requests | filter:{statut : 0}" class="md-padding" style="padding : 2px 15px;">
-                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}})</div>
+                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}} - {{ w.etudiant.nationality}})</div>
                       <div class="md-secondary">       
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>         
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
@@ -462,7 +462,7 @@
                   <md-subheader>Candidature acceptée :</md-subheader>
                   <md-list>
                     <md-list-item ng-repeat="w in work_requests | filter:{statut : 2}" class="md-padding" style="padding : 2px 15px;">
-                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}})</div>
+                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}} - {{ w.etudiant.nationality}})</div>
                       <div class="md-secondary">                
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
@@ -477,7 +477,7 @@
                   <md-subheader>Candidature refusée :</md-subheader>
                   <md-list>
                     <md-list-item ng-repeat="w in work_requests | filter:{statut : 1}" class="md-padding" style="padding : 2px 15px;">
-                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}})</div>
+                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}} - {{ w.etudiant.nationality}})</div>
                       <div class="md-secondary">    
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>            
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
