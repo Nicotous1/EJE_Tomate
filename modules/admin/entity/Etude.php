@@ -70,9 +70,6 @@
 					array("att" => "date_modified", "type" => AttSQL::TYPE_DATE),
 					array("att" => "date_end_recrute", "type" => AttSQL::TYPE_DATE),
 					array("att" => "locked", "type" => AttSQL::TYPE_BOOL),
-					
-
-					array("att" => "domaines_temp", "type" => AttSQL::TYPE_STR),
 
 					array("att" => "fee", "type" => AttSQL::TYPE_FLOAT),
 					array("att" => "break_jeh", "type" => AttSQL::TYPE_INT),
