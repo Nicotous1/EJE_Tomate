@@ -59,10 +59,11 @@
            <i class="material-icons">menu</i>
           </md-button>
 <?php } ?> 
-          <a href="<?php echo $routeur->getUrlFor("EdHome"); ?>">Ensae Junior Études</a>
-          <span flex></span>
+          <div flex hide-xs>
+            <a href="<?php echo $routeur->getUrlFor("EdHome"); ?>">Ensae Junior Études</a>
+          </div>
 <?php if ($firewall->isConnected() && $user->get("level") >= 2) { ?>
-        <div ng-controller="SearchBar" flex="40">
+        <div ng-controller="SearchBar" flex>
   
           <md-autocomplete
               md-search-text="searchText"
