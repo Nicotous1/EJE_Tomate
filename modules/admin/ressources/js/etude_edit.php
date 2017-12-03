@@ -676,7 +676,10 @@
       var update = false;
       var c_temp = Object.assign({}, c); 
 
-      if (c.id > 0) {c_temp.content = c.temp; update = true;}
+      if (c.id > 0) {
+        if (c.temp == c.content) {c.edit = false; c.options = false; return true;}
+        c_temp.content = c.temp; update = true;
+      }
 
       if (!c_temp.content) {return alert("Votre commentaire est vide !");}
       
