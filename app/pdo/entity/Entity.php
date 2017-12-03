@@ -75,6 +75,19 @@ use \Exception;
 					if (is_array($x) && isset($x["id"]) && is_numeric($x["id"])) { $id = (int) $x["id"];}
 					elseif (is_numeric($x)) { $id = (int) $x;}
 					$val = (isset($attSQL->getList()[$x])) ? $attSQL->getList()[$x] : null; break;
+
+				case AttSQL::TYPE_MARRAY:
+					if ($x === null) {$val = array(); break;}
+					if (is_string($x)) {$x = explode(",", $x);}
+					elseif (is_numeric($x)) { $x = array($x);}
+
+					$val = array();
+					$list = $attSQL->getList();
+					foreach ($x as $id) {
+						if (isset($list[$id])) {$val[] = $list[$id];}
+					}
+					break;
+
 				
 				case AttSQL::TYPE_STR:
 					$val = (string) $x; break;
@@ -280,6 +293,14 @@ use \Exception;
 				switch ($attSQL->getType()) {
 					case AttSQL::TYPE_ARRAY:
 						$r[$attSQL->getAtt()] = $this->get($attSQL->getAtt())["id"];
+						break;
+
+					case AttSQL::TYPE_MARRAY:
+						$res = array();
+						foreach ($this->get($attSQL->getAtt()) as $e) {
+							$res[] = $e["id"];
+						}
+						$r[$attSQL->getAtt()] = $res;
 						break;
 					case AttSQL::TYPE_INT:
 					case AttSQL::TYPE_STR:

@@ -15,6 +15,7 @@ namespace Core\PDO\Entity;
 		const TYPE_BOOL = 3;
 		const TYPE_DATE = 4;
 		const TYPE_ARRAY = 5;
+		const TYPE_MARRAY = 6;
 
 		//Direct mais ref
 		const TYPE_USER = 10;
@@ -71,6 +72,7 @@ namespace Core\PDO\Entity;
 					$this->att_ref = $params["att_ref"];
 					break;
 				case AttSQL::TYPE_ARRAY:
+				case AttSQL::TYPE_MARRAY:
 					if (!isset($params["list"])) {throw new Exception("A AttSQL of TYPE_ARRAY must have a list parameter ! (where it fetch the array with an id)", 1);}
 					$res = array();
 					foreach ($params["list"] as $e) {

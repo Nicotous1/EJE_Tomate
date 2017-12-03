@@ -101,6 +101,9 @@
 					case AttSQL::TYPE_INT:
 						$this->r->bindValue($key, $this->toId($val), PDO::PARAM_INT);
 						return;
+					case AttSQL::TYPE_MARRAY:
+						$this->r->bindValue($key, implode(",", $this->toIds($val)), PDO::PARAM_STR);
+						return;
 					case AttSQL::TYPE_BOOL:
 						$this->r->bindValue($key, $val, PDO::PARAM_BOOL);
 						return;
@@ -333,7 +336,7 @@
 		private function IdsToSQL($ids) {
 			$str = "(-1,";
 			foreach ($ids as $raw) {
-				$id = (is_a($raw, "Core\PDO\Entity\Entity")) ? $raw->getId() : (int) $raw;
+				$id = $this->toId($raw);
 				if ($id > 0) {$str .= $id . ",";} else {throw new Exception("An array for a request SQL must only be composed of int ! Got '$raw'", 1);
 				}
 			}
@@ -346,6 +349,14 @@
 			if (is_array($e)) {return (int) $e["id"];}
 			if (is_a($e, "Core\PDO\Entity\Entity")) {return $e->getId();} //ADD CHECK IF NULL AND RAISE EXCEPTION -> SAVE BEFORE
 			throw new Exception("Convertion impossible en Id !", 1);
+		}
+
+		private function toIds($a) {
+			$ids = array();
+			foreach ($a as $e) {
+				$ids[] = $this->toId($e);
+			}
+			return $ids;
 		}
 
 
