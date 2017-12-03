@@ -37,14 +37,9 @@
 		public function Register() {
 			//Handle POST Data
 			//Important to rewrite for security
-			$params = array(
-				"mail" => $this->httpRequest->post("mail"),
-				"password" => $this->httpRequest->post("password"),
-				"titre" => $this->httpRequest->post("titre"),
-				"nom" => $this->httpRequest->post("nom"),
-				"prenom" => $this->httpRequest->post("prenom"),
-				"annee" => $this->httpRequest->post("annee"),
-			);
+			$params = $this->httpRequest->post(array(
+				"mail", "password", "titre", "nom", "prenom", "annee", "nationality"
+			));
 
 			$user = new User($params);
 			if(!$user->isValid()) {return $this->error("Le formulaire n'est pas valide !");}

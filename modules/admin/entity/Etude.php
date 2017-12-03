@@ -27,12 +27,26 @@
 			array("id" => 4, "name" => "En cours"),
 			array("id" => 5, "name" => "Cloturée"),
 			array("id" => 6, "name" => "Morte"),
+			array("id" => 7, "name" => "À auditer"),
 		);
 
 		public static $lieuArray = array(
 			array("id" => 1, "short" => "A l'ENSAE", "long" => 
 				"dans les locaux d'ENSAE Junior Études"),
 			array("id" => 2, "short" => "Chez le client", "long" => "chez le client"),
+		);
+
+		public static $domaineArray = array(
+			array("id" => 1, "long" => "Statistique Descriptives"),
+			array("id" => 2, "long" => "Analyse de données"),
+			array("id" => 3, "long" => "Enquête/Sondage"),
+			array("id" => 4, "long" => "Finance"),
+			array("id" => 5, "long" => "Économie"),
+			array("id" => 6, "long" => "Informatique"),
+			array("id" => 7, "long" => "Économétrie"),
+			array("id" => 8, "long" => "Série temporelles"),
+			array("id" => 9, "long" => "Mathématiques"),
+			array("id" => 10, "long" => "Machine Learning"),
 		);
 
 		protected static function get_array_EntitySQL() {
@@ -46,11 +60,12 @@
 					array("att" => "specifications", "type" => AttSQL::TYPE_STR),
 					array("att" => "but", "type" => AttSQL::TYPE_STR),
 					array("att" => "but_short", "type" => AttSQL::TYPE_STR),
+					array("att" => "notes", "type" => AttSQL::TYPE_STR),
 					array("att" => "competences", "type" => AttSQL::TYPE_STR),
 					array("att" => "context", "type" => AttSQL::TYPE_STR),
-					array("att" => "domaines", "type" => AttSQL::TYPE_STR),
 					array("att" => "pub", "type" => AttSQL::TYPE_STR),
 					array("att" => "pub_titre", "type" => AttSQL::TYPE_STR),
+					array("att" => "avn_motif", "type" => AttSQL::TYPE_STR),
 					array("att" => "date_created", "type" => AttSQL::TYPE_DATE),
 					array("att" => "date_modified", "type" => AttSQL::TYPE_DATE),
 					array("att" => "date_end_recrute", "type" => AttSQL::TYPE_DATE),
@@ -65,6 +80,8 @@
 					array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => self::$statutArray),
 					array("att" => "lieu", "type" => AttSQL::TYPE_ARRAY, "list" => self::$lieuArray),
 
+					array("att" => "domaines", "type" => AttSQL::TYPE_MARRAY, "list" => self::$domaineArray),
+					
 					array("att" => "client", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
 					array("att" => "facturation", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
 					array("att" => "signataire", "type" => AttSQL::TYPE_DREF, "class" => "Client"),

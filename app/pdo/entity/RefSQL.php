@@ -26,9 +26,12 @@
 				switch ($this->attSQL->getType()) {
 					case AttSQL::TYPE_USER:
 					case AttSQL::TYPE_DREF:
-						// TO DO -> Add handle of raw x -> like just giving id of entity make alone the jointure
-						$this->done = $pdo->get($class, $x->getId()); break;
-
+						if ($x->isRaw()) {
+							$this->done = $pdo->getRef($this->attSQL, $x->getOwner()); break;
+						} else {
+							$this->done = $pdo->get($class, $x->getId()); break;
+						}
+						
 					case AttSQL::TYPE_MREF:
 					case AttSQL::TYPE_IREF:
 						if ($x->isRaw()) {
@@ -96,7 +99,12 @@
 			if ($this->x == null) {
 				return ($this->done != null) ? $this->done->getId() : null;
 			}
-			return ($this->x->isRaw()) ? $this->convert()->getId() : $this->x->getId();
+			if ($this->x->isRaw()) {
+				$e = $this->convert();
+				return ($e === null) ? $e : $e->getId();
+			} else {
+				return $this->x->getId();
+			}
 		}
 
 		public function setX($x) {

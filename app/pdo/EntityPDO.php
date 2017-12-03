@@ -265,6 +265,31 @@
 			return $es;
 		}
 
+		public function getRef(AttSQL $attSQL, Entity $e) {
+			$p = array($attSQL->getClassSQL(), $attSQL, (int) $e->getId());
+			switch ($attSQL->getType()) {
+
+				case AttSQL::TYPE_USER:
+				case AttSQL::TYPE_DREF:
+					$r = new Request("
+						SELECT m.#0 FROM #0^ m 
+						JOIN #1^ l ON m.id = l.#1 WHERE l.id = :2", $p);
+					break;
+				
+				default:
+					throw new Exception("getRefs can't handle this type of AttSQL !", 1);
+					break;
+			}
+
+			$res = $r->execute();
+			if (!$res) {throw new Exception("PDO failed to getRefs !", 1);}
+
+
+			$e = $this->dealWithOutput($r, $attSQL->getClass());
+			$this->cache->save($e);
+			return $e;
+		}
+
 /*
 		Recherche
 */

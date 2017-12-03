@@ -4,28 +4,31 @@
       <md-toolbar>
         <div class="md-toolbar-tools">
           <span><span ng-if="etude.numero">#{{etude.numero}} : </span><span ng-if="etude.pseudo">{{etude.pseudo}}</span></span>
-          <span ng-if="!etude.id && !etude.pseudo">Nouvelle étude</span>
+          <span ng-if="!etude.id && !etude.pseudo && !etude.numero">Nouvelle étude</span>
           <span flex></span>
+          <div ng-if="etude.id">   
+            <md-button class="md-icon-button" ng-if="parent != null" ng-click="redirect(parent.link)">
+              <md-icon>arrow_back</md-icon>
+            </md-button>
 
-          <md-button class="md-icon-button" ng-if="parent != null" ng-click="redirect(parent.link)">
-            <md-icon>arrow_back</md-icon>
-          </md-button>
+            <md-button class="md-icon-button" ng-if="etude.child != null" ng-click="redirect(child.link)">
+              <md-icon>arrow_forward</md-icon>
+            </md-button>
 
-          <md-button class="md-icon-button" ng-if="child != null" ng-click="redirect(child.link)">
-            <md-icon>arrow_forward</md-icon>
-          </md-button>
+            <md-button class="md-icon-button" ng-if="!etude.child" ng-click="copy($event)">
+              <md-icon>content_copy</md-icon>
+              <md-tooltip md-direction="down">Copier pour faire un avenant.</md-tooltip>
+            </md-button> 
 
-          <md-button class="md-icon-button" ng-if="etude.locked && child == null" ng-click="copy($event)">
-            <md-icon>content_copy</md-icon>
-          </md-button> 
+            <md-button class="md-icon-button" ng-if="!etude.locked" ng-click="lockEtude($event)">
+              <md-icon>lock_open</md-icon>
+              <md-tooltip md-direction="down">Vérouiller l'étude.</md-tooltip>
+            </md-button>
 
-          <md-button class="md-icon-button" ng-if="!etude.locked && etude.id != null" ng-click="lockEtude($event)">
-            <md-icon>lock_open</md-icon>
-          </md-button>
-
-          <md-button class="md-icon-button" ng-if="etude.locked">
-            <md-icon>lock_close</md-icon>
-          </md-button>
+            <md-button class="md-icon-button" ng-if="etude.locked">
+              <md-icon>lock_close</md-icon>
+            </md-button>
+          </div>
         </div>
       </md-toolbar>
 
@@ -90,8 +93,11 @@
                       <div layout="row">
                         <md-input-container  class="md-block flex">
                           <label>Domaines</label>
-                          <input ng-model="etude.domaines"  md-maxlength="120" ng-disabled="etude.locked"></textarea>
+                          <md-select ng-model="etude.domaines" multiple ng-disabled="etude.locked">  
+                            <md-option ng-value="{{domaine.id}}" ng-repeat="domaine in formEtude.domaines | orderBy:'long'  track by domaine.id">{{domaine.long}}</md-option>
+                          </md-select>                        
                         </md-input-container>
+
                       </div>
                     </div>
                   </md-tab-body>
@@ -200,6 +206,11 @@
                   <md-tab-body>
                     <div class="layout-padding">
 
+                      <md-input-container  class="md-block flex-gt-sm" ng-if="parent != null">
+                        <label>Raison de l'avenant</label>
+                        <textarea ng-model="etude.avn_motif"  rows="4" ng-disabled="etude.locked"></textarea>
+                      </md-input-container>
+
                       <md-input-container  class="md-block flex-gt-sm">
                         <label>Contexte</label>
                         <textarea ng-model="etude.context"  rows="4" ng-disabled="etude.locked"></textarea>
@@ -236,20 +247,46 @@
 
 
 
-                <md-tab label="Recrutement">
+                <md-tab label="Recrutement" ng-disabled="!etude.numero">
                   <md-tab-body>
                     <div class="layout-padding">
 
                       <md-input-container class="md-block flex">
-                        <label>Nom</label>
+                        <label>Titre</label>
                         <input type="text" ng-model="etude.pub_titre" md-maxlength="50" ng-disabled="etude.locked">
                       </md-input-container>
                       <md-input-container  class="md-block flex-gt-sm">
-                        <label>Pub</label>
+                        <label>Description</label>
                         <textarea ng-model="etude.pub"  rows="4"  md-maxlength="200" ng-disabled="etude.locked"></textarea>
                       </md-input-container>
                     
-                      <p>Attention ces informations sont publics et seront accesibles par les étudiants !</p>
+                      <p style="margin-bottom: 0;">Aperçu de l'offre pour les étudiants :</p>
+
+                      <md-list>
+                          <md-list-item class="md-2-line">
+                            <div class="md-list-item-text" layout="column"  style="margin-top: 0;">
+                              <h4>#{{etude.numero}} : {{etude.pub_titre}}</h4>
+                              <p style="white-space: pre-line;">{{etude.pub | cut}}</p>
+                              <p style="color: red;">Aucune candidature enregistrée.</p>
+                            </div>
+                            <md-divider></md-divider>
+                          </md-list-item>
+                      </md-list>         
+                    </div>
+                  </md-tab-body>
+                </md-tab>
+
+
+
+                <md-tab label="Notes" ng-disabled="">
+                  <md-tab-body>
+                    <div class="layout-padding">
+
+                      <md-input-container  class="md-block flex-gt-sm">
+                        <label>Notes diverses</label>
+                        <textarea ng-model="etude.notes"  rows="15" ng-disabled="etude.locked"></textarea>
+                      </md-input-container>
+
                     </div>
                   </md-tab-body>
                 </md-tab>
@@ -300,7 +337,7 @@
 
                         <md-subheader>Division des {{getTotJEH(etape)}} JEH :</md-subheader>             
                         <md-list>
-                          <md-list-item class="md-1-line" ng-repeat="sEtape in etape.sEtapes track by sEtape.id">
+                          <md-list-item class="md-1-line" ng-repeat="sEtape in etape.sEtapes">
 
                             <md-select ng-model="sEtape.etudiant" placeholder="Choisir un intervenant" ng-disabled="etude.locked">  
                               <md-option ng-value="e.id" ng-repeat="e in etude_etudiants track by e.id">{{e.prenom}} {{e.nom}}</md-option>
@@ -399,6 +436,8 @@
           </div>     
 
 
+
+<!-- C'est archi degeulasse ! -->
           <div ng-controller="EtudiantController">
             <md-tab label="Intervenants ({{(work_requests).length}})"  ng-disabled="!($parent.etude.id > 0)" ng-if="etude.statut >= 2">
               <md-tab-body>
@@ -409,9 +448,10 @@
                 <section ng-if="(work_requests | filter:{statut : 0}).length > 0" >
                   <md-subheader>Candidature en attente :</md-subsubheader>
                   <md-list>
-                    <md-list-item ng-repeat="w in work_requests | filter:{statut : 0}" class="md-padding">
-                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}})</div>
-                      <div class="md-secondary">                
+                    <md-list-item ng-repeat="w in work_requests | filter:{statut : 0}" class="md-padding" style="padding : 2px 15px;">
+                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}} - {{ w.etudiant.nationality}})</div>
+                      <div class="md-secondary">       
+                        <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>         
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
                         <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Refuser la candidature</md-tooltip><i class="material-icons">assignment_late</i></md-button>
                         <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
@@ -424,9 +464,10 @@
                 <section ng-if="(work_requests | filter:{statut : 2}).length > 0">
                   <md-subheader>Candidature acceptée :</md-subheader>
                   <md-list>
-                    <md-list-item ng-repeat="w in work_requests | filter:{statut : 2}" class="md-padding">
-                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}})</div>
+                    <md-list-item ng-repeat="w in work_requests | filter:{statut : 2}" class="md-padding" style="padding : 2px 15px;">
+                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}} - {{ w.etudiant.nationality}})</div>
                       <div class="md-secondary">                
+                        <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
                         <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Supprimer l'intervenant</md-tooltip><i class="material-icons">clear</i></md-button>
                       </div>
@@ -438,9 +479,10 @@
                 <section ng-if="(work_requests | filter:{statut : 1}).length > 0">
                   <md-subheader>Candidature refusée :</md-subheader>
                   <md-list>
-                    <md-list-item ng-repeat="w in work_requests | filter:{statut : 1}" class="md-padding">
-                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}})</div>
-                      <div class="md-secondary">                
+                    <md-list-item ng-repeat="w in work_requests | filter:{statut : 1}" class="md-padding" style="padding : 2px 15px;">
+                      <div>{{w.etudiant.prenom}} {{w.etudiant.nom}} ({{getId(formEtude.annees,w.etudiant.annee).name}} - {{ w.etudiant.nationality}})</div>
+                      <div class="md-secondary">    
+                        <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>            
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
                         <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
                       </div>
@@ -461,15 +503,48 @@
                     <div>Aucun commentaire</div>
                   </md-list-item>
 
-                  <md-list-item ng-repeat="c in coms" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);" layout="row">
-                    <div class="md-list-item-text" layout="column" flex>
-                      <p style="white-space: pre-line;" flex>{{c.content}}</p>
-                      <p style="text-align: right;" flex>{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}</p>
-                    </div>
-                  </md-list-item>
+<md-list-item ng-mouseover="c.options = true" ng-mouseleave="c.options = false" ng-repeat="c in coms" ng-init="c.temp = 'dzdzdzdz'; c.edit = false" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220); cursor:pointer;" layout="row">
+
+
+  <div class="md-list-item-text" layout="column" flex>
+    <p style="white-space: pre-line;" flex ng-if="!c.edit">{{c.content}}</p>
+
+    <md-input-container  class="md-block flex-gt-sm" ng-if="c.edit" style="margin-bottom: 0;">
+      <label>Edition du commentaire :</label>
+      <textarea ng-model="c.temp"  rows="4" ng-disabled="sending"></textarea>
+    </md-input-container>
+
+    <p style="text-align: right; margin-bottom: 6px" flex ng-if="!c.options && !c.edit">{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}</p>
+    <div ng-if="c.options || c.edit" layout-align="center center" layout="row">    
+      <div ng-if="!c.edit">
+        <md-button ng-if="!c.edit" class="md-icon-button" ng-click="c.temp = c.content; c.edit = true;" ng-disabled="sending">
+          <i class="material-icons">mode_edit</i>
+          <md-tooltip md-direction="down">Modifier le commentaire</md-tooltip>
+        </md-button>   
+          
+        <md-button class="md-icon-button" ng-click="delete(c, $event)" ng-disabled="sending">
+          <i class="material-icons">delete</i>
+          <md-tooltip md-direction="down">Supprimer le commentaire</md-tooltip>
+        </md-button>
+      </div>
+      <div ng-if="c.edit">  
+        <md-button class="md-icon-button" ng-click="c.edit = false; c.options = false;" ng-disabled="sending">
+          <i class="material-icons">clear</i>
+          <md-tooltip md-direction="top">Annuler</md-tooltip>
+        </md-button>           
+        <md-button class="md-icon-button" ng-click="save(c)" ng-disabled="sending">
+          <i class="material-icons">save</i>
+          <md-tooltip md-direction="top">Sauvegarder le commentaire</md-tooltip>
+        </md-button>                   
+      </div>  
+    </div>
+  </div>
+
+
+</md-list-item>
 
                 </md-list>
-                <form ng-submit="save()" layout="column" class="md-padding" ng-if="!etude.locked">
+                <form ng-submit="save(com)" layout="column" class="md-padding" ng-if="!etude.locked">
                   <md-input-container flex>
                     <label>Nouveau commentaire</label>
                     <textarea ng-model="com.content"  rows="5"></textarea>

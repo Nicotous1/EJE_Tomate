@@ -22,7 +22,7 @@
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminLastInfos") ?>')">Dernières infos</md-list-item>
 <?php 
       // Beautifull no ?
-      $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1^ AND #0.child IS NULL AND #0.statut < 5 ORDER BY e.#0.numero DESC LIMIT 5", array(Etude::getEntitySQL(), $user));
+      $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1^ AND #0.child IS NULL AND #0.statut NOT IN (5,6) ORDER BY e.#0.numero DESC", array(Etude::getEntitySQL(), $user));
       $etudes_shortcut = $r->fetchAll(PDO::FETCH_ASSOC);
       if (count($etudes_shortcut) > 0) {
 ?>
@@ -59,17 +59,29 @@
            <i class="material-icons">menu</i>
           </md-button>
 <?php } ?> 
-          <a href="<?php echo $routeur->getUrlFor("EdHome"); ?>">Ensae Junior Études</a>
-          <span flex></span>
-<?php if ($firewall->isConnected()) { ?>
-          <md-menu>
-           <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Open sample menu">
-            <i class="material-icons">account_circle</i>
-           </md-button>
-           <md-menu-content>
-             <md-menu-item ng-click="signOut()"><md-button>Se déconnecter</md-button></md-menu-item>
-           </md-menu-content>
-          </md-menu>
+          <div flex hide-xs>
+            <a href="<?php echo $routeur->getUrlFor("EdHome"); ?>">Ensae Junior Études</a>
+          </div>
+<?php if ($firewall->isConnected() && $user->get("level") >= 2) { ?>
+        <div ng-controller="SearchBar" flex>
+  
+          <md-autocomplete
+              md-search-text="searchText"
+              md-items="item in querySearch(searchText)"
+              md-item-text="item.numero"
+              md-min-length="1"
+              md-selected-item-change="load(item)"
+              placeholder="Chercher une etude...">
+            <md-item-template>
+              <span class="item-title">
+                <span>#{{item.numero}} : {{item.pseudo}}</span>
+              </span>
+            </md-item-template>
+            <md-not-found>
+              Tomate n'a pu trouver de résultat !
+            </md-not-found>
+          </md-autocomplete>
+        </div>
 <?php } ?>          
         </div>
       </md-toolbar>

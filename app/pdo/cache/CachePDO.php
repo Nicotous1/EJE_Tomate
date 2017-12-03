@@ -14,6 +14,7 @@ namespace Core\PDO\Cache;
 
 		//Warning $e can be null and therefore not an entity !!
 		public function save($e, $class = null, $id = null) {
+			if ($e === null) {return $this;}
 			if ($class === null) {
 				$this->getCache($e)->set($e);
 			} else {
@@ -39,7 +40,7 @@ namespace Core\PDO\Cache;
 		}
 
 		public function getCacheOfRaw($class, $id) {
-			if (!($id > 0)) {throw new Exception("CachePDO must have an id to handle !", 1);}
+			if (!($id > 0)) {throw new Exception("CachePDO must have an id to handle '$class' !", 1);}
 			if (!isset($GLOBALS[CachePDO::CACHE_KEY][$class][$id])) {
 				$GLOBALS[CachePDO::CACHE_KEY][$class][$id] = new CacheEntity();
 			}	

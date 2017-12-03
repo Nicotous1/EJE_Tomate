@@ -71,6 +71,7 @@
 			array("id" => 2, "name" => "2A"),
 			array("id" => 3, "name" => "2AD"),
 			array("id" => 4, "name" => "3A"),
+			array("id" => 5, "name" => "Diplomé(e)"),
 		);
 
 		public static $titreArray = array(
@@ -122,7 +123,7 @@
 		}
 
 		public function isValid() {
-			return ($this->get("hash") != null && $this->get("mail") != null && filter_var($this->get("mail"), FILTER_VALIDATE_EMAIL) && $this->get("nom") != null && $this->get("prenom") != null);
+			return ($this->get("hash") != null && $this->get("mail") != null && filter_var($this->get("mail"), FILTER_VALIDATE_EMAIL) && $this->get("nom") != null && $this->get("prenom") != null && $this->get("nationality") != null && $this->get("annee") != null && $this->get("titre") != null);
 		}
 
 		public function isSearchable() {

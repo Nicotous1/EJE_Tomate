@@ -3,6 +3,7 @@
   use Admin\Entity\Client; 
   use Admin\Entity\Etape; 
   use Admin\Entity\sEtape; 
+  use Admin\Entity\Entreprise; 
   use Auth\Entity\User; 
 ?>
 
@@ -32,6 +33,7 @@
      provs : <?php echo json_encode(Etude::$provenanceArray); ?>,
      statuts : <?php echo json_encode(Etude::$statutArray); ?>,
      lieux : <?php echo json_encode(Etude::$lieuArray); ?>,
+     domaines : <?php echo json_encode(Etude::$domaineArray); ?>,
      entreprises : <?php echo json_encode($entreprises); ?>,
      clients : <?php echo json_encode($clients); ?>,
      annees : <?php echo json_encode(User::$anneeArray); ?>,
@@ -106,6 +108,10 @@
 
     $scope.editEntreprise = $scope.modal_edit_handler({
       templateUrl : "<?php echo $ressources->html_url("admin/Template_Entreprise_New"); ?>",
+      locals : {
+        types : <?php echo json_encode(Entreprise::$typesArray); ?>,
+        secteurs : <?php echo json_encode(Entreprise::$secteursArray); ?>,
+      },
 
       resultHandler : function(e) {
         add_entity(e, $scope.formEtude.entreprises);
@@ -191,8 +197,8 @@
         var resHandler = handle_response({
           success : function(data, msg) {
               console.log($scope.etude_etudiants);
-              $scope.etude_etudiants.length = 0;
 
+              $scope.etude_etudiants.length = 0;
               [].push.apply($scope.etude_etudiants, data.eds);
               add_entity(data.w, $scope.work_requests);
 
@@ -221,6 +227,56 @@
     $scope.openZipUrl = function(w) {
       document.location = w.zip_url;
     }
+
+    // Modal to see user
+    $scope.editUser = function(ev , user) {  
+      var e = jQuery.extend({}, user);
+      var parentEl = angular.element(document.body);
+      $mdDialog.show({
+        parent: parentEl,
+        targetEvent: ev,
+        templateUrl: "<?php echo $ressources->html_url("admin/Template_User"); ?>",
+        controller: EditModalController,
+        locals : {e : e, main : $scope},
+      });
+
+      function EditModalController(e, main, $scope, $mdDialog, $http) {
+        $scope.e = handle_date(e);
+        $scope.main = main;
+        $scope.formEtudiant = {
+         annees : <?php echo json_encode(User::$anneeArray); ?>,
+         titres : <?php echo json_encode(User::$titreArray); ?>,
+        };    
+        $scope.sending = false;
+
+        $scope.close = function() {
+          $mdDialog.hide();
+        }
+
+        $scope.save = function() {  
+          console.log("posting entity....");
+          console.log($scope.e);
+          $scope.sending = true;
+
+          var resHandler = handle_response({
+            success : function(data, msg) {
+                        jQuery.extend(user, $scope.e);
+                        $mdDialog.hide();
+                      },
+            all : function(data, msg) {
+                    $scope.sending = false;
+                  }, 
+          });
+          $http.post("<?php echo $routeur->getUrlFor("AjaxSaveUser") ?>", $scope.e).then(resHandler, resHandler);
+
+
+
+        }
+      }
+
+    }
+
+
   });
 
 
@@ -612,27 +668,58 @@
   ComsController
 
 */
-  app.controller("ComsController", function($scope, $http, $mdDialog) {
+  app.controller("ComsController", function($scope, $http, $mdDialog, $mdToast) {
     $scope.coms = handle_date(<?php echo json_encode($etude->get("coms")); ?>);
     $scope.com = {};
     $scope.sending = false;
 
-    $scope.save = function() { // Je sais pas pourquoi il y a besoin de passer com et que $scope.com marche pas
-      if (!$scope.com.content) {
-        return alert("Votre commentaire est vide !");
+    $scope.save = function(c) {
+      var update = false;
+      var c_temp = Object.assign({}, c); 
+
+      if (c.id > 0) {
+        if (c.temp == c.content) {c.edit = false; c.options = false; return true;}
+        c_temp.content = c.temp; update = true;
       }
 
+      if (!c_temp.content) {return alert("Votre commentaire est vide !");}
+      
       $scope.sending = true;
-      $scope.com.etude_id = $scope.etude.id;
+      c_temp.etude = $scope.etude.id;
       var url = "<?php echo $routeur->getUrlFor("AdminAjaxSaveCom") ?>";
       var resHandler = handle_response({
         success : function(data, msg) {
-          $scope.coms.push(handle_date(data.com));
-          $scope.com.content = "";
+          if (update) {
+            Object.assign(c, data.com);
+            c.edit = false; c.options = false;
+            var msg = "Le commentaire a été modifié.";
+          } else {            
+            $scope.coms.push(handle_date(data.com));
+            $scope.com.content = "";
+            var msg = "Le commentaire a été ajouté.";
+          }
+          $mdToast.show($mdToast.simple().textContent(msg).position("top right"));
         },
         all : function(data, msg) {$scope.sending = false;}, 
       });
-      $http.post(url, $scope.com).then(resHandler, resHandler);      
+      $http.post(url, c_temp).then(resHandler, resHandler);      
     };
+
+    $scope.delete = function(c, ev) {
+      var confirm = $scope.confirmDialog(ev, "Vous vous apprêtez à supprimer un commentaire !", "Confimer la suppresion ?");
+
+      $mdDialog.show(confirm).then(function() {
+        $scope.sending = true;
+        var url = "<?php echo $routeur->getUrlFor("AdminAjaxDeleteCom") ?>";
+        var resHandler = handle_response({
+          success : function(data, msg) {
+            remove_entity(c, $scope.coms);
+            $mdToast.show($mdToast.simple().textContent("Le commentaire a été supprimé.").position("top right"));
+          },
+          all : function(data, msg) {$scope.sending = false;}, 
+        });
+        $http.post(url, c).then(resHandler, resHandler);  
+      });
+    }; 
   });
 </script>

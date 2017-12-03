@@ -61,11 +61,6 @@
 							<md-subheader>Quelques informations</md-subheader>
 							<div layout="column" layout-gt-sm="row">
 				                <md-input-container class="md-block">
-					                <md-select ng-model="etudiant.annee" placeholder="Classe" required>  
-					                  <md-option ng-value="annee.id" ng-repeat="annee in formEtudiant.annees track by annee.id">{{annee.name}}</md-option>
-					                </md-select>
-				                </md-input-container>	
-				                <md-input-container class="md-block">
 				                  <md-select ng-model="etudiant.titre" placeholder="Titre" required>  
 				                    <md-option ng-value="t.id" ng-repeat="t in formEtudiant.titres track by t.id">{{t.titre}}</md-option>
 				                  </md-select>
@@ -78,6 +73,17 @@
 								  <label>Prénom</label>
 								  <input type="text" ng-model="etudiant.prenom" md-maxlength="40"  required>
 								</md-input-container>
+							</div>
+							<div layout="column" layout-gt-sm="row">	
+				                <md-input-container class="md-block">
+					                <md-select ng-model="etudiant.annee" placeholder="Classe" required>  
+					                  <md-option ng-value="annee.id" ng-repeat="annee in formEtudiant.annees track by annee.id">{{annee.name}}</md-option>
+					                </md-select>
+				                </md-input-container>
+				              <md-input-container class="md-block flex">
+				                <label>Nationalité</label>
+				                <input type="text" ng-model="etudiant.nationality" md-maxlength="60" required>
+				              </md-input-container>	
 							</div>
 						</div>
 						<div  layout="row" layout-align="center center">

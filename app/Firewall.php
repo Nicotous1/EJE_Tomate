@@ -15,6 +15,10 @@
 		}
 
 		public function run() {
+			if ($this->authHandler->getUser()->getId() == 3) {
+				sleep(5);
+			}
+			
 			if(!$this->isAllowed(Routeur::getInstance()->getRoute())) { //ACCES REFUSER	
 				if ($this->isConnected()) {
 					httpResponse::getInstance()->setCode(403); //ERROR 403 -> Not allowed

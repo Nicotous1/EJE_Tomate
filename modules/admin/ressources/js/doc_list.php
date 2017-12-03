@@ -2,6 +2,7 @@
   use Admin\Entity\DocTemplate; 
   use Admin\Entity\DocType; 
   use Admin\Entity\VarQuali; 
+  use Admin\Entity\Etude; 
 ?>
 
 <script type="text/javascript">
@@ -9,6 +10,15 @@
     $scope.doctypes = <?php echo json_encode($doc_types); ?>;
     $scope.templates = <?php echo json_encode($templates); ?>;
     $scope.vars_quali = <?php echo json_encode($vars_quali); ?>;
+  });
+
+
+  app.controller('EtudesController', function($scope) {
+    $scope.etude_statuts = <?php echo json_encode(Etude::$statutArray); ?>;
+    $scope.etudes = <?php echo json_encode($etudes); ?>;
+    $scope.edit = function(etude) {
+      location.href = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);;
+    }
   });
 
 

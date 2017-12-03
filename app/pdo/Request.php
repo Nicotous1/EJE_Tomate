@@ -14,7 +14,7 @@
 		private $data;
 
 		private static  $start = array("#", ":"); // Characters that start a tag to analyse
-		private static  $end = array(" ", ",", "=", ")", "(", ";"); // Characters that ends a tag to analyse
+		private static  $end = array(" ", ",", "=", ")", "(", ";", "'", "\"", "%"); // Characters that ends a tag to analyse
 
 		public function __construct($str, $data = null, $over = array()) {
 			$this->r = null; // PDOStatement
@@ -105,6 +105,9 @@
 					case AttSQL::TYPE_INT:
 						$this->r->bindValue($key, $this->toId($val), PDO::PARAM_INT);
 						return;
+					case AttSQL::TYPE_MARRAY:
+						$this->r->bindValue($key, implode(",", $this->toIds($val)), PDO::PARAM_STR);
+						return;
 					case AttSQL::TYPE_BOOL:
 						$this->r->bindValue($key, $val, PDO::PARAM_BOOL);
 						return;
@@ -157,13 +160,9 @@
 
 				// Find if there is a prefix -> only for # (no need for variable value ;)
 				// Find the start of the prefix by finding a end character before the start_character (mult_pre) (often it will be blank)
-				$start_character = substr($str, $a, 1); 
-				if ($start_character == ":") {
-					$end_pos = $this->mult_pre($str, $this::$end, $a);
-					$a_p = ($end_pos === False) ? $a : $end_pos + 1; // +1 because for example the white space isn't in the tag
-				} else {
-					$a_p = $a;
-				}
+				$end_pos = $this->mult_pre($str, $this::$end, $a);
+				$a_p = ($end_pos === False) ? $a : $end_pos + 1; // +1 because for example the white space isn't in the tag
+
 				$prefix = substr($str, $a_p, $a - $a_p);
 
 				// Convert the tag
@@ -341,7 +340,7 @@
 		private function IdsToSQL($ids) {
 			$str = "(-1,";
 			foreach ($ids as $raw) {
-				$id = (is_a($raw, "Core\PDO\Entity\Entity")) ? $raw->getId() : (int) $raw;
+				$id = $this->toId($raw);
 				if ($id > 0) {$str .= $id . ",";} else {throw new Exception("An array for a request SQL must only be composed of int ! Got '$raw'", 1);
 				}
 			}
@@ -354,6 +353,14 @@
 			if (is_array($e)) {return (int) $e["id"];}
 			if (is_a($e, "Core\PDO\Entity\Entity")) {return $e->getId();} //ADD CHECK IF NULL AND RAISE EXCEPTION -> SAVE BEFORE
 			throw new Exception("Convertion impossible en Id !", 1);
+		}
+
+		private function toIds($a) {
+			$ids = array();
+			foreach ($a as $e) {
+				$ids[] = $this->toId($e);
+			}
+			return $ids;
 		}
 
 

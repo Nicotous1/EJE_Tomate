@@ -16,6 +16,7 @@
 	use Admin\Entity\VarQuali;
 	use Admin\Entity\Info;
 	use Admin\Entity\InfoController;
+	use Auth\Entity\User;
 
 	require_once("plugins/WordTemplate/loader.php");
 	use WordTemplate\Scope;
@@ -37,11 +38,19 @@
 			//Important to rewrite for security
 			$params = $this->httpRequest->post(array(
 				"id", "nom", "pseudo", "but", "competences", "bdd", "specifications", "p_jeh", "context", "domaines", "provenance",
-				"lieu", "statut", "fee", "break_jeh", "break_fee", "locked", "child", "pub", "pub_titre", "client", "facturation",
-				"signataire","entreprise","numero", "admins", "per_rem", "but_short",
+				"lieu", "statut", "fee", "break_jeh", "break_fee", "locked", "pub", "pub_titre", "client", "facturation",
+				"signataire","entreprise","numero", "admins", "per_rem", "but_short", "avn_motif", "notes",
 			));
 
-			$etude = new Etude($params);
+			if ($params["id"] > 0) {
+				$etude = $this->pdo->get("Admin\Entity\Etude", (int) $params["id"]);
+				if ($etude === null) {return $this->error("Cette étude n'existe plus !");}
+				$etude->set_Array($params);
+
+			} else {
+				$etude = new Etude($params);
+			}
+			
 			$etude->generateNum();
 
 			$res = $this->pdo->save($etude);
@@ -94,25 +103,34 @@
 			$id = $this->httpRequest->post("id");
 			$pdo = new EntityPDO();
 			$e = $pdo->get("Admin\Entity\Etude", $id);
-			$copy = $e->infant();
+			if ($e === null) {return $this->error("Cette étude n'existe plus. Elle ne peut être copiée.");}
+			$child = $e->get("child");
 
-			$pdo = new EntityPDO();
-			$pdo->save($copy);
-			$pdo->saveAtt("admins", $copy);
-			$pdo->saveAtt("docs", $copy, array("save" => true));
-			$pdo->saveAtt("etapes", $copy, array("save" => true));
-			$pdo->saveAtt("work_requests", $copy);
+			// Check that there is no already existing copy !
+			if ($child == null) {
+				$copy = $e->infant();
 
-			$pdo->saveAtt("work_requests", $e, array("save" => true));
+				$pdo = new EntityPDO();
+				$pdo->save($copy);
+				$pdo->saveAtt("admins", $copy);
+				$pdo->saveAtt("docs", $copy, array("save" => true));
+				$pdo->saveAtt("etapes", $copy, array("save" => true));
+				$pdo->saveAtt("work_requests", $copy);
 
-			$etapes = $copy->get("etapes");
-			foreach ($etapes as $i => $etape) {
-				$pdo->saveAtt("sEtapes", $etape, array("save" => true));
+				$pdo->saveAtt("work_requests", $e, array("save" => true));
+
+				$etapes = $copy->get("etapes");
+				foreach ($etapes as $i => $etape) {
+					$pdo->saveAtt("sEtapes", $etape, array("save" => true));
+				}
+				$pdo->save($e);
+
+				//Info modification
+				$this->pdo->save(new Info(array("type" => 4, "etude" => $copy)));
+			} else {
+				$copy = $child;
 			}
-			$pdo->save($e);
 
-			//Info modification
-			$this->pdo->save(new Info(array("type" => 4, "etude" => $copy)));
 
 			return $this->success(array("link" => $this->routeur->getUrlFor("AdminEdit",array("id"=>$copy->getId()))));
 		}
@@ -152,12 +170,19 @@
 
 		public function SaveUser() {
 			//Handle POST Data
-			//Important to rewrite for security
 			$params = $this->httpRequest->post(array(
-				"id", "nom", "prenom", "annee", "mobile", "fixe", "adresse", "code_postal", "mobile", "ville", "date_birth", "nationality", "secu", "titre"
+				"nom", "prenom", "annee", "mobile", "fixe", "adresse", "code_postal", "mobile", "ville", "date_birth", "nationality", "secu", "titre"
 			));
 
-			$user = $this->user;
+			// Get the user to edit
+			if ($this->user->get("level") >= 2) {
+				$id = $this->httpRequest->post("id");
+				$user = $this->pdo->get("Auth\Entity\User", $id);
+			} else {
+				$user = $this->user; //Standard User can only edit themselves !
+			}
+			if ($user == null) {return $this->error("Cette utilisateur n'existe plus !");} 
+
 			$user->set_Array($params);
 			if(!$user->isValid()) {return $this->error("Le formulaire n'est pas valide !");}
 			
