@@ -337,7 +337,7 @@
 
                         <md-subheader>Division des {{getTotJEH(etape)}} JEH :</md-subheader>             
                         <md-list>
-                          <md-list-item class="md-1-line" ng-repeat="sEtape in etape.sEtapes track by sEtape.id">
+                          <md-list-item class="md-1-line" ng-repeat="sEtape in etape.sEtapes">
 
                             <md-select ng-model="sEtape.etudiant" placeholder="Choisir un intervenant" ng-disabled="etude.locked">  
                               <md-option ng-value="e.id" ng-repeat="e in etude_etudiants track by e.id">{{e.prenom}} {{e.nom}}</md-option>
