@@ -42,8 +42,15 @@
 				"signataire","entreprise","numero", "admins", "per_rem", "but_short", "avn_motif", "notes",
 			));
 
-			$etude = new Etude($params);
+			if ($params["id"] > 0) {
+				$etude = $this->pdo->get("Admin\Entity\Etude", (int) $params["id"]);
+				if ($etude === null) {return $this->error("Cette étude n'existe plus !");}
+				$etude->set_Array($params);
 
+			} else {
+				$etude = new Etude($params);
+			}
+			
 			$etude->generateNum();
 
 			$res = $this->pdo->save($etude);
