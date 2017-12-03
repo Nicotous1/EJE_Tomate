@@ -44,6 +44,9 @@
 			array("id" => 5, "long" => "Économie"),
 			array("id" => 6, "long" => "Informatique"),
 			array("id" => 7, "long" => "Économétrie"),
+			array("id" => 8, "long" => "Série temporelles"),
+			array("id" => 9, "long" => "Mathématiques"),
+			array("id" => 10, "long" => "Machine Learning"),
 		);
 
 		protected static function get_array_EntitySQL() {
