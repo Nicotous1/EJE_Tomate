@@ -8,6 +8,7 @@
 	use \Exception;
 
 	use Admin\Entity\Etude;
+	use Admin\Entity\Document;
 	use Auth\Entity\UserPDO;
 
 	class AdminController extends Controller {
@@ -111,13 +112,35 @@
 			$r->execute();
 
     		$n = $r->rowCount();
-    		echo "$n documents inutiles ont été suprimés.<br>";
+    		echo "$n documents non reliés dans la DB ont été supprimés de la DB.<br>";
 
 			$docs = $this->pdo->get("Admin\Entity\Document", null, false);
+
+			$paths_usefull = array();
+			$n_deleted = 0;
 			foreach ($docs as $i => $doc) {
-				if ($doc->exists()) {unset($docs[$i]);}
+				if ($doc->exists()) {$paths_usefull[] = $doc->get("path");}
+				else {$doc->remove(); $n_deleted++;}
 			}
-			var_dump($docs);
+			echo "$n_deleted documents ont été supprimée de la base de données car ils ne sont pas sur le serveur.<br>";
+
+			// var_dump($paths_usefull);
+
+			$files = array();
+			$n_deleted = 0;
+			foreach (scandir(Document::pathStorage) as $file) {
+				if (!in_array(pathinfo($file, PATHINFO_EXTENSION), array("pdf", "docx"))) {continue;}
+
+				if (!in_array(Document::pathStorage . $file, $paths_usefull)) {
+					unlink(Document::pathStorage . $file);
+					$n_deleted++;
+				}
+			}
+			echo "$n_deleted documents ont été supprimée du disque car ils ne sont pas dans la DB.<br><br>";
+			echo count($paths_usefull) . " documents restants.<br>";
+
+
+
 		}
 
 		public function test() {
