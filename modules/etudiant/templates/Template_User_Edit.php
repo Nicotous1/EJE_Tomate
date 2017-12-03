@@ -72,9 +72,18 @@
                 <label>Nationalité</label>
                 <input type="text" ng-model="user.nationality" md-maxlength="60" required>
               </md-input-container>
-              <md-input-container class="md-block flex-40">
+            </div>
+
+            <div layout="row">
+              <md-input-container class="md-block">
+                <md-select ng-model="user.has_secu" placeholder="Sécurité sociale ?" required>  
+                  <md-option ng-value="true">J'ai la sécurité sociale</md-option>
+                  <md-option ng-value="false">Je n'ai pas de sécurité sociale</md-option>
+                </md-select>
+              </md-input-container>
+              <md-input-container class="md-block flex">
                 <label>Numéro de sécurité sociale</label>
-                <input type="text" ng-model="user.secu" md-maxlength="15">
+                <input type="text" ng-model="user.num_secu" md-maxlength="15" ng-disabled="!user.has_secu">
               </md-input-container>
             </div>
 

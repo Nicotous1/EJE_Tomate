@@ -171,7 +171,7 @@
 		public function SaveUser() {
 			//Handle POST Data
 			$params = $this->httpRequest->post(array(
-				"nom", "prenom", "annee", "mobile", "fixe", "adresse", "code_postal", "mobile", "ville", "date_birth", "nationality", "secu", "titre"
+				"nom", "prenom", "annee", "mobile", "fixe", "adresse", "code_postal", "mobile", "ville", "date_birth", "nationality", "has_secu", "titre", "num_secu"
 			));
 
 			// Get the user to edit

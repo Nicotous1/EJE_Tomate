@@ -38,7 +38,7 @@
 			//Handle POST Data
 			//Important to rewrite for security
 			$params = $this->httpRequest->post(array(
-				"mail", "password", "titre", "nom", "prenom", "annee", "nationality"
+				"mail", "password", "titre", "nom", "prenom", "annee", "nationality", "has_secu"
 			));
 
 			$user = new User($params);

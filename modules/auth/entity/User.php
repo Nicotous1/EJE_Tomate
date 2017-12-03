@@ -27,7 +27,8 @@
 					array("att" => "mobile", "type" => AttSQL::TYPE_STR),
 					array("att" => "date_birth", "type" => AttSQL::TYPE_DATE),
 					array("att" => "nationality", "type" => AttSQL::TYPE_STR),
-					array("att" => "secu", "type" => AttSQL::TYPE_STR),
+					array("att" => "has_secu", "type" => AttSQL::TYPE_BOOL),
+					array("att" => "num_secu", "type" => AttSQL::TYPE_STR),
 
 					// Powers
 					array("att" => "can_delete_doc", "type" => AttSQL::TYPE_BOOL),
@@ -41,28 +42,6 @@
 				),
 			);
 		}
-
-		protected $id;
-		protected $mail;
-		protected $hash;
-		protected $password;
-		protected $level;	
-		protected $date_signin;
-		protected $activated;
-		protected $activation;
-
-		protected $titre;
-		protected $nom;
-		protected $prenom;
-		protected $adresse;
-		protected $fixe;
-		protected $mobile;
-		protected $date_birth; //date must be first word for angular handling
-		protected $nationalite;
-		protected $secu;
-		protected $annee;
-
-		protected $cv;
 
 
 
@@ -123,7 +102,7 @@
 		}
 
 		public function isValid() {
-			return ($this->get("hash") != null && $this->get("mail") != null && filter_var($this->get("mail"), FILTER_VALIDATE_EMAIL) && $this->get("nom") != null && $this->get("prenom") != null && $this->get("nationality") != null && $this->get("annee") != null && $this->get("titre") != null);
+			return ($this->get("hash") != null && $this->get("mail") != null && filter_var($this->get("mail"), FILTER_VALIDATE_EMAIL) && $this->get("nom") != null && $this->get("prenom") != null && $this->get("nationality") != null && $this->get("annee") != null && $this->get("titre") != null && $this->get("has_secu") !== null);
 		}
 
 		public function isSearchable() {
