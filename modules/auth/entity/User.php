@@ -123,7 +123,7 @@
 		}
 
 		public function isValid() {
-			return ($this->get("hash") != null && $this->get("mail") != null && filter_var($this->get("mail"), FILTER_VALIDATE_EMAIL) && $this->get("nom") != null && $this->get("prenom") != null);
+			return ($this->get("hash") != null && $this->get("mail") != null && filter_var($this->get("mail"), FILTER_VALIDATE_EMAIL) && $this->get("nom") != null && $this->get("prenom") != null && $this->get("nationality") != null && $this->get("annee") != null && $this->get("titre") != null);
 		}
 
 		public function isSearchable() {

@@ -70,7 +70,7 @@
               </md-input-container>
               <md-input-container class="md-block flex">
                 <label>Nationalité</label>
-                <input type="text" ng-model="user.nationality" md-maxlength="30">
+                <input type="text" ng-model="user.nationality" md-maxlength="60" required>
               </md-input-container>
               <md-input-container class="md-block flex-40">
                 <label>Numéro de sécurité sociale</label>
