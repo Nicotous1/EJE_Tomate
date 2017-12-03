@@ -92,9 +92,12 @@
 
                       <div layout="row">
                         <md-input-container  class="md-block flex">
-                          <label>Domaines</label>
-                          <input ng-model="etude.domaines"  md-maxlength="120" ng-disabled="etude.locked"></textarea>
+                          <label>Domaines : ({{etude.domaines_temp}})</label>
+                          <md-select ng-model="etude.domaines" multiple ng-disabled="etude.locked">  
+                            <md-option ng-value="{{domaine.id}}" ng-repeat="domaine in formEtude.domaines | orderBy:'long'  track by domaine.id">{{domaine.long}}</md-option>
+                          </md-select>                        
                         </md-input-container>
+
                       </div>
                     </div>
                   </md-tab-body>

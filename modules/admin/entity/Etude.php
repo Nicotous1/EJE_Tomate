@@ -36,6 +36,16 @@
 			array("id" => 2, "short" => "Chez le client", "long" => "chez le client"),
 		);
 
+		public static $domaineArray = array(
+			array("id" => 1, "long" => "Statistique Descriptives"),
+			array("id" => 2, "long" => "Analyse de données"),
+			array("id" => 3, "long" => "Enquête/Sondage"),
+			array("id" => 4, "long" => "Finance"),
+			array("id" => 5, "long" => "Économie"),
+			array("id" => 6, "long" => "Informatique"),
+			array("id" => 7, "long" => "Économétrie"),
+		);
+
 		protected static function get_array_EntitySQL() {
 			return array(
 				"atts" => array(
@@ -50,7 +60,6 @@
 					array("att" => "notes", "type" => AttSQL::TYPE_STR),
 					array("att" => "competences", "type" => AttSQL::TYPE_STR),
 					array("att" => "context", "type" => AttSQL::TYPE_STR),
-					array("att" => "domaines", "type" => AttSQL::TYPE_STR),
 					array("att" => "pub", "type" => AttSQL::TYPE_STR),
 					array("att" => "pub_titre", "type" => AttSQL::TYPE_STR),
 					array("att" => "avn_motif", "type" => AttSQL::TYPE_STR),
@@ -58,6 +67,9 @@
 					array("att" => "date_modified", "type" => AttSQL::TYPE_DATE),
 					array("att" => "date_end_recrute", "type" => AttSQL::TYPE_DATE),
 					array("att" => "locked", "type" => AttSQL::TYPE_BOOL),
+					
+
+					array("att" => "domaines_temp", "type" => AttSQL::TYPE_STR),
 
 					array("att" => "fee", "type" => AttSQL::TYPE_FLOAT),
 					array("att" => "break_jeh", "type" => AttSQL::TYPE_INT),
@@ -68,6 +80,8 @@
 					array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => self::$statutArray),
 					array("att" => "lieu", "type" => AttSQL::TYPE_ARRAY, "list" => self::$lieuArray),
 
+					array("att" => "domaines", "type" => AttSQL::TYPE_MARRAY, "list" => self::$domaineArray),
+					
 					array("att" => "client", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
 					array("att" => "facturation", "type" => AttSQL::TYPE_DREF, "class" => "Client"),
 					array("att" => "signataire", "type" => AttSQL::TYPE_DREF, "class" => "Client"),

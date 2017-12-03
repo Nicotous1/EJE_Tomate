@@ -38,7 +38,6 @@
 			$cs = $pdo->get("Admin\Entity\Client", null, false);
 			$ds = $pdo->get("Admin\Entity\DocType", null, false);
 			$ts = $pdo->get("Admin\Entity\DocTemplate", null, false);
-			//$this->SC->getPDO()->stats();
 
 			
 			//AFFICHAGE

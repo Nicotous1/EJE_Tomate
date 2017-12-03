@@ -33,6 +33,7 @@
      provs : <?php echo json_encode(Etude::$provenanceArray); ?>,
      statuts : <?php echo json_encode(Etude::$statutArray); ?>,
      lieux : <?php echo json_encode(Etude::$lieuArray); ?>,
+     domaines : <?php echo json_encode(Etude::$domaineArray); ?>,
      entreprises : <?php echo json_encode($entreprises); ?>,
      clients : <?php echo json_encode($clients); ?>,
      annees : <?php echo json_encode(User::$anneeArray); ?>,
