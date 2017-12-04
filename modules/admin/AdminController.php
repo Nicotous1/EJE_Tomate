@@ -83,6 +83,7 @@
 			$ds = $pdo->get("Admin\Entity\DocType", null, false);
 			$ts = $pdo->get("Admin\Entity\DocTemplate", null, false);
 			$vs = $pdo->get("Admin\Entity\VarQuali", null, false);
+			$rs = $pdo->get("Admin\Entity\QualiRequest", null, false);
 			$es = $pdo->get("Admin\Entity\Etude", array(
 				"#statut = 7",
 				Etude::getEntitySQL()
@@ -96,6 +97,7 @@
 		    	 ->addVar("templates", $ts)
 		    	 ->addVar("vars_quali", $vs)
 		    	 ->addVar("etudes", $es)
+		    	 ->addVar("requests", $rs)
 		  	;
 		    return $page;
 		}

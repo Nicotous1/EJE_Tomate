@@ -21,6 +21,33 @@
     }
   });
 
+  app.controller('QualifierController', function($scope, $mdDialog, $mdToast, $http) {
+    $scope.requests = handle_date(<?php echo json_encode($requests); ?>);
+    $scope.sending = false;
+    $scope.edit = function(etude) {
+      window.open("<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id), '_blank');
+    }
+
+    $scope.delete = function(c, ev) {
+      var confirm = $scope.confirmDialog(ev, "Vous vous apprêtez à supprimer une requête !", "Confimer la suppresion ?");
+
+      $mdDialog.show(confirm).then(function() {
+        $scope.sending = true;
+        var url = "<?php echo $routeur->getUrlFor("AdminAjaxDeleteRequestQuali") ?>";
+        var resHandler = handle_response({
+          success : function(data, msg) {
+            remove_entity(c, $scope.requests);
+            $mdToast.show($mdToast.simple().textContent("La demande a été supprimé.").position("top right"));
+          },
+          all : function(data, msg) {$scope.sending = false;}, 
+        });
+        $http.post(url, c).then(resHandler, resHandler);  
+      });
+    }; 
+
+
+  });
+
 
 
   app.controller('TemplatesController', function($scope, $http, $mdDialog, FileUploader) {

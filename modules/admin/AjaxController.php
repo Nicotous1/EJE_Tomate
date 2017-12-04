@@ -11,6 +11,7 @@
 	use Admin\Entity\DocEtude;
 	use Admin\Entity\Info;
 	use Admin\Entity\SearchEngine;
+	use Admin\Entity\QualiRequest;
 
 	class AjaxController extends Controller {
 
@@ -113,6 +114,36 @@
 			$s = new SearchEngine();
 			$res = $s->search($search);
 			return $this->success(array("items" => $res));
+		}
+
+
+
+		public function DeleteRequestQuali() {
+			$id = (int) $this->httpRequest->post("id");
+			$d = new QualiRequest(array("id" => $id));
+			$res = $this->pdo->remove($d);
+			return ($res) ? $this->success() : $this->error();
+		}
+
+		public function MakeRequestQuali() {
+			$params = $this->httpRequest->post(array(
+				"etude", "doc"
+			));
+
+			$r = new QualiRequest($params);
+			if ($r->get("etude") === null) {return $this->error("Cette étude n'existe plus !");}
+			if ($r->get("doc") === null) {return $this->error("Ce template n'existe plus !");}
+
+			$res = $this->pdo->save($r);
+
+			if ($res) {
+				$r = new Request("DELETE FROM #^ WHERE #doc~ AND #etude~ AND id != :id", $r);
+				//var_dump($r->getStr());
+				$r->execute();
+				return $this->success();
+			} else {
+				return $this->error();
+			}
 		}
 
 	}

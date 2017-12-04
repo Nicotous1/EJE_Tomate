@@ -409,7 +409,7 @@
 
 
           <div ng-controller="TemplateController">
-            <md-tab label="Documents ({{docs.length}})" ng-disabled="!($parent.etude.id > 0)">
+            <md-tab label="Documents ({{docs.length}})" ng-disabled="!($parent.etude.id > 0)" md-active="true">
               <md-tab-body class="md-padding">
                 <md-subheader ng-if="docs.length > 0">Documents enregistrés</md-subheader>
                 <md-list>
@@ -426,11 +426,16 @@
                 </md-list>
                 <p style="color:red; text-align: center;">{{error}}</p>
                 <md-progress-linear ng-if="custom_uploader.isUploading" md-mode="determinate" value="{{custom_uploader.progress}}"></md-progress-linear>
-                <div layout="row" ng-if="$parent.etude.child == null">
+
+                <md-divider></md-divider>
+
+                <div layout="row" ng-if="$parent.etude.child == null" layout-align="center center">
 <?php if ($user->get("quali")) { ?>                  
                     <md-button flex ng-click="add()">Ajouter un document</md-button>
                     <md-button flex ng-click="generate()">Générer</md-button>
                     <md-button flex ng-click="custom()">Custom</md-button>
+<?php } else { ?>
+                    <md-button ng-click="ask()">Demander un document</md-button>
 <?php } ?>                    
                 </div>
               </md-tab-body>

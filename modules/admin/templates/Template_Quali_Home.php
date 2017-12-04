@@ -13,7 +13,7 @@
         <md-tabs md-dynamic-height md-border-bottom >
 
           <div ng-controller="EtudesController">
-            <md-tab label="À auditer">
+            <md-tab label="À auditer ({{etudes.length}})">
               <md-tab-body>
                 <md-list-item ng-if="etudes.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à auditer !</p></md-list-item>
                 <md-list style="padding: 0;">
@@ -28,6 +28,23 @@
               </md-tab-body>
             </md-tab> 
           </div>
+
+          <div ng-controller="QualifierController">
+            <md-tab label="À qualifier ({{requests.length}})" md-active="true">
+              <md-tab-body>
+                <md-list-item ng-if="requests.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à qualifier !</p></md-list-item>
+                <md-list style="padding: 0;">
+                  <md-list-item class="md-2-line" ng-repeat="r in requests | orderBy:'date'" md-on-demand ng-click="edit(r.etude)">
+                    <p>#{{r.etude.numero}} : {{getId(templates,r.doc).nom}}</p>
+                    <p style="text-align: right;">{{r.date | date:'à HH:mm le dd/MM/yyyy'}}</p>
+                    <md-button class="md-icon-button md-secondary" ng-click="edit(r.etude)"><i class="material-icons">mode_edit</i></md-button>
+                    <md-button class="md-icon-button md-secondary" ng-click="delete(r, $event)" ng-disabled="sending"><i class="material-icons">delete</i></md-button>
+                  </md-list-item>
+                </md-list>
+              </md-tab-body>
+            </md-tab> 
+          </div>
+
 
           <div ng-controller="TemplatesController" ng-if="doctypes.length > 0">
             <md-tab label="Templates">

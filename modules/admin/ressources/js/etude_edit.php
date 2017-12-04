@@ -640,6 +640,46 @@
     };
 
 
+   $scope.ask = function($event) {
+       var parentEl = angular.element(document.body);
+       $scope.error = null;
+       $mdDialog.show({
+         parent: parentEl,
+         targetEvent: $event,
+         templateUrl: "<?php echo $ressources->html_url("admin/Template_Doc_Ask"); ?>",
+         controller: DocDialogController,
+         locals: {
+           doctemplates: $scope.doctemplates,
+           etude_id: $scope.etude.id,
+         },
+      });
+
+      function DocDialogController(etude_id, doctemplates, $scope, $mdDialog, $http, $mdToast) {
+        $scope.doctemplates = doctemplates;
+        $scope.doc = {etude : etude_id};
+        $scope.sending = false;
+
+        $scope.ask = function() {
+          $scope.sending = true;
+          var url = "<?php echo $routeur->getUrlFor("AdminAjaxMakeRequestQuali") ?>";
+          var resHandler = handle_response({
+            success : function(data, msg) {
+              $mdDialog.hide();
+              $mdToast.show($mdToast.simple().textContent("Votre demande a été enregistrée.").position("top right"));
+            },
+            all : function(data, msg) {$scope.sending = false;}, 
+          });
+          $http.post(url, {etude : $scope.doc.etude, doc : $scope.doc.template}).then(resHandler, resHandler);  
+        };
+
+        $scope.close = function() {
+          $mdDialog.hide();
+        }
+      }
+    };
+
+
+
     $scope.delete = function(ev, d) {
       var confirm = $scope.confirmDialog(ev, "Vous vous apprêtez à supprimer '" + d.nom + "' !", "Confimer la suppresion ?");
 
