@@ -10,6 +10,7 @@
 <script type="text/javascript">
   app.controller('EditController', function($scope, $mdDialog, $http) {
     $scope.etude = <?php echo json_encode($etude); ?>;
+    $scope.user = <?php echo json_encode($user); ?>;
     $scope.etude_etudiants = <?php echo json_encode($etude->get("etudiants")); ?>;
     $scope.etapes = handle_date(<?php echo json_encode($etude->get("etapes")); ?>);
 
@@ -444,6 +445,14 @@
   app.controller("TemplateController", function($scope, $http, $mdDialog, FileUploader) {
     $scope.error = null;
     $scope.docs = handle_date(<?php echo json_encode($etude->get("docs")); ?>);
+
+    $scope.user_is_admin = function() {
+      var res = false;
+      angular.forEach($scope.etude.admins, function(x,i) {
+        if (x == <?php echo $user->get("id") ?>) {res = true;}
+      });
+      return res;
+    }
 
     $scope.add = function($event) {
       $scope.error = null;

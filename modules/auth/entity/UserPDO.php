@@ -6,7 +6,7 @@
 
 		public function getAdmins() {
 			$pdo = new EntityPDO();
-			return $pdo->get("Auth\Entity\User", "#s.level = 2", false);
+			return $pdo->get("Auth\Entity\User", "#s.level IN (2,3)", false);
 		}
 	}
 ?>
