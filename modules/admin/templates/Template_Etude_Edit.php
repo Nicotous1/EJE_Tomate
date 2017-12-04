@@ -430,14 +430,12 @@
                 <md-divider></md-divider>
 
                 <div layout="row" ng-if="$parent.etude.child == null" layout-align="center center">
-<?php if ($user->get("quali")) { ?>    
-<div flex layout="row" ng-if="!user_is_admin()">              
-                    <md-button flex ng-click="add()">Ajouter un document</md-button>
                     <md-button flex ng-click="generate()">Générer</md-button>
+                    <md-button ng-click="ask()" ng-if="user_is_admin()" flex>Demander un document</md-button>                  
+                    <md-button flex ng-click="add()">Ajouter un document</md-button>
+<?php if ($user->get("quali")) { ?>             
                     <md-button flex ng-click="custom()">Custom</md-button>
-</div>
 <?php } ?>
-                    <md-button ng-click="ask()" ng-if="user_is_admin()">Demander un document</md-button>                  
                 </div>
               </md-tab-body>
             </md-tab>
