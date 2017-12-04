@@ -35,8 +35,10 @@
 <?php
       }
 ?>        
+<?php if ($user->get("quali")) { ?>
         <md-divider></md-divider>
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminQuali") ?>')">Pôle Qualité</md-list-item>
+<?php } ?>
       <?php } ?>
         <md-divider></md-divider>
 

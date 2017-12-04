@@ -31,7 +31,7 @@
 					array("att" => "num_secu", "type" => AttSQL::TYPE_STR),
 
 					// Powers
-					array("att" => "can_delete_doc", "type" => AttSQL::TYPE_BOOL),
+					array("att" => "quali", "type" => AttSQL::TYPE_BOOL),
 
 					array("att" => "annee", "type" => AttSQL::TYPE_ARRAY, "list" => User::$anneeArray),
 					array("att" => "titre", "type" => AttSQL::TYPE_ARRAY, "list" => User::$titreArray),
@@ -72,7 +72,7 @@
 				"date_signin" => new \DateTime(),
 				"level" => 0, //LEVEL VISITEUR
 				"activated" => true,
-				"can_delete_doc" => false,
+				"quali" => false,
 			);
 		}
 

@@ -419,17 +419,19 @@
                   <md-list-item ng-repeat="d in docs" ng-click="redirect(d.link)">
                     <div>{{d.nom}} <small ng-if="d.ref != false">({{d.ref}})</small></div>         
                     <md-button class="md-icon-button md-secondary" ng-click="redirect(d.link)"><i class="material-icons">file_download</i></md-button>
-<?php if ($user->get("can_delete_doc")) { ?>
+<?php if ($user->get("quali")) { ?>
                     <md-button class="md-icon-button md-secondary" ng-click="delete($event, d)"><i class="material-icons">delete</i></md-button>
 <?php } ?>                    
                   </md-list-item>
                 </md-list>
                 <p style="color:red; text-align: center;">{{error}}</p>
                 <md-progress-linear ng-if="custom_uploader.isUploading" md-mode="determinate" value="{{custom_uploader.progress}}"></md-progress-linear>
-                <div layout="row" ng-if="child == null">
+                <div layout="row" ng-if="$parent.etude.child == null">
+<?php if ($user->get("quali")) { ?>                  
                     <md-button flex ng-click="add()">Ajouter un document</md-button>
                     <md-button flex ng-click="generate()">Générer</md-button>
                     <md-button flex ng-click="custom()">Custom</md-button>
+<?php } ?>                    
                 </div>
               </md-tab-body>
             </md-tab>
