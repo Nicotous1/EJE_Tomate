@@ -660,12 +660,28 @@
          locals: {
            doctemplates: $scope.doctemplates,
            etude_id: $scope.etude.id,
+           etapes : $scope.etapes,
+           etude : $scope.etude,
          },
       });
 
-      function DocDialogController(etude_id, doctemplates, $scope, $mdDialog, $http, $mdToast) {
+      function DocDialogController(etude_id, doctemplates, etapes, etude, $scope, $mdDialog, $http, $mdToast) {
         $scope.doctemplates = doctemplates;
         $scope.doc = {etude : etude_id};
+
+        $scope.etude = etude;
+
+        var n_jeh = 0;
+        angular.forEach(etapes, function(e,i) {
+          angular.forEach(e.sEtapes, function (s,i) {
+            n_jeh += s.jeh;
+          });
+        });
+        $scope.n_jeh = n_jeh;
+
+        $scope.date_start = etapes[0].date_start;
+        $scope.date_end = etapes[etapes.length - 1].date_end;
+
         $scope.sending = false;
 
         $scope.ask = function() {

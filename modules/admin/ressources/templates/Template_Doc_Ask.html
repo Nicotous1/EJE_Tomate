@@ -11,6 +11,13 @@
 
     <md-dialog-content>
       <div class="md-block md-padding">
+        <h3>Vérifiez ces informations :</h3>
+        <p>{{date_start | date:'dd/MM/yyyy'}} au {{date_end | date:'dd/MM/yyyy'}}</p>
+        <p>{{etude.fee > 0 ? etude.fee + "€ de frais" : "Frais offerts"}}</p>
+        <p>{{n_jeh}} JEH</p>
+
+        <h3>Choissisez votre document :</h3>
+
         <md-input-container class="md-block flex">
           <label>Type de document</label>
           <md-select ng-model="doc.template" placeholder="Choisir un template" required>
