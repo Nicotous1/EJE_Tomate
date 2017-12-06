@@ -73,7 +73,7 @@
                         <md-input-container class="md-block flex">
                           <label>Administrateurs</label>
                           <md-select ng-model="etude.admins" placeholder="Administrateurs" multiple ng-disabled="etude.locked">  
-                            <md-option ng-value="{{admin.id}}" ng-repeat="admin in admins | orderBy:'nom' track by admin.id">{{admin.nom}} {{admin.prenom}}</md-option>
+                            <md-option ng-value="{{admin.id}}" ng-repeat="admin in admins | orderBy:'prenom' track by admin.id">{{admin.prenom}} {{admin.nom}}</md-option>
                           </md-select>
                         </md-input-container>      
                         <md-input-container class="md-block flex-20">
