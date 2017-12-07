@@ -6,23 +6,6 @@
 
 	}
 
-	class ScopeArray {
-		protected $res;
-
-		public function __construct($a, $b) {
-			$this->res = array_merge($this->transform($a), $this->transform($b));
-		}
-
-		public function toArray() {
-			return $this->res;
-		}
-
-		private function transform($a) {
-			if (is_a($a, "WordTemplate\ScopeVoid")) {$a = null;}
-			return (is_a($a, "WordTemplate\ScopeArray")) ? $a->toArray() : array($a);			
-		}
-	}
-
 	class Scope {
 		private $piles;
 		private $level;
@@ -32,15 +15,36 @@
 			$this->level = 0;
 		}
 
+		public function setContext($context) {
+			$vars = explode(";", $context);
+
+		}
+
 		public function getlevel() {
 			return $this->level;
 		}
 
-		public function get($ref) {
+		public function get($ref, $for_func = false) {
 			// Remove space and invisible character
 			$ref = str_replace(' ', '', $ref);
 			$ref = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $ref); //Invisible
 
+			$parts = $this->split_comma($ref);
+
+			if (count($parts) > 1) {
+				$res = array();
+				foreach ($parts as $part) {
+					$res[] = $this->get($part);
+				}
+				return $res;		
+			} else {
+				$res = $this->get_pure($ref);
+				return ($for_func) ? array($res) : $res;
+			}
+
+		}
+
+		private function get_pure($ref) {
 			$cursor = 0;
 			$val = new ScopeVoid();
 			while ($cursor < strlen($ref)) {
@@ -49,25 +53,18 @@
 				$ref_val = substr($ref, 0, $cursor - 1);
 
 				// WARNING -> CAN BE NULL
-				$first_match = $this->first_match($ref, array("(", ".", ","), $cursor);
+				$first_match = $this->first_match($ref, array("(", "."), $cursor);
 				$first_match_c = $first_match[0];
 				$first_match_pos = $first_match[1];
 
 
 
 
-				if ($first_match_c == "." || $first_match_c === false || $first_match_c == ",") {
+				if ($first_match_c == "." || $first_match_c === false) {
 					$name_var = substr($ref, $cursor, $first_match_pos - $cursor);
 					$val = $this->next($val, $name_var, $ref_val);
 					$cursor = $first_match_pos + 1;
-
-					if ($first_match_c == ",") {
-						$ref_still = substr($ref, $cursor);
-						$val_still = $this->get($ref_still);
-						return new ScopeArray($val, $val_still);
-					} else {
-						continue;
-					}
+					continue;
 				}
 
 
@@ -83,7 +80,7 @@
 
 					$function_name = substr($ref, $cursor, $pos_open - $cursor);
 					if ($function_name == '') {
-						$sub_val = $this->get($sub_content);
+						$sub_val = $this->get($sub_content, false);
 						if (is_a($val, "WordTemplate\ScopeVoid")) {
 							$val = $sub_val;
 						} else {
@@ -101,9 +98,7 @@
 						if (!method_exists($val, $function_name)) {throw new Exception("'$function_name' n'est pas une méthode de l'objet '$ref_val' qui est de type '".gettype($val)."' dans '$ref'.");}
 
 						// Paramètres de la fonctions
-						$params = $this->get($sub_content);
-						if (is_a($params, "WordTemplate\ScopeVoid")) {$params = null;}
-						$params = (is_a($params, "WordTemplate\ScopeArray")) ? $params->toArray() : array($params);
+						$params = $this->get($sub_content, true);
 
 						// Execution de la fonction
 						try {
@@ -119,8 +114,26 @@
 
 
 			}
+	
+			return (is_a($val, "WordTemplate\ScopeVoid")) ? null : $val;
+		}
 
-			return $val;
+		private function split_comma($ref) {
+			$level = 0;
+			$parts = array();
+			$cursor = 0;
+			for ($i=0; $i < strlen($ref); $i++) { 
+				$c = substr($ref, $i, 1);
+				if ($c == "(") {$level++;}
+				if ($c == ")") {$level--;}
+				if ($c == "," && $level == 0) {
+					$parts[] = substr($ref, $cursor, $i - $cursor);
+					$cursor = $i + 1;
+				}
+			}
+			if (strlen($ref) != $cursor) {$parts[] = substr($ref, $cursor, strlen($ref) - $cursor);}
+			if ($level != 0) {throw new Exception("Une parenthèse n'est pas refermée dans '$ref'.");}
+			return $parts;
 		}
 
 		private function find_close_bracket($ref, $pos_open) {
@@ -144,6 +157,8 @@
 		}
 
 		private function next($val, $name_var, $ref_val) {
+			if (is_a($val, "WordTemplate\ScopeArray")) {$val = $val->toArray();}
+
 			if (is_a($val, "WordTemplate\ScopeVoid")) {
 				return $this->next_root($name_var);
 			}
