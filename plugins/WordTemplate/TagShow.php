@@ -17,6 +17,8 @@
 
 			$var_name = $parts[0]->content();
 			$value = $scope->get($var_name);
+			if (is_a($value, "WordTemplate\ScopeVoid")) {$value = null;}
+			
 			if (is_a($value, "\DateTime")) {$value = date_french($value->format("j F o"));}
 			if (is_array($value)) {
 				if (isset($value["long"])) {
