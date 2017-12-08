@@ -9,6 +9,7 @@
 			return array(
 				"atts" => array(
 					array("att" => "nom", "type" => AttSQL::TYPE_STR),
+					array("att" => "context", "type" => AttSQL::TYPE_STR),
 					array("att" => "type", "type" => AttSQL::TYPE_DREF, "class" => "DocType"),
 					array("att" => "doc", "type" => AttSQL::TYPE_DREF, "class" => "Document"),
 			));

@@ -2,9 +2,7 @@
 	namespace WordTemplate;
 	use \Exception;
 
-	class ScopeVoid {
-
-	}
+	class ScopeVoid {}
 
 	class Scope {
 		private $piles;
@@ -16,8 +14,14 @@
 		}
 
 		public function setContext($context) {
-			$vars = explode(";", $context);
-
+			$context = $this->clean_str($context);
+			$lines = explode(";", $context);
+			foreach ($lines as $line) {
+				if ($line == '') {continue;}
+				$ps = explode("=", $line);
+				if (count($ps) != 2) {throw new Exception("Le contexte contient la ligne '$line' qui n'est pas au format '#VAR_NAME# = #VALUE#'");}
+				$this->add($ps[0], $this->get($ps[1]));
+			}
 		}
 
 		public function getlevel() {
@@ -26,8 +30,7 @@
 
 		public function get($ref, $for_func = false) {
 			// Remove space and invisible character
-			$ref = str_replace(' ', '', $ref);
-			$ref = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $ref); //Invisible
+			$ref = $this->clean_str($ref);
 
 			$parts = $this->split_comma($ref);
 
@@ -223,6 +226,12 @@
 		public function dropLevel() {
 			if (!$this->level == 0) {unset($this->piles[$this->level]); $this->level -= 1;}
 			return $this;
+		}
+
+		private function clean_str($str) {
+			$str = str_replace(' ', '', $str);
+			$str = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $str); //Invisible
+			return $str;
 		}
 	}
 ?>
