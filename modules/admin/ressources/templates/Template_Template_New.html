@@ -12,19 +12,22 @@
     <md-dialog-content class="md-padding">
       <div class="md-block" layout="row">
 
-        <md-input-container class="md-block flex-40">
+        <md-input-container class="md-block flex">
           <label>Nom</label>
           <input type="text" ng-model="template.nom" md-maxlength="50" required>
         </md-input-container>
 
-        <md-input-container class="md-block flex-25">
+      </div>
+      <div layout="row">
+
+        <md-input-container class="md-block flex">
           <label>Type de document</label>
           <md-select ng-model="template.type" placeholder="Choisir un type" required>
             <md-option ng-value="doc.id" ng-repeat="doc in doctypes track by doc.id">{{doc.nom}} ({{doc.var_name}})</md-option>
           </md-select>
         </md-input-container>
 
-        <md-input-container class="md-block flex-35">
+        <md-input-container class="md-block flex">
           <label>Word Template</label>
           <input type="text" value="{{fileName()}}" placeholder="Choisir un template" style="cursor: pointer;" onclick="$('#HuRJx').click();" onkeypress="$(this).blur(); return false; ">
         </md-input-container>
