@@ -537,15 +537,15 @@
 
       function DocDialogController(etude_id, doctypes, $scope, $mdDialog, $http) {
         $scope.doctypes = doctypes;
-        $scope.doc = {etude : etude_id, type : -1};
+        $scope.doc = {etude : etude_id, type : -1, context : ''};
 
         var url = "<?php echo $routeur->getUrlFor("AjaxGenCustomTemplate"); ?>";
         $scope.uploader = new FileUploader({
           url : url,
           alias : "doc",
-          formData : [$scope.doc],
           
           onAfterAddingFile : function(item) {
+            item.onBeforeUpload = function() {item.formData = [$scope.doc];}
             this.queue = [item];
           },
 
@@ -585,6 +585,7 @@
         $scope.generate = function() {
           console.log("posting doc....");
           console.log($scope.doc);
+          $scope.uploader.formData = [$scope.doc];
           $scope.uploader.uploadAll(); 
         }
       }
@@ -601,6 +602,7 @@
          locals: {
            doctemplates: $scope.doctemplates,
            etude_id: $scope.etude.id,
+           getId : $scope.getId,
          },
       }).then(function(e = null) {
         if (e !== null) {
@@ -608,9 +610,10 @@
         }
       });
 
-      function DocDialogController(etude_id, doctemplates, $scope, $mdDialog, $http) {
+      function DocDialogController(etude_id, doctemplates, getId, $scope, $mdDialog, $http) {
         $scope.doctemplates = doctemplates;
         $scope.doc = {etude : etude_id};
+        $scope.getId = getId;
         $scope.sending = false;
         $scope.error = null;
 

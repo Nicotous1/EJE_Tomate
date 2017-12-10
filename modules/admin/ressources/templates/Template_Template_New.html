@@ -31,6 +31,12 @@
         <input type="file" nv-file-select uploader="uploader" id="HuRJx" accept=".docx" style="display: none;">
 
       </div>
+      <div layout="row">
+          <md-input-container  class="md-block flex">
+            <label>Contexte</label>
+            <textarea ng-model="template.context"  rows="4" placeholder="##name## = ##variable##;" md-maxlength="200"></textarea>
+          </md-input-container>        
+      </div>
       <md-progress-linear ng-if="uploader.isUploading" md-mode="determinate" value="{{uploader.progress}}"></md-progress-linear>
     </md-dialog-content>
 

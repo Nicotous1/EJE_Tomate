@@ -11,12 +11,20 @@
 
     <md-dialog-content>
       <div class="md-block md-padding">
-        <md-input-container class="md-block flex">
-          <label>Type de document</label>
-          <md-select ng-model="doc.template" placeholder="Choisir un template">
-            <md-option ng-value="doct.id" ng-repeat="doct in doctemplates | orderBy:'nom' track by doct.id">{{doct.nom}}</md-option>
-          </md-select>
-        </md-input-container>
+        <div layout="row">
+          <md-input-container class="md-block flex">
+            <label>Type de document</label>
+            <md-select ng-model="doc.template" placeholder="Choisir un template" ng-change="doc.context = getId(doctemplates ,doc.template).context">
+              <md-option ng-value="doct.id" ng-repeat="doct in doctemplates | orderBy:'nom' track by doct.id" >{{doct.nom}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-input-container  class="md-block flex">
+            <label>Contexte</label>
+            <textarea ng-model="doc.context"  rows="4" placeholder="##name## = ##variable##;" md-maxlength="200"></textarea>
+          </md-input-container> 
+        </div>
         <p style="color:red; text-align: center;">{{error}}</p>
       </div>
     </md-dialog-content>

@@ -396,22 +396,25 @@
 		public function GenDocTemplate() {
 			$etude_id = $this->httpRequest->post("etude");
 			$template_id = $this->httpRequest->post("template");
+			$context = $this->httpRequest->post("context");
 			$pdo = new EntityPDO();
 			$dt = $pdo->get("Admin\Entity\DocTemplate", $template_id);
-			return $this->DocEtudeGenerate(new DocEtude(array("etude" => $etude_id, "doc" => $dt->get_Ids('doc'), "type" => $dt->get_Ids('type'))));
+			return $this->DocEtudeGenerate(new DocEtude(array("etude" => $etude_id, "doc" => $dt->get_Ids('doc'), "type" => $dt->get_Ids('type'))), $context);
 		}
 
 
 		public function GenCustomTemplate() {
 			$etude_id = $this->httpRequest->post("etude");
 			$type = $this->httpRequest->post("type");
+			$context = $this->httpRequest->post("context");
+
 			$doc = new Document($_FILES["doc"]);
 
-			return $this->DocEtudeGenerate(new DocEtude(array("etude" => $etude_id, "doc" => $doc, "type" => $type)));
+			return $this->DocEtudeGenerate(new DocEtude(array("etude" => $etude_id, "doc" => $doc, "type" => $type)), $context);
 		}
 
 
-		private function DocEtudeGenerate(DocEtude $de) {
+		private function DocEtudeGenerate(DocEtude $de, $context = null) {
 			$pathPlugin = "plugins/WordTemplate/";
 
 			$pdo = new EntityPDO();
@@ -433,6 +436,7 @@
 			$link = $pathPlugin."Generation/Gen_".$n.".docx";
 
 			try {
+				$scope->setContext($context);
 				$word->compile($link);
 			} catch (Exception $e) {
 				return $this->error($e->getMessage());
@@ -470,6 +474,7 @@
 			$params = array(
 				"nom" => $this->httpRequest->post("nom"),
 				"type" => $this->httpRequest->post("type"),
+				"context" => $this->httpRequest->post("context"),
 			);
 
 			if ($file_uploaded) { $params["doc"] = $_FILES["template"]; }
