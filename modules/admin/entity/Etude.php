@@ -308,7 +308,7 @@
 			return $this->dochistory;
 		}
 
-		public function getRem_ed(Etudiant $ed) {
+		public function getRem_ed(\Auth\Entity\User $ed) {
 			$n = 0;
 			foreach ($this->get("etapes") as $etape) {
 				foreach ($etape->get('sEtapes') as $sEtape) {
