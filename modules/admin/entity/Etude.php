@@ -8,6 +8,7 @@
 	use Core\PDO\PDO;
 	use Core\PDO\EntityPDO;
 	use \Datetime;
+	use \Exception;
 
 	class Etude extends Entity {
 		private $dochistory;
@@ -308,8 +309,12 @@
 			return $this->dochistory;
 		}
 
-		public function getRem_ed(\Auth\Entity\User $ed) {
+		public function getRem_ed($ed) {
+			if (!is_a($ed, "\Auth\Entity\User")) {throw new Exception("La fonction getRem_ed ne prend en paramètre que des objets User !");
+			}
+
 			$n = 0;
+
 			foreach ($this->get("etapes") as $etape) {
 				foreach ($etape->get('sEtapes') as $sEtape) {
 					if ($sEtape->get_Ids("etudiant") == $ed->get("id")) {
