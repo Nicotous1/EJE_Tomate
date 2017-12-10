@@ -308,9 +308,17 @@
 			return $this->dochistory;
 		}
 
-		public function getRem_ed() {
-			$n_ed = count($this->get("etudiants"));
-			return ($n_ed > 0) ? ($this->get("per_rem")/100)*$this->get("p_jeh")*$this->get("n_jeh")/($n_ed) : 0;
+		public function getRem_ed(Etudiant $ed) {
+			$n = 0;
+			foreach ($this->get("etapes") as $etape) {
+				foreach ($etape->get('sEtapes') as $sEtape) {
+					if ($sEtape->get_Ids("etudiant") == $ed->get("id")) {
+						$n += $sEtape->get("jeh");
+					}
+				}
+			}
+
+			return ($this->get("per_rem")/100)*$this->get("p_jeh")*$this->get("n_jeh");
 		}
 
 		public function getEtudiants() {
