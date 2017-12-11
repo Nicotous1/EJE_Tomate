@@ -56,7 +56,7 @@
 				switch ($format) {
 					case 'comma':
 						if ($i < $n - 1) {$res .= ", ";}
-						if ($i == ($n -1)) {$res .= TomateTemplate::white_space . "et" . TomateTemplate::white_space;}
+						if ($i == ($n -1)) {$res .= TomateTemplate::white_space . " et " . TomateTemplate::white_space;}
 						break;
 				}
 
