@@ -509,11 +509,11 @@
                     <div>Aucun commentaire</div>
                   </md-list-item>
 
-<md-list-item ng-mouseover="c.options = true" ng-mouseleave="c.options = false" ng-repeat="c in coms" ng-init="c.temp = 'dzdzdzdz'; c.edit = false" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220); cursor:pointer;" layout="row">
+<md-list-item ng-mouseover="c.options = true" ng-mouseleave="c.options = false" ng-repeat="c in coms | orderBy:'date'" ng-init="c.temp = 'dzdzdzdz'; c.edit = false" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220); cursor:pointer;" layout="row">
 
 
   <div class="md-list-item-text" layout="column" flex>
-    <p style="white-space: pre-line;" flex ng-if="!c.edit">{{c.content}}</p>
+    <p style="white-space: pre-line;" flex ng-if="!c.edit">{{c.content}}<span ng-if="c.etude != $parent.etude.id"> <i>(provient d'une sauvegarde)</i></span></p>
 
     <md-input-container  class="md-block flex-gt-sm" ng-if="c.edit" style="margin-bottom: 0;">
       <label>Edition du commentaire :</label>

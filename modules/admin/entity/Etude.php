@@ -201,6 +201,17 @@
  			return $child;
 		}
 
+		public function getComs() {
+			$coms = $this->get("coms", false);
+			$parent = $this->get("parent");
+			if (isset($parent[0])) {
+				$p = $parent[0];
+				$parent_coms = $p->get("coms");
+				$coms = array_merge($coms, $parent_coms);
+			}
+			return $coms;
+		}
+
 		public function getLocked() {
 			return ($this->locked || !empty($this->get_Ids("child")));
 		}
