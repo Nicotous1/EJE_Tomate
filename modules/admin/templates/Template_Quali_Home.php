@@ -37,8 +37,7 @@
                   <md-list-item class="md-2-line" ng-repeat="r in requests | orderBy:'date'" md-on-demand ng-click="edit(r.etude)">
                     <p>#{{r.etude.numero}} : {{getId(templates,r.doc).nom}}</p>
                     <p style="text-align: right;">{{r.date | time_past }}</p>
-                    <md-button class="md-icon-button md-secondary" ng-click="edit(r.etude)"><i class="material-icons">mode_edit</i></md-button>
-                    <md-button class="md-icon-button md-secondary" ng-click="delete(r, $event)" ng-disabled="sending"><i class="material-icons">delete</i></md-button>
+                    <md-button class="md-icon-button md-secondary" ng-click="delete(r, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Marquer comme terminée.</md-tooltip><i class="material-icons">delete</i></md-button>
                   </md-list-item>
                 </md-list>
               </md-tab-body>
