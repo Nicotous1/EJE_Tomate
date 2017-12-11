@@ -1,6 +1,7 @@
 <?php
   use Core\PDO\Request;
   use Admin\Entity\Etude;
+  use Admin\Entity\QualiRequest;
 ?>
   </head>
 
@@ -35,9 +36,16 @@
 <?php
       }
 ?>        
-<?php if ($user->get("quali")) { ?>
+<?php if ($user->get("quali")) {
+  $n = 0;
+  $r = new Request("SELECT COUNT(*) AS n FROM #^", QualiRequest::getEntitySQl());
+  $n += $r->fetch()["n"];
+  $r = new Request("SELECT COUNT(*) AS n FROM #^ WHERE #.statut = 7", Etude::getEntitySQL());
+  $n += $r->fetch()["n"];
+
+?>
         <md-divider></md-divider>
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminQuali") ?>')">Pôle Qualité</md-list-item>
+        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminQuali") ?>')">Pôle Qualité <?php if($n > 0) {echo "($n)";} ?></md-list-item>
 <?php } ?>
       <?php } ?>
         <md-divider></md-divider>
