@@ -7,7 +7,7 @@
 		protected $openTag = "{if[";
 		protected $closeTag = "]if}";
 		
-		protected $midTag = "][";
+		protected $midTag = "]else[";
 		protected $midTagPos;
 
 		public function getMidTagPos() {

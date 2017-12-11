@@ -4,10 +4,10 @@
 	
 	class TagRepeat extends Tag {
 
-		protected $openTag = "{[for";
-		protected $closeTag = "]}";
+		protected $openTag = "{for[";
+		protected $closeTag = "]for}";
 		
-		protected $midTag = "][";
+		protected $midTag = "]do[";
 		protected $midTagPos;
 
 		public function getMidTagPos() {

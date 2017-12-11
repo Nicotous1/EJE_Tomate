@@ -4,8 +4,8 @@
 	
 	class TagExtend extends Tag {
 
-		protected $openTag = "[[for";
-		protected $closeTag ="]]";
+		protected $openTag = "[for[";
+		protected $closeTag ="]for]";
 		protected $openExtTag = "<w:tr "; //Espace important car il existe des w:tr*** qui parasiteraient
 		protected $closeExtTag = "</w:tr>";
 
