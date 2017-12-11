@@ -513,14 +513,14 @@
 
 
   <div class="md-list-item-text" layout="column" flex>
-    <p style="white-space: pre-line;" flex ng-if="!c.edit">{{c.content}}<span ng-if="c.etude != $parent.etude.id"> <i>(provient d'une sauvegarde)</i></span></p>
+    <p style="white-space: pre-line;" flex ng-if="!c.edit">{{c.content}}</p>
 
     <md-input-container  class="md-block flex-gt-sm" ng-if="c.edit" style="margin-bottom: 0;">
       <label>Edition du commentaire :</label>
       <textarea ng-model="c.temp"  rows="4" ng-disabled="sending"></textarea>
     </md-input-container>
 
-    <p style="text-align: right; margin-bottom: 6px" flex ng-if="!c.options && !c.edit">{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}</p>
+    <p style="text-align: right; margin-bottom: 6px" flex ng-if="!c.options && !c.edit">{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}<span ng-if="c.etude != $parent.etude.id"> <i>(sauvegarde)</i></span></p>
     <div ng-if="c.options || c.edit" layout-align="center center" layout="row">    
       <div ng-if="!c.edit">
         <md-button ng-if="!c.edit" class="md-icon-button" ng-click="c.temp = c.content; c.edit = true;" ng-disabled="sending">
