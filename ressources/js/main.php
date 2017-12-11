@@ -188,6 +188,45 @@
 
 
 
+  app.filter('time_past', function () {
+        return function (d) {
+            var d = new Date(d);
+            var diff = Math.abs(new Date() - d.getTime())/1000;
+            var res = 'un moment';
+
+            if (diff < 60) {
+              res =  "quelques secondes";
+            }
+            else if (diff < 3600) {
+              var i = Math.round(diff/60);
+              res = String(i) + " minute" + ((i > 1) ? "s" : '');
+            }
+            else if (diff < 86400) {
+              var i = Math.round(diff/3600);
+              res = String(i) + " heure" + ((i > 1) ? "s" : '');
+            }
+            else if (diff < 604800) {
+              var i = Math.round(diff/86400);
+              res = String(i) + " jour" + ((i > 1) ? "s" : '');
+            }
+            else if (diff < 18144000) {
+              var i = Math.round(diff/604800);
+              res = String(i) + " semaine" + ((i > 1) ? "s" : '');
+            }
+            else if (diff < 217728000) {
+              var i = Math.round(diff/18144000);
+              res = String(i) + " mois";
+            } else {
+              var i = Math.round(diff/217728000);
+              res = String(i) + " ans";
+            }
+
+            return "il y a " + res + "";
+        };
+    });
+
+
+
 
 /* SEARCH BAR */
     app.controller('SearchBar', function($scope, $q, $http) {

@@ -17,7 +17,7 @@
                 <div class="md-list-item-text" layout="column">
                   <p style="color: black;"><span style="font-weight: bold;">#{{info.etude.numero}}</span> : {{info.author.prenom}} {{info.author.nom}} {{info.type.str_action}}.</p>
                   <p style="padding-left: 15px; white-space: pre-line;" ng-if="info.details">{{info.details}}</p>
-                  <p style="text-align: right;">{{info.date | date:'à HH:mm le dd/MM/yyyy'}}</p>
+                  <p style="text-align: right;">{{info.date | time_past}}</p>
                   <div class="md-secondary" style="padding-left: 15px;"><md-icon>{{info.type.icon}}</md-icon></div>
                 </div>
               </md-list-item>
