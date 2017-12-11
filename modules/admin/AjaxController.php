@@ -51,7 +51,9 @@
 				array($page_size, $offset, $date_lim, $this->user)
 			), false);
 
-			$r = new Request("SELECT COUNT(*) AS n FROM #^ WHERE #date > '$date_lim'", Info::getEntitySQL());
+			$r = new Request("SELECT COUNT(*) AS n FROM #0.^ WHERE #0.date > :2 AND #0.author != :1.id",
+				array(Info::getEntitySQL(),$this->user, $date_lim)
+			);
 			$n = $r->fetch()["n"];
 
 			return $this->success(array("infos" => $res, "n" => $n));
