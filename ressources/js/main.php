@@ -23,8 +23,12 @@
         return res;
       }
 
-      $scope.redirect = function(url) {
-        location.href = url;
+      $scope.redirect = function(url, blank = false) {
+        if (blank) {
+            window.open(url);
+        } else {
+          location.href = url;
+        }
       }
 
       $scope.confirmDialog = function(ev, content, title="Êtes-vous sur ?") {
