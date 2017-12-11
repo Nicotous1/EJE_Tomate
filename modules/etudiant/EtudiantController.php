@@ -5,6 +5,8 @@
 	use Core\Page;
 	use \Exception;
 
+	use Admin\Entity\WorkRequest;
+
 	class EtudiantController extends Controller {
 
 		public function Home() {
@@ -20,7 +22,9 @@
 
 		public function Candidater() {			
 			$pdo = new EntityPDO();
-			$etudePostulable = $pdo->get("Admin\Entity\Etude", array("#s.statut IN : AND #s.child IS NULL", array(2,3)), false);
+			$etudePostulable = $pdo->get("Admin\Entity\Etude", array(
+				"#s.child IS NULL AND (#s.statut = 2 OR EXISTS (SELECT 1 FROM #0.^ w WHERE w.#0.etudiant = :1.id AND w.#0.etude = etude.id))",
+				array(WorkRequest::getEntitySQL(), $this->user) ), false);
 
 			//AFFICHAGE
 			$page = new Page();
