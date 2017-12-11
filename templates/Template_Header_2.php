@@ -51,9 +51,14 @@
         <md-divider></md-divider>
 
         <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("EdEdit") ?>')">Votre profil</md-list-item>
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("EdCandidater") ?>')">Postuler</md-list-item>
+        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("EdCandidater") ?>')">Postuler</md-list-item>   
         <md-divider></md-divider>
         
+<?php if ($user->isAdmin()) { ?>
+        <md-list-item ng-click="redirect('https://airtable.com/shrR2cMTkq1l7qtwa', true)">Une suggestion pour Tomate ?</md-list-item>
+        <md-divider></md-divider>
+ <?php } ?>        
+
         <md-list-item ng-click="signOut()">Se déconnecter</md-list-item>
       </md-list>    
     </md-sidenav>
