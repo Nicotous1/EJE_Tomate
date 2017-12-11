@@ -326,6 +326,25 @@
 			return ($this->get("per_rem")/100)*$this->get("p_jeh")*$this->get("n_jeh");
 		}
 
+		public function getNjeh_ed($ed) {
+			if (!is_a($ed, "\Auth\Entity\User")) {throw new Exception("La fonction getRem_ed ne prend en paramètre que des objets User !");
+			}
+
+			$n = 0;
+
+			foreach ($this->get("etapes") as $etape) {
+				foreach ($etape->get('sEtapes') as $sEtape) {
+					if ($sEtape->get_Ids("etudiant") == $ed->get("id")) {
+						$n += $sEtape->get("jeh");
+					}
+				}
+			}
+
+			return $n;
+		}
+
+
+
 		public function getEtudiants() {
 			$id = $this->get("id");
 			if (!($id > 0)) {return array();} //Forcement nulle car ca marche avec des work_requests qui ne peuvent exister sans id ;)
