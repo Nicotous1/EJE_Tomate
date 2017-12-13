@@ -13,7 +13,7 @@
         <md-tabs md-dynamic-height md-border-bottom >
 
           <div ng-controller="EtudesController">
-            <md-tab label="À auditer ({{etudes.length}})">
+            <md-tab label="À auditer ({{etudes.length}})" md-active="etudes.length > requests.length">
               <md-tab-body>
                 <md-list-item ng-if="etudes.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à auditer !</p></md-list-item>
                 <md-list style="padding: 0;">
@@ -30,7 +30,7 @@
           </div>
 
           <div ng-controller="QualifierController">
-            <md-tab label="À qualifier ({{requests.length}})" md-active="true">
+            <md-tab label="À qualifier ({{requests.length}})" md-active="etudes.length <= requests.length">
               <md-tab-body>
                 <md-list-item ng-if="requests.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à qualifier !</p></md-list-item>
                 <md-list style="padding: 0;">
