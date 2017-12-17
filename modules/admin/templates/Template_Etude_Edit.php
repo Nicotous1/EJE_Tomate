@@ -284,7 +284,7 @@
 
                       <md-input-container  class="md-block flex-gt-sm">
                         <label>Notes diverses</label>
-                        <textarea ng-model="etude.notes"  rows="15" ng-disabled="etude.locked"></textarea>
+                        <textarea ng-model="etude.notes"  rows="15" ng-disabled="$parent.etude.child"></textarea>
                       </md-input-container>
 
                     </div>
@@ -294,8 +294,8 @@
 
 
               </md-tabs>
-              <div layout="row" layout-align="center" style="margin-bottom: 20px;">
-                <md-button ng-click="save()" class="md-accent md-raised" ng-if="!etude.locked" ng-disabled="sending">{{sending ? 'Sauvegarde en cours...' : 'Sauvegarder'}}</md-button>   
+              <div layout="row" layout-align="center" style="margin-bottom: 20px;" ng-if="$parent.etude.child == null">
+                <md-button ng-click="save()" class="md-accent md-raised" ng-disabled="sending">{{sending ? 'Sauvegarde en cours...' : 'Sauvegarder'}}</md-button>   
               </div>
             </md-tab>
           </div>
@@ -459,8 +459,8 @@
                       <div class="md-secondary">       
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>         
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
-                        <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Refuser la candidature</md-tooltip><i class="material-icons">assignment_late</i></md-button>
-                        <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
+                        <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Refuser la candidature</md-tooltip><i class="material-icons">assignment_late</i></md-button>
+                        <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
                       </div>
                     </md-list-item>
                   </md-list>
@@ -475,7 +475,7 @@
                       <div class="md-secondary">                
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
-                        <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Supprimer l'intervenant</md-tooltip><i class="material-icons">clear</i></md-button>
+                        <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Supprimer l'intervenant</md-tooltip><i class="material-icons">clear</i></md-button>
                       </div>
                     </md-list-item>
                   </md-list>
@@ -490,7 +490,7 @@
                       <div class="md-secondary">    
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>            
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
-                        <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
+                        <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
                       </div>
                     </md-list-item>
                   </md-list>
@@ -550,13 +550,13 @@
 </md-list-item>
 
                 </md-list>
-                <form ng-submit="save(com)" layout="column" class="md-padding" ng-if="!etude.locked">
+                <form ng-submit="save(com)" layout="column" class="md-padding" ng-if="$parent.etude.child == null">
                   <md-input-container flex>
                     <label>Nouveau commentaire</label>
                     <textarea ng-model="com.content"  rows="5"></textarea>
                   </md-input-container>
                   <div layout="row" layout-align="center">
-                    <md-button class="md-accent md-raised" ng-if="!etude.locked" ng-disabled="sending" type="submit">{{sending ? 'Sauvegarde en cours...' : 'Poster'}}</md-button>   
+                    <md-button class="md-accent md-raised" ng-disabled="sending" type="submit">{{sending ? 'Sauvegarde en cours...' : 'Poster'}}</md-button>   
                   </div>
                 </form>
               </md-tab-body>            
