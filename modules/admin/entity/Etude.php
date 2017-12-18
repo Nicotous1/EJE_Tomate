@@ -230,7 +230,7 @@
 		}
 
 		public function isSelectable() {
-			return ($this->get("statut")["id"] == 3);
+			return ($this->get("statut")["id"] >= 3);
 		}
 
 		//CUSTOM FOR QUALITE
