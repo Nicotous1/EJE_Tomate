@@ -475,7 +475,7 @@
                       <div class="md-secondary">                
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
-                        <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Supprimer l'intervenant</md-tooltip><i class="material-icons">clear</i></md-button>
+                        <md-button class="md-icon-button" ng-click="delete(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Supprimer l'intervenant</md-tooltip><i class="material-icons">clear</i></md-button>
                       </div>
                     </md-list-item>
                   </md-list>
