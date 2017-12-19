@@ -58,7 +58,7 @@
     }; 
 
     $scope.copy = function(ev) {
-      var confirm = $scope.confirmDialog(ev, "Une copie éditable de cette version sera crée.", "Confimer la copie de l'étude ?");
+      var confirm = $scope.confirmDialog(ev, "Cette version sera sauvegardée et une copie sera crée.", "Confimer la création d'un avenant ?");
       $mdDialog.show(confirm).then(function() {
         var resHandler = handle_response({
           success : function(data, msg) {

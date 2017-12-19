@@ -213,7 +213,8 @@
 		}
 
 		public function getLocked() {
-			return ($this->locked || !empty($this->get_Ids("child")));
+			return !empty($this->get_Ids("child"));
+			//return ($this->locked || !empty($this->get_Ids("child")));
 		}
 
 		public function getP_jeh() {
