@@ -505,48 +505,46 @@
           </div>
 
           <div ng-controller="ComsController" >
-            <md-tab label="Coms ({{(coms).length}})" ng-disabled="!($parent.etude.id > 0)">
+            <md-tab label="Coms ({{(coms).length}})" ng-disabled="!($parent.etude.id > 0)" md-active="true">
               <md-tab-body layout="row">
-                <md-list>
+                <md-list style="padding:0;"  md-no-ink>
                   <md-list-item ng-if="coms.length == 0" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);">
                     <div>Aucun commentaire</div>
                   </md-list-item>
 
-<md-list-item ng-mouseover="c.options = true" ng-mouseleave="c.options = false" ng-repeat="c in coms | orderBy:'date'" ng-init="c.temp = 'dzdzdzdz'; c.edit = false" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220); cursor:pointer;" layout="row">
+<md-list-item ng-click="c.edit = true; c.temp = c.content" ng-repeat="c in coms | orderBy:'date'" ng-init="c.temp = 'dzdzdzdz'; c.edit = false" style="border-bottom: solid 1px rgb(220,220,220);" layout="row">
 
 
   <div class="md-list-item-text" layout="column" flex>
     <p style="white-space: pre-line;" flex ng-if="!c.edit">{{c.content}}</p>
 
-    <md-input-container  class="md-block flex-gt-sm" ng-if="c.edit" style="margin-bottom: 0;">
-      <label>Edition du commentaire :</label>
-      <textarea ng-model="c.temp"  rows="4" ng-disabled="sending"></textarea>
-    </md-input-container>
+  <md-input-container ng-if="c.edit" flex style="margin-top: 40px;">
+    <label>Edition du commentaire :</label>
+    <textarea ng-model="c.temp"  rows="4" ng-disabled="sending"></textarea>
+  </md-input-container>  
 
-    <p style="text-align: right; margin-bottom: 6px" flex ng-if="!c.options && !c.edit">{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}<span ng-if="c.etude != $parent.etude.id"> <i>(sauvegarde)</i></span></p>
-    <div ng-if="c.options || c.edit" layout-align="center center" layout="row">    
-      <div ng-if="!c.edit">
-        <md-button ng-if="!c.edit" class="md-icon-button" ng-click="c.temp = c.content; c.edit = true;" ng-disabled="sending">
-          <i class="material-icons">mode_edit</i>
-          <md-tooltip md-direction="down">Modifier le commentaire</md-tooltip>
-        </md-button>   
-          
-        <md-button class="md-icon-button" ng-click="delete(c, $event)" ng-disabled="sending">
-          <i class="material-icons">delete</i>
-          <md-tooltip md-direction="down">Supprimer le commentaire</md-tooltip>
-        </md-button>
-      </div>
-      <div ng-if="c.edit">  
-        <md-button class="md-icon-button" ng-click="c.edit = false; c.options = false;" ng-disabled="sending">
+    <p style="text-align: right; margin: 0; font-size: 15px;" flex >{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}<span ng-if="c.etude != $parent.etude.id"> <i>(sauvegarde)</i></span></p>
+  </div>
+
+ 
+    <div ng-if="c.edit"layout-align="center center" layout="column">
+      <div layout="row">
+        <md-button class="md-icon-button" ng-click="c.edit = false" ng-disabled="sending">
           <i class="material-icons">clear</i>
           <md-tooltip md-direction="top">Annuler</md-tooltip>
         </md-button>           
         <md-button class="md-icon-button" ng-click="save(c)" ng-disabled="sending">
           <i class="material-icons">save</i>
           <md-tooltip md-direction="top">Sauvegarder le commentaire</md-tooltip>
-        </md-button>                   
-      </div>  
-    </div>
+        </md-button>  
+      </div>             
+      <div layout="row">      
+        <md-button class="md-icon-button" ng-click="delete(c, $event)" ng-disabled="sending">
+          <i class="material-icons">delete</i>
+          <md-tooltip md-direction="down">Supprimer le commentaire</md-tooltip>
+        </md-button>
+      </div>      
+    </div>  
   </div>
 
 
