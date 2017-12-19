@@ -512,7 +512,7 @@
                     <div>Aucun commentaire</div>
                   </md-list-item>
 
-<md-list-item ng-click="c.edit = true; c.temp = c.content" ng-repeat="c in coms | orderBy:'date'" ng-init="c.temp = 'dzdzdzdz'; c.edit = false" style="border-bottom: solid 1px rgb(220,220,220);" layout="row">
+<md-list-item ng-click="c.edit = true; c.temp = c.content" ng-repeat="c in coms | orderBy:'date' track by c.id" ng-init="c.temp = 'dzdzdzdz'; c.edit = false" style="border-bottom: solid 1px rgb(220,220,220);" layout="row">
 
 
   <div class="md-list-item-text" layout="column" flex>

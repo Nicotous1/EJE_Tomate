@@ -768,7 +768,8 @@
       var resHandler = handle_response({
         success : function(data, msg) {
           if (update) {
-            Object.assign(c, data.com);
+            angular.extend(c, handle_date(data.com));
+
             c.edit = false; c.options = false;
             var msg = "Le commentaire a été modifié.";
           } else {            
