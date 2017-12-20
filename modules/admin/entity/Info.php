@@ -52,6 +52,9 @@
 
 				case 4:
 					return $this->get("etude")->get("avn_motif");
+
+				case 6:
+					return $this->get("doc")->get("nom");
 				
 				default:
 					return null;
