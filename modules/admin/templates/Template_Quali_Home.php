@@ -21,7 +21,7 @@
                     <div class="md-list-item-text" layout="column">
                       <h4><span style="font-weight: bold;">#{{etude.numero}}</span> : {{etude.pseudo}} ({{etude_statuts[etude.statut].name}})</h4>
                       <p style="white-space: pre-line;">{{etude.but | cut}}</p>
-                      <md-button class="md-icon-button md-secondary"><i class="material-icons">mode_edit</i></md-button>
+                      <md-button class="md-icon-button md-secondary"><i class="material-icons">{{etude_statuts[etude.statut].icon}}</i></md-button>
                     </div>
                   </md-list-item>
                 </md-list>

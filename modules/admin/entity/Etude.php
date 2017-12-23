@@ -21,14 +21,14 @@
 		);
 
 		public static $statutArray = array(
-			array("id" => 0, "name" => "Brouillon"),
-			array("id" => 1, "name" => "En attente"),
-			array("id" => 2, "name" => "Recrutement"),
-			array("id" => 3, "name" => "Selection"),
-			array("id" => 4, "name" => "En cours"),
-			array("id" => 5, "name" => "Cloturée"),
-			array("id" => 6, "name" => "Morte"),
-			array("id" => 7, "name" => "À auditer"),
+			array("id" => 0, "name" => "Brouillon", "icon" => "content_paste"), //content_paste
+			array("id" => 1, "name" => "En attente", "icon" => "call"),
+			array("id" => 2, "name" => "Recrutement", "icon" => "group_add"),
+			array("id" => 3, "name" => "Selection", "icon" => "person_add"),
+			array("id" => 4, "name" => "En cours", "icon" => "play_circle_outline"), //play_circle_outline import_export
+			array("id" => 5, "name" => "Cloturée", "icon" => "check"),
+			array("id" => 6, "name" => "Morte", "icon" => "delete_forever"),
+			array("id" => 7, "name" => "À auditer", "icon" => "spellcheck"),// spellcheck
 		);
 
 		public static $lieuArray = array(
