@@ -737,7 +737,7 @@
     }; 
 
     $scope.archive = function(ev, d) {
-      var confirm = $scope.confirmDialog(ev, "Vous vous apprêtez à délarer que '" + d.nom + "' est dans son dossier d'étude, ca me parait louche !", "Confimer l'archivage ?");
+      var confirm = $scope.confirmDialog(ev, "Vous vous apprêtez à délarer que '" + d.nom + "' est dans son dossier d'étude, ça me parait louche !", "Confimer l'archivage ?");
 
       $mdDialog.show(confirm).then(function() {
         var url = "<?php echo $routeur->getUrlFor("AdminAjaxArchiveDocEtude") ?>";
