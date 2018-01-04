@@ -11,6 +11,7 @@
 			return array(
 				"atts" => array(
 					array("att" => "n", "type" => AttSQL::TYPE_INT),
+					array("att" => "archived", "type" => AttSQL::TYPE_BOOL),
 					array("att" => "type", "type" => AttSQL::TYPE_DREF, "class" => "DocType"), //CAN BE NULL
 					array("att" => "doc", "type" => AttSQL::TYPE_DREF, "class" => "Document"),
 					array("att" => "etude", "type" => AttSQL::TYPE_DREF, "class" => "Etude"),
@@ -30,7 +31,7 @@
 		}
 
 		public function var_defaults() {
-			return array("date_created" => new DateTime());
+			return array("date_created" => new DateTime(), "archived" => false);
 		}
 
 		public function getLink() {

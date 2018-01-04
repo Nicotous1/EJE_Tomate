@@ -419,9 +419,13 @@
                   <md-list-item ng-if="docs.length == '0'">
                     <p>Aucun document enregistré.</p>
                   </md-list-item>
-                  <md-list-item ng-repeat="d in docs" ng-click="redirect(d.link)">
-                    <div>{{d.nom}} <small ng-if="d.ref != false">({{d.ref}})</small></div>         
-                    <md-button class="md-icon-button md-secondary" ng-click="redirect(d.link)"><i class="material-icons">file_download</i></md-button>
+                  <md-list-item ng-repeat="d in docs">
+                    <div>{{d.nom}} <small ng-if="d.ref != false">({{d.ref}})</small></div>      
+                    <md-button class="md-icon-button md-secondary" ng-click="archive($event, d)" ng-if="!d.archived">
+                      <i class="material-icons">archive</i>
+                      <md-tooltip md-direction="left">Déclarer comme archivé</md-tooltip>
+                    </md-button>       
+                    <md-button class="md-icon-button md-secondary" ng-click="redirect(d.link)"><i class="material-icons">file_download</i></md-button>   
 <?php if ($user->get("quali")) { ?>
                     <md-button class="md-icon-button md-secondary" ng-click="delete($event, d)"><i class="material-icons">delete</i></md-button>
 <?php } ?>                    

@@ -736,6 +736,20 @@
       });
     }; 
 
+    $scope.archive = function(ev, d) {
+      var confirm = $scope.confirmDialog(ev, "Vous vous apprêtez à délarer que '" + d.nom + "' est dans son dossier d'étude, ca me parait louche !", "Confimer l'archivage ?");
+
+      $mdDialog.show(confirm).then(function() {
+        var url = "<?php echo $routeur->getUrlFor("AdminAjaxArchiveDocEtude") ?>";
+        var resHandler = handle_response({
+          success : function(data, msg) {
+            angular.extend(d, data.d);
+          },
+        });
+        $http.post(url, d).then(resHandler, resHandler);
+      });
+    };     
+
   });
 
 
