@@ -10,19 +10,20 @@
     $scope.doctypes = <?php echo json_encode($doc_types); ?>;
     $scope.templates = <?php echo json_encode($templates); ?>;
     $scope.vars_quali = <?php echo json_encode($vars_quali); ?>;
+    
+    $scope.etudes = handle_date(<?php echo json_encode($etudes); ?>);
+    $scope.requests = handle_date(<?php echo json_encode($requests); ?>);
   });
 
 
   app.controller('EtudesController', function($scope) {
     $scope.etude_statuts = <?php echo json_encode(Etude::$statutArray); ?>;
-    $scope.etudes = <?php echo json_encode($etudes); ?>;
     $scope.edit = function(etude) {
       location.href = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);;
     }
   });
 
   app.controller('QualifierController', function($scope, $mdDialog, $mdToast, $http) {
-    $scope.requests = handle_date(<?php echo json_encode($requests); ?>);
     $scope.sending = false;
     $scope.edit = function(etude) {
       window.open("<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id), '_blank');

@@ -12,7 +12,7 @@
 			array("id" => 1, "str_action" => "a crée l'étude", "icon" => "mode_edit"),
 			array("id" => 2, "str_action" => "a commenté", "icon" => "insert_comment"),
 			array("id" => 3, "str_action" => "a modifié les étapes", "icon" => "mode_edit"),
-			array("id" => 4, "str_action" => "a copié", "icon" => "content_copy"),
+			array("id" => 4, "str_action" => "a crée un avenant", "icon" => "content_copy"),
 			array("id" => 5, "str_action" => "a modifié le client de l'étude", "icon" => "mode_edit"),
 			array("id" => 6, "str_action" => "a ajouté un document", "icon" => "picture_as_pdf"),
 			array("id" => 7, "str_action" => "a postulé", "icon" => "contact_mail"),
@@ -49,6 +49,12 @@
 			switch ($this->get("type")["id"]) {
 				case 2:
 					return $this->get("com")->get("content");
+
+				case 4:
+					return $this->get("etude")->get("avn_motif");
+
+				case 6:
+					return $this->get("doc")->get("nom");
 				
 				default:
 					return null;

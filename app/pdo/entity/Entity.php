@@ -140,12 +140,12 @@ use \Exception;
 			return $this;
 		}
 
-		public function get($att) {
+		public function get($att, $override = True) {
 			if (is_a($att, "Core\PDO\Entity\AttSQL")) {$att = $att->getAtt();}
 
 			//Check override
 			$name_method = "get".ucfirst($att);
-			if (method_exists($this, $name_method)) {
+			if ($override && method_exists($this, $name_method)) {
 				return $this->$name_method();
 /*				$method = new ReflectionMethod(get_class($this), $name_method);
 				return ($p !== null && count($method->getParameters()) == 1) ? $this->$name_method($p) : $this->$name_method();*/

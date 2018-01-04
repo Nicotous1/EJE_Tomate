@@ -13,7 +13,7 @@
         <md-tabs md-dynamic-height md-border-bottom >
 
           <div ng-controller="EtudesController">
-            <md-tab label="À auditer ({{etudes.length}})">
+            <md-tab label="À auditer ({{etudes.length}})" md-active="etudes.length >= 0 && requests.length == 0">
               <md-tab-body>
                 <md-list-item ng-if="etudes.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à auditer !</p></md-list-item>
                 <md-list style="padding: 0;">
@@ -21,7 +21,7 @@
                     <div class="md-list-item-text" layout="column">
                       <h4><span style="font-weight: bold;">#{{etude.numero}}</span> : {{etude.pseudo}} ({{etude_statuts[etude.statut].name}})</h4>
                       <p style="white-space: pre-line;">{{etude.but | cut}}</p>
-                      <md-button class="md-icon-button md-secondary"><i class="material-icons">mode_edit</i></md-button>
+                      <md-button class="md-icon-button md-secondary"><i class="material-icons">{{etude_statuts[etude.statut].icon}}</i></md-button>
                     </div>
                   </md-list-item>
                 </md-list>
@@ -30,7 +30,7 @@
           </div>
 
           <div ng-controller="QualifierController">
-            <md-tab label="À qualifier ({{requests.length}})" md-active="true">
+            <md-tab label="À qualifier ({{requests.length}})" md-active="requests.length > 0">
               <md-tab-body>
                 <md-list-item ng-if="requests.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à qualifier !</p></md-list-item>
                 <md-list style="padding: 0;">

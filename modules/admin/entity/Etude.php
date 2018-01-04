@@ -21,14 +21,14 @@
 		);
 
 		public static $statutArray = array(
-			array("id" => 0, "name" => "Brouillon"),
-			array("id" => 1, "name" => "En attente"),
-			array("id" => 2, "name" => "Recrutement"),
-			array("id" => 3, "name" => "Selection"),
-			array("id" => 4, "name" => "En cours"),
-			array("id" => 5, "name" => "Cloturée"),
-			array("id" => 6, "name" => "Morte"),
-			array("id" => 7, "name" => "À auditer"),
+			array("id" => 0, "name" => "Brouillon", "icon" => "content_paste"), //content_paste
+			array("id" => 1, "name" => "En attente", "icon" => "call"),
+			array("id" => 2, "name" => "Recrutement", "icon" => "group_add"),
+			array("id" => 3, "name" => "Selection", "icon" => "person_add"),
+			array("id" => 4, "name" => "En cours", "icon" => "play_circle_outline"), //play_circle_outline import_export
+			array("id" => 5, "name" => "Cloturée", "icon" => "check"),
+			array("id" => 6, "name" => "Morte", "icon" => "delete_forever"),
+			array("id" => 7, "name" => "À auditer", "icon" => "spellcheck"),// spellcheck
 		);
 
 		public static $lieuArray = array(
@@ -201,8 +201,20 @@
  			return $child;
 		}
 
+		public function getComs() {
+			$coms = $this->get("coms", false);
+			$parent = $this->get("parent");
+			if (isset($parent[0])) {
+				$p = $parent[0];
+				$parent_coms = $p->get("coms");
+				$coms = array_merge($coms, $parent_coms);
+			}
+			return $coms;
+		}
+
 		public function getLocked() {
-			return ($this->locked || !empty($this->get_Ids("child")));
+			return !empty($this->get_Ids("child"));
+			//return ($this->locked || !empty($this->get_Ids("child")));
 		}
 
 		public function getP_jeh() {
@@ -219,7 +231,7 @@
 		}
 
 		public function isSelectable() {
-			return ($this->get("statut")["id"] == 3);
+			return ($this->get("statut")["id"] >= 3);
 		}
 
 		//CUSTOM FOR QUALITE
@@ -325,6 +337,25 @@
 
 			return ($this->get("per_rem")/100)*$this->get("p_jeh")*$this->get("n_jeh");
 		}
+
+		public function getNjeh_ed($ed) {
+			if (!is_a($ed, "\Auth\Entity\User")) {throw new Exception("La fonction getRem_ed ne prend en paramètre que des objets User !");
+			}
+
+			$n = 0;
+
+			foreach ($this->get("etapes") as $etape) {
+				foreach ($etape->get('sEtapes') as $sEtape) {
+					if ($sEtape->get_Ids("etudiant") == $ed->get("id")) {
+						$n += $sEtape->get("jeh");
+					}
+				}
+			}
+
+			return $n;
+		}
+
+
 
 		public function getEtudiants() {
 			$id = $this->get("id");

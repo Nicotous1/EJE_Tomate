@@ -202,26 +202,26 @@
               res =  "quelques secondes";
             }
             else if (diff < 3600) {
-              var i = Math.round(diff/60);
+              var i = Math.floor(diff/60);
               res = String(i) + " minute" + ((i > 1) ? "s" : '');
             }
             else if (diff < 86400) {
-              var i = Math.round(diff/3600);
+              var i = Math.floor(diff/3600);
               res = String(i) + " heure" + ((i > 1) ? "s" : '');
             }
-            else if (diff < 604800) {
-              var i = Math.round(diff/86400);
+            else if (diff < 604800 * 2) {
+              var i = Math.floor(diff/86400);
               res = String(i) + " jour" + ((i > 1) ? "s" : '');
             }
             else if (diff < 18144000) {
-              var i = Math.round(diff/604800);
+              var i = Math.floor(diff/604800);
               res = String(i) + " semaine" + ((i > 1) ? "s" : '');
             }
             else if (diff < 217728000) {
-              var i = Math.round(diff/18144000);
+              var i = Math.floor(diff/18144000);
               res = String(i) + " mois";
             } else {
-              var i = Math.round(diff/217728000);
+              var i = Math.floor(diff/217728000);
               res = String(i) + " ans";
             }
 

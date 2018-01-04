@@ -9,24 +9,27 @@
           <div ng-if="etude.id">   
             <md-button class="md-icon-button" ng-if="parent != null" ng-click="redirect(parent.link)">
               <md-icon>arrow_back</md-icon>
+              <md-tooltip md-direction="down">Voir la sauvegarde.</md-tooltip>
             </md-button>
 
             <md-button class="md-icon-button" ng-if="etude.child != null" ng-click="redirect(child.link)">
               <md-icon>arrow_forward</md-icon>
+              <md-tooltip md-direction="down">Voir l'avenant.</md-tooltip>
             </md-button>
 
             <md-button class="md-icon-button" ng-if="!etude.child" ng-click="copy($event)">
               <md-icon>content_copy</md-icon>
-              <md-tooltip md-direction="down">Copier pour faire un avenant.</md-tooltip>
+              <md-tooltip md-direction="down">Faire un avenant.</md-tooltip>
             </md-button> 
-
+<!--
             <md-button class="md-icon-button" ng-if="!etude.locked" ng-click="lockEtude($event)">
               <md-icon>lock_open</md-icon>
               <md-tooltip md-direction="down">Vérouiller l'étude.</md-tooltip>
             </md-button>
-
+!-->
             <md-button class="md-icon-button" ng-if="etude.locked">
               <md-icon>lock_close</md-icon>
+              <md-tooltip md-direction="down">L'étude est vérouillée pour cause d'avenant.</md-tooltip>
             </md-button>
           </div>
         </div>
@@ -202,7 +205,7 @@
 
 
 
-                <md-tab label="Détails">
+                <md-tab label="Détails" md-active="parent != null && !etude.avn_motif">
                   <md-tab-body>
                     <div class="layout-padding">
 
@@ -284,7 +287,7 @@
 
                       <md-input-container  class="md-block flex-gt-sm">
                         <label>Notes diverses</label>
-                        <textarea ng-model="etude.notes"  rows="15" ng-disabled="etude.locked"></textarea>
+                        <textarea ng-model="etude.notes"  rows="15" ng-disabled="$parent.etude.child"></textarea>
                       </md-input-container>
 
                     </div>
@@ -294,8 +297,8 @@
 
 
               </md-tabs>
-              <div layout="row" layout-align="center" style="margin-bottom: 20px;">
-                <md-button ng-click="save()" class="md-accent md-raised" ng-if="!etude.locked" ng-disabled="sending">{{sending ? 'Sauvegarde en cours...' : 'Sauvegarder'}}</md-button>   
+              <div layout="row" layout-align="center" style="margin-bottom: 20px;" ng-if="$parent.etude.child == null">
+                <md-button ng-click="save()" class="md-accent md-raised" ng-disabled="sending">{{sending ? 'Sauvegarde en cours...' : 'Sauvegarder'}}</md-button>   
               </div>
             </md-tab>
           </div>
@@ -459,8 +462,8 @@
                       <div class="md-secondary">       
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>         
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
-                        <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Refuser la candidature</md-tooltip><i class="material-icons">assignment_late</i></md-button>
-                        <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
+                        <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Refuser la candidature</md-tooltip><i class="material-icons">assignment_late</i></md-button>
+                        <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
                       </div>
                     </md-list-item>
                   </md-list>
@@ -475,7 +478,7 @@
                       <div class="md-secondary">                
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
-                        <md-button class="md-icon-button" ng-click="refuse(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Supprimer l'intervenant</md-tooltip><i class="material-icons">clear</i></md-button>
+                        <md-button class="md-icon-button" ng-click="delete(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Supprimer l'intervenant</md-tooltip><i class="material-icons">clear</i></md-button>
                       </div>
                     </md-list-item>
                   </md-list>
@@ -490,7 +493,7 @@
                       <div class="md-secondary">    
                         <md-button class="md-icon-button" ng-click="editUser($event, w.etudiant)" ng-disabled="sending"><md-tooltip md-direction="top">Voir l'étudiant</md-tooltip><i class="material-icons">assignment_ind</i></md-button>            
                         <md-button class="md-icon-button" ng-click="openZipUrl(w)" ng-disabled="sending"><md-tooltip md-direction="top">Télécharger la candidature</md-tooltip><i class="material-icons">file_download</i></md-button>
-                        <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending" ng-if="!etude.locked"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
+                        <md-button class="md-icon-button" ng-click="accept(w, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Accepter la candidature</md-tooltip><i class="material-icons">assignment_turned_in</i></md-button>
                       </div>
                     </md-list-item>
                   </md-list>
@@ -504,61 +507,65 @@
           <div ng-controller="ComsController" >
             <md-tab label="Coms ({{(coms).length}})" ng-disabled="!($parent.etude.id > 0)">
               <md-tab-body layout="row">
-                <md-list>
-                  <md-list-item ng-if="coms.length == 0" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);">
-                    <div>Aucun commentaire</div>
-                  </md-list-item>
 
-<md-list-item ng-mouseover="c.options = true" ng-mouseleave="c.options = false" ng-repeat="c in coms" ng-init="c.temp = 'dzdzdzdz'; c.edit = false" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220); cursor:pointer;" layout="row">
-
-
-  <div class="md-list-item-text" layout="column" flex>
-    <p style="white-space: pre-line;" flex ng-if="!c.edit">{{c.content}}</p>
-
-    <md-input-container  class="md-block flex-gt-sm" ng-if="c.edit" style="margin-bottom: 0;">
-      <label>Edition du commentaire :</label>
-      <textarea ng-model="c.temp"  rows="4" ng-disabled="sending"></textarea>
-    </md-input-container>
-
-    <p style="text-align: right; margin-bottom: 6px" flex ng-if="!c.options && !c.edit">{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}</p>
-    <div ng-if="c.options || c.edit" layout-align="center center" layout="row">    
-      <div ng-if="!c.edit">
-        <md-button ng-if="!c.edit" class="md-icon-button" ng-click="c.temp = c.content; c.edit = true;" ng-disabled="sending">
-          <i class="material-icons">mode_edit</i>
-          <md-tooltip md-direction="down">Modifier le commentaire</md-tooltip>
-        </md-button>   
-          
-        <md-button class="md-icon-button" ng-click="delete(c, $event)" ng-disabled="sending">
-          <i class="material-icons">delete</i>
-          <md-tooltip md-direction="down">Supprimer le commentaire</md-tooltip>
-        </md-button>
-      </div>
-      <div ng-if="c.edit">  
-        <md-button class="md-icon-button" ng-click="c.edit = false; c.options = false;" ng-disabled="sending">
-          <i class="material-icons">clear</i>
-          <md-tooltip md-direction="top">Annuler</md-tooltip>
-        </md-button>           
-        <md-button class="md-icon-button" ng-click="save(c)" ng-disabled="sending">
-          <i class="material-icons">save</i>
-          <md-tooltip md-direction="top">Sauvegarder le commentaire</md-tooltip>
-        </md-button>                   
-      </div>  
-    </div>
-  </div>
-
-
-</md-list-item>
-
-                </md-list>
-                <form ng-submit="save(com)" layout="column" class="md-padding" ng-if="!etude.locked">
-                  <md-input-container flex>
+                <form ng-if="!$parent.etude.child" ng-submit="save(com)" layout="row" class="md-padding" style="padding-bottom: 0; margin-bottom: 0;">
+                  <md-input-container flex style="margin-bottom: 0;">
                     <label>Nouveau commentaire</label>
                     <textarea ng-model="com.content"  rows="5"></textarea>
                   </md-input-container>
                   <div layout="row" layout-align="center">
-                    <md-button class="md-accent md-raised" ng-if="!etude.locked" ng-disabled="sending" type="submit">{{sending ? 'Sauvegarde en cours...' : 'Poster'}}</md-button>   
+                    <md-button class="" ng-disabled="sending" type="submit">{{sending ? 'Sauvegarde en cours...' : 'Poster'}}</md-button>   
                   </div>
                 </form>
+
+                <md-divider></md-divider>
+
+
+
+
+                <md-list style="padding:0;"  md-no-ink flex>
+                  <md-list-item ng-if="coms.length == 0" style="padding: 10px; border-bottom: solid 1px rgb(220,220,220);">
+                    <div>Aucun commentaire</div>
+                  </md-list-item>
+
+                  <md-list-item ng-click="c.edit = true; c.temp = c.content" ng-repeat="c in coms | orderBy:'date': true track by c.id" ng-init="c.temp = 'dzdzdzdz'; c.edit = false" style="border-bottom: solid 1px rgb(220,220,220);" layout="row">
+
+
+                    <div class="md-list-item-text" layout="column" flex>
+                      <p style="white-space: pre-line;" flex ng-if="!c.edit">{{c.content}}</p>
+
+                      <md-input-container ng-if="c.edit" flex style="margin-top: 40px;">
+                        <label>Edition du commentaire :</label>
+                        <textarea ng-model="c.temp"  rows="4" ng-disabled="sending"></textarea>
+                      </md-input-container>  
+
+                      <p style="text-align: right; margin: 0; font-size: 15px;" flex >{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}<span ng-if="c.etude != $parent.etude.id"> <i>(sauvegarde)</i></span></p>
+                    </div>
+
+
+                    <div ng-if="c.edit"layout-align="center center" layout="column">
+                      <div layout="row">
+                        <md-button class="md-icon-button" ng-click="c.edit = false" ng-disabled="sending">
+                          <i class="material-icons">clear</i>
+                          <md-tooltip md-direction="top">Annuler</md-tooltip>
+                        </md-button>           
+                        <md-button class="md-icon-button" ng-click="save(c)" ng-disabled="sending">
+                          <i class="material-icons">save</i>
+                          <md-tooltip md-direction="top">Sauvegarder le commentaire</md-tooltip>
+                        </md-button>  
+                      </div>             
+                      <div layout="row">      
+                        <md-button class="md-icon-button" ng-click="delete(c, $event)" ng-disabled="sending">
+                          <i class="material-icons">delete</i>
+                          <md-tooltip md-direction="down">Supprimer le commentaire</md-tooltip>
+                        </md-button>
+                      </div>
+                    </div>
+
+
+                  </md-list-item>
+
+                </md-list>
               </md-tab-body>            
             </md-tab>
           </div>

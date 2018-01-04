@@ -58,7 +58,7 @@
     }; 
 
     $scope.copy = function(ev) {
-      var confirm = $scope.confirmDialog(ev, "Une copie éditable de cette version sera crée.", "Confimer la copie de l'étude ?");
+      var confirm = $scope.confirmDialog(ev, "Cette version sera sauvegardée et une copie sera crée.", "Confimer la création d'un avenant ?");
       $mdDialog.show(confirm).then(function() {
         var resHandler = handle_response({
           success : function(data, msg) {
@@ -191,8 +191,7 @@
     $scope.work_requests = <?php echo json_encode($etude->get("work_requests")); ?>; //etude_etudiants
     $scope.sending = false;
 
-    function send(c, w, statut) {
-      $mdDialog.show(c).then(function() {
+    function send(w, statut) {
         $scope.sending = true;
         var url = "<?php echo $routeur->getUrlFor("AjaxHandleWorkRequest") ?>";
         var resHandler = handle_response({
@@ -212,18 +211,29 @@
           all : function(data, msg) {$scope.sending = false;}, 
         });
         $http.post(url, {etude : $scope.etude.id, statut : statut, w : w.id}).then(resHandler, resHandler);
-      }); 
     }
 
     $scope.refuse = function(work_request, ev) {
-      var confirm = $scope.confirmDialog(ev, "Êtes vous sur de refuser la candidature ?", "Refuser " + work_request.etudiant.nom + "?");
-      send(confirm, work_request, 1);
+      send(work_request, 1);
     };
 
     $scope.accept= function(work_request, ev) {
-      var confirm = $scope.confirmDialog(ev, "Êtes vous sur de valider la candidature ?", "Accepter " + work_request.etudiant.nom + "?");
-      send(confirm,work_request, 2);
+      var confirm = $scope.confirmDialog(ev, "Êtes vous sur d'accepter l'étudiant pour l'étude ?", "Accepter "+work_request.etudiant.prenom+" " + work_request.etudiant.nom + "?");
+
+      $mdDialog.show(confirm).then(function() {
+        send(work_request, 2);
+      });
     };
+
+    $scope.delete= function(work_request, ev) {
+      var confirm = $scope.confirmDialog(ev, "Il sera supprimé des étapes et sa candidature sera refusée.", "Supprimer " +work_request.etudiant.prenom+" " + work_request.etudiant.nom + "?");
+
+      $mdDialog.show(confirm).then(function() {
+        send(work_request, 1);
+      });
+    };
+
+
 
     $scope.openZipUrl = function(w) {
       document.location = w.zip_url;
@@ -758,7 +768,8 @@
       var resHandler = handle_response({
         success : function(data, msg) {
           if (update) {
-            Object.assign(c, data.com);
+            angular.extend(c, handle_date(data.com));
+
             c.edit = false; c.options = false;
             var msg = "Le commentaire a été modifié.";
           } else {            

@@ -85,9 +85,9 @@
 				                <input type="text" ng-model="etudiant.nationality" md-maxlength="60" required>
 				              </md-input-container>	
 				                <md-input-container class="md-block">
-				                  <md-select ng-model="etudiant.has_secu" placeholder="Sécurité sociale ?" required>  
-				                    <md-option ng-value="true">J'ai la sécu</md-option>
-				                    <md-option ng-value="false">Pas de sécu</md-option>
+				                  <md-select ng-model="etudiant.has_secu" placeholder="Sécurité sociale étudiante ?" required>  
+				                    <md-option ng-value="true">J'ai la sécu étudiante</md-option>
+				                    <md-option ng-value="false">Pas de sécu étudiante</md-option>
 				                  </md-select>
 				                </md-input-container>
 							</div>
