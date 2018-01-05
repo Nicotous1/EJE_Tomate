@@ -420,14 +420,19 @@
                     <p>Aucun document enregistré.</p>
                   </md-list-item>
                   <md-list-item ng-repeat="d in docs">
-                    <div>{{d.nom}} <small ng-if="d.ref != false">({{d.ref}})</small></div>      
-                    <md-button class="md-icon-button md-secondary" ng-click="archive($event, d)" ng-if="!d.archived">
-                      <i class="material-icons">archive</i>
-                      <md-tooltip md-direction="left">Déclarer comme archivé</md-tooltip>
+                    <div>{{d.nom}}<small ng-if="d.ref != false"> ({{d.ref}})</small><small ng-if="d.archived"> - Archivé</small></div>      
+                    <md-button class="md-icon-button md-secondary" ng-click="archive($event, d)">
+                      <i class="material-icons">{{d.archived ? 'clear' : 'archive'}}</i>
+                      <md-tooltip md-direction="left">{{d.archived ? 'Déclarer comme perdu' : 'Déclarer comme archivé'}}</md-tooltip>
                     </md-button>       
-                    <md-button class="md-icon-button md-secondary" ng-click="redirect(d.link)"><i class="material-icons">file_download</i></md-button>   
+                    <md-button class="md-icon-button md-secondary" ng-click="redirect(d.link)">
+                      <i class="material-icons">file_download</i>
+                    </md-button>   
 <?php if ($user->get("quali")) { ?>
-                    <md-button class="md-icon-button md-secondary" ng-click="delete($event, d)"><i class="material-icons">delete</i></md-button>
+                    <md-button class="md-icon-button md-secondary" ng-click="delete($event, d)">
+                      <i class="material-icons">delete</i>
+                      <md-tooltip md-direction="right">Supprimer ce document</md-tooltip>
+                    </md-button>
 <?php } ?>                    
                   </md-list-item>
                 </md-list>

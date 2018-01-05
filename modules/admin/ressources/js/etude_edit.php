@@ -737,9 +737,22 @@
     }; 
 
     $scope.archive = function(ev, d) {
-      var confirm = $scope.confirmDialog(ev, "Vous vous apprêtez à délarer que '" + d.nom + "' est dans son dossier d'étude, ça me parait louche !", "Confimer l'archivage ?");
+      if (d.archived) {
+        var phrases = [
+            "Vous vous apprêtez à délarer que '" + d.nom + "' n'est plus dans son dossier d'étude... et bah bravo !",
+            "Confirmer la perte de " + d.nom + " ?"
+        ];
+      } else {
+        var phrases = [
+            "Vous vous apprêtez à délarer que '" + d.nom + "' est dans son dossier d'étude, ça me parait louche !",
+            "Confirmer l'archivage de " + d.nom + " ?"
+        ];
+      }
+
+      var confirm = $scope.confirmDialog(ev, phrases[0], phrases[1]);
 
       $mdDialog.show(confirm).then(function() {
+        d.archived = !d.archived;
         var url = "<?php echo $routeur->getUrlFor("AdminAjaxArchiveDocEtude") ?>";
         var resHandler = handle_response({
           success : function(data, msg) {
