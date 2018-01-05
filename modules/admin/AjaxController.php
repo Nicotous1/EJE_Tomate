@@ -112,7 +112,7 @@
 
 		public function ArchiveDocEtude() {
 			$id = (int) $this->httpRequest->post("id");
-			$d = new DocEtude(array("id" => $id));
+			$d = $this->pdo->get("Admin\Entity\DocEtude", $id);
 			if ($d === null) {return $this->error("Ce document n'existe plus !");}
 
 			$d->set("archived", true);
