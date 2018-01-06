@@ -30,7 +30,7 @@
 			//AFFICHAGE
 			$page = new Page();
 		    $page->addFile(dirname(__FILE__) . "/templates/Template_SignIn.php")
-		    	 ->addVar("HeaderTitre", "Sign in");
+		    	 ->addVar("HeaderTitre", "Se connecter");
 		    return $page;
 		}
 
