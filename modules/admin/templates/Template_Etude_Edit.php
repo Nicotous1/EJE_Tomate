@@ -342,7 +342,7 @@
                         <md-list>
                           <md-list-item class="md-1-line" ng-repeat="sEtape in etape.sEtapes">
 
-                            <md-select ng-model="sEtape.etudiant" placeholder="Choisir un intervenant" ng-disabled="etude.locked">  
+                            <md-select ng-model="sEtape.etudiant" placeholder="Choisir un intervenant" ng-disabled="etude.locked" ng-change="pushIntervenant(sEtape.etudiant)">  
                               <md-option ng-value="e.id" ng-repeat="e in etude_etudiants track by e.id">{{e.prenom}} {{e.nom}}</md-option>
                             </md-select>
 

@@ -305,6 +305,18 @@
       selectedIndex: 0
     };    
 
+    $scope.pushIntervenant = function(id) {
+      if (!id) {return;}
+
+      angular.forEach($scope.etapes, function(e) {
+        angular.forEach(e.sEtapes, function(s) {
+          if (!s.etudiant) {
+            s.etudiant = id;
+          }
+        });
+      });
+    }
+
     $scope.updateDate = function(etape) {
       if (etape.date_start > etape.date_end) {
         etape.date_end = new Date(etape.date_start);
