@@ -519,7 +519,7 @@
 
                 <form ng-if="!$parent.etude.child" ng-submit="save(com)" layout="row" class="md-padding" style="padding-bottom: 0; margin-bottom: 0;">
                   <md-input-container flex style="margin-bottom: 0;">
-                    <label>Nouveau commentaire</label>
+                    <label>Votre commentaire</label>
                     <textarea ng-model="com.content"  rows="5"></textarea>
                   </md-input-container>
                   <div layout="row" layout-align="center">
