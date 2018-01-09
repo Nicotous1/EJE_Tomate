@@ -548,7 +548,7 @@
                         <textarea ng-model="c.temp"  rows="4" ng-disabled="sending"></textarea>
                       </md-input-container>  
 
-                      <p style="text-align: right; margin: 0; font-size: 15px;" flex >{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}<span ng-if="c.etude != $parent.etude.id"> <i>(sauvegarde)</i></span></p>
+                      <p style="text-align: right; margin: 0; font-size: 15px;" flex >{{c.author.prenom}} {{c.author.nom}}, le {{c.date | date:'dd/MM/yyyy à HH:mm'}}<span ng-if="c.etude != $parent.etude.id"> <i>(sauvegarde)</i></span></p>
                     </div>
 
 
