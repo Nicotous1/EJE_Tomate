@@ -519,8 +519,8 @@
 
                 <form ng-if="!$parent.etude.child" ng-submit="save(com)" layout="row" class="md-padding" style="padding-bottom: 0; margin-bottom: 0;">
                   <md-input-container flex style="margin-bottom: 0;">
-                    <label>Votre commentaire</label>
-                    <textarea ng-model="com.content"  rows="5"></textarea>
+                    <label>Que se passe t-il dans votre étude ?</label>
+                    <textarea ng-model="com.content"  rows="5" ng-focus="init_coms(com)"></textarea>
                   </md-input-container>
                   <div layout="row" layout-align="center">
                     <md-button class="" ng-disabled="sending" type="submit">{{sending ? 'Sauvegarde en cours...' : 'Poster'}}</md-button>   

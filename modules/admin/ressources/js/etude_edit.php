@@ -788,9 +788,14 @@
   app.controller("ComsController", function($scope, $http, $mdDialog, $mdToast) {
     $scope.coms = handle_date(<?php echo json_encode($etude->get("coms")); ?>);
     $scope.sending = false;
+    $scope.com = {}
 
-    var d = new Date()
-    $scope.com = {"content" : moment().format('DD/MM/YYYY : ')};
+    $scope.init_coms = function(c) {
+      if (!c.content) {
+        c.content = moment().format('DD/MM/YYYY : ');
+      }
+    }
+
 
     $scope.save = function(c) {
       var update = false;
