@@ -42,7 +42,8 @@
     };
 
     $scope.edit = function(etude) {
-      location.href = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);;
+      var url = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);
+      window.open(url);
     }
 
 
