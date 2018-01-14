@@ -3,7 +3,11 @@
     <div  class="md-whiteframe-z2" style="padding: 0;" ng-controller="EditController">
       <md-toolbar>
         <div class="md-toolbar-tools">
-          <span><span ng-if="etude.numero">#{{etude.numero}} : </span><span ng-if="etude.pseudo">{{etude.pseudo}}</span></span>
+          <span>
+            <span ng-if="etude.numero">#{{etude.numero}}</span>
+            <span ng-if="etude.pseudo"> : {{etude.pseudo}}</span>
+            <span ng-if="etude.pseudo || etude.numero"> ({{formEtude.statuts[etude.statut].name}})</span>
+          </span>
           <span ng-if="!etude.id && !etude.pseudo && !etude.numero">Nouvelle étude</span>
           <span flex></span>
           <div ng-if="etude.id">   
