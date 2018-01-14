@@ -39,7 +39,7 @@
 
     $scope.redirect_com = function(info) {
       var url = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", info.etude.id);
-      window.open(url);
+      location.href = url;
     }
 
 

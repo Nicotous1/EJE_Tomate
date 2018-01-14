@@ -43,7 +43,7 @@
 
     $scope.edit = function(etude) {
       var url = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);
-      window.open(url);
+      location.href = url;
     }
 
 
