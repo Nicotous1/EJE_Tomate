@@ -3,7 +3,11 @@
     <div  class="md-whiteframe-z2" style="padding: 0;" ng-controller="EditController">
       <md-toolbar>
         <div class="md-toolbar-tools">
-          <span><span ng-if="etude.numero">#{{etude.numero}} : </span><span ng-if="etude.pseudo">{{etude.pseudo}}</span></span>
+          <span>
+            <span ng-if="etude.numero">#{{etude.numero}}</span>
+            <span ng-if="etude.pseudo"> : {{etude.pseudo}}</span>
+            <span ng-if="etude.pseudo || etude.numero"> ({{formEtude.statuts[etude.statut].name}})</span>
+          </span>
           <span ng-if="!etude.id && !etude.pseudo && !etude.numero">Nouvelle étude</span>
           <span flex></span>
           <div ng-if="etude.id">   
@@ -342,7 +346,7 @@
                         <md-list>
                           <md-list-item class="md-1-line" ng-repeat="sEtape in etape.sEtapes">
 
-                            <md-select ng-model="sEtape.etudiant" placeholder="Choisir un intervenant" ng-disabled="etude.locked">  
+                            <md-select ng-model="sEtape.etudiant" placeholder="Choisir un intervenant" ng-disabled="etude.locked" ng-change="pushIntervenant(sEtape.etudiant)">  
                               <md-option ng-value="e.id" ng-repeat="e in etude_etudiants track by e.id">{{e.prenom}} {{e.nom}}</md-option>
                             </md-select>
 
@@ -419,11 +423,20 @@
                   <md-list-item ng-if="docs.length == '0'">
                     <p>Aucun document enregistré.</p>
                   </md-list-item>
-                  <md-list-item ng-repeat="d in docs" ng-click="redirect(d.link)">
-                    <div>{{d.nom}} <small ng-if="d.ref != false">({{d.ref}})</small></div>         
-                    <md-button class="md-icon-button md-secondary" ng-click="redirect(d.link)"><i class="material-icons">file_download</i></md-button>
+                  <md-list-item ng-repeat="d in docs">
+                    <div>{{d.nom}}<small ng-if="d.ref != false"> ({{d.ref}})</small><small ng-if="d.archived"> - Archivé</small></div>      
+                    <md-button class="md-icon-button md-secondary" ng-click="archive($event, d)">
+                      <i class="material-icons">{{d.archived ? 'clear' : 'archive'}}</i>
+                      <md-tooltip md-direction="left">{{d.archived ? 'Déclarer comme perdu' : 'Déclarer comme archivé'}}</md-tooltip>
+                    </md-button>       
+                    <md-button class="md-icon-button md-secondary" ng-click="redirect(d.link)">
+                      <i class="material-icons">file_download</i>
+                    </md-button>   
 <?php if ($user->get("quali")) { ?>
-                    <md-button class="md-icon-button md-secondary" ng-click="delete($event, d)"><i class="material-icons">delete</i></md-button>
+                    <md-button class="md-icon-button md-secondary" ng-click="delete($event, d)">
+                      <i class="material-icons">delete</i>
+                      <md-tooltip md-direction="right">Supprimer ce document</md-tooltip>
+                    </md-button>
 <?php } ?>                    
                   </md-list-item>
                 </md-list>
@@ -510,8 +523,8 @@
 
                 <form ng-if="!$parent.etude.child" ng-submit="save(com)" layout="row" class="md-padding" style="padding-bottom: 0; margin-bottom: 0;">
                   <md-input-container flex style="margin-bottom: 0;">
-                    <label>Nouveau commentaire</label>
-                    <textarea ng-model="com.content"  rows="5"></textarea>
+                    <label>Que se passe t-il dans votre étude ?</label>
+                    <textarea ng-model="com.content"  rows="5" ng-focus="init_coms(com)"></textarea>
                   </md-input-container>
                   <div layout="row" layout-align="center">
                     <md-button class="" ng-disabled="sending" type="submit">{{sending ? 'Sauvegarde en cours...' : 'Poster'}}</md-button>   
@@ -539,7 +552,7 @@
                         <textarea ng-model="c.temp"  rows="4" ng-disabled="sending"></textarea>
                       </md-input-container>  
 
-                      <p style="text-align: right; margin: 0; font-size: 15px;" flex >{{c.author.prenom}} {{c.author.nom}} le {{c.date | date:'dd/MM/yyyy à HH:mm'}}<span ng-if="c.etude != $parent.etude.id"> <i>(sauvegarde)</i></span></p>
+                      <p style="text-align: right; margin: 0; font-size: 15px;" flex >{{c.author.prenom}} {{c.author.nom}}, le {{c.date | date:'dd/MM/yyyy à HH:mm'}}<span ng-if="c.etude != $parent.etude.id"> <i>(sauvegarde)</i></span></p>
                     </div>
 
 

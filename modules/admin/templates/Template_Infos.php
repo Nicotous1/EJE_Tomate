@@ -38,7 +38,8 @@
   app.controller("InfosController", function($scope, $timeout, $http) {
 
     $scope.redirect_com = function(info) {
-      location.href = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", info.etude.id);
+      var url = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", info.etude.id);
+      location.href = url;
     }
 
 

@@ -14,11 +14,7 @@
 			$this->authHandler = $class::getInstance();
 		}
 
-		public function run() {
-			if ($this->authHandler->getUser()->getId() == 3) {
-				sleep(5);
-			}
-			
+		public function run() {			
 			if(!$this->isAllowed(Routeur::getInstance()->getRoute())) { //ACCES REFUSER	
 				if ($this->isConnected()) {
 					httpResponse::getInstance()->setCode(403); //ERROR 403 -> Not allowed

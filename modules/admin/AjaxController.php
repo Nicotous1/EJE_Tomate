@@ -110,6 +110,19 @@
 
 		}
 
+		public function ArchiveDocEtude() {
+			$id = (int) $this->httpRequest->post("id");
+			$archived = (bool) $this->httpRequest->post("archived");
+
+			$d = $this->pdo->get("Admin\Entity\DocEtude", $id);
+			if ($d === null) {return $this->error("Ce document n'existe plus !");}
+
+			$d->set("archived", $archived);
+			$res = $this->pdo->save($d);
+			return ($res) ? $this->success(array("d" => $d)) : $this->error();
+
+		}
+
 
 		public function Search() {
 			$search = $this->httpRequest->post("search");

@@ -305,6 +305,18 @@
       selectedIndex: 0
     };    
 
+    $scope.pushIntervenant = function(id) {
+      if (!id) {return;}
+
+      angular.forEach($scope.etapes, function(e) {
+        angular.forEach(e.sEtapes, function(s) {
+          if (!s.etudiant) {
+            s.etudiant = id;
+          }
+        });
+      });
+    }
+
     $scope.updateDate = function(etape) {
       if (etape.date_start > etape.date_end) {
         etape.date_end = new Date(etape.date_start);
@@ -736,6 +748,33 @@
       });
     }; 
 
+    $scope.archive = function(ev, d) {
+      if (d.archived) {
+        var phrases = [
+            "Vous vous apprêtez à délarer que '" + d.nom + "' n'est plus dans son dossier d'étude... et bah bravo !",
+            "Confirmer la perte de " + d.nom + " ?"
+        ];
+      } else {
+        var phrases = [
+            "Vous vous apprêtez à délarer que '" + d.nom + "' est dans son dossier d'étude, ça me parait louche !",
+            "Confirmer l'archivage de " + d.nom + " ?"
+        ];
+      }
+
+      var confirm = $scope.confirmDialog(ev, phrases[0], phrases[1]);
+
+      $mdDialog.show(confirm).then(function() {
+        d.archived = !d.archived;
+        var url = "<?php echo $routeur->getUrlFor("AdminAjaxArchiveDocEtude") ?>";
+        var resHandler = handle_response({
+          success : function(data, msg) {
+            angular.extend(d, data.d);
+          },
+        });
+        $http.post(url, d).then(resHandler, resHandler);
+      });
+    };     
+
   });
 
 
@@ -748,8 +787,15 @@
 */
   app.controller("ComsController", function($scope, $http, $mdDialog, $mdToast) {
     $scope.coms = handle_date(<?php echo json_encode($etude->get("coms")); ?>);
-    $scope.com = {};
     $scope.sending = false;
+    $scope.com = {}
+
+    $scope.init_coms = function(c) {
+      if (!c.content) {
+        c.content = moment().format('DD/MM/YYYY : ');
+      }
+    }
+
 
     $scope.save = function(c) {
       var update = false;
