@@ -7,8 +7,10 @@
 		protected $openTag = "{if[";
 		protected $closeTag = "]if}";
 		
-		protected $midTag = "]else[";
+		protected $midTag = "]then[";
 		protected $midTagPos;
+
+		protected $elseTag = "]else[";
 
 		public function getMidTagPos() {
 			if ($this->midTagPos === null) {
@@ -66,7 +68,7 @@
 			}
 			if ($cond[0] == "!") {$res = !$res;}
 
-			$elsePos = $template->strpos($this->midTag);
+			$elsePos = $template->strpos($this->elseTag);
 			if ($elsePos !== false) {
 				$ifTrue = $template->substr(0, $elsePos[0]);
 				$ifFalse = $template->substr($elsePos[1]);		
