@@ -212,6 +212,16 @@
 			return $coms;
 		}
 
+		public function getDocTypes($type_var_name) {
+			$res = [];
+			foreach ($this->get("docs") as $d) {
+				if ($d->get("type")->get("var_name") == $type_var_name) {
+					$res[$d->get("n")] = $d;
+				}
+			}
+			return $res;
+		}
+
 		public function getLocked() {
 			return !empty($this->get_Ids("child"));
 			//return ($this->locked || !empty($this->get_Ids("child")));
