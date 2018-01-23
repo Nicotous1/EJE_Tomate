@@ -16,6 +16,12 @@
 				return $this->etude->getDocTypes($name);
 			} else {
 				$type_var = substr($name, 0, $pos);
+				$pdo = new EntityPDO();
+				$type = $pdo->get("Admin\Entity\DocType", array(
+					"#s.var_name = :", $type_var), 1);
+				if ($type === null) {throw new Exception("Erreur du DocHistory pour la référence '$name' : Le type '$type_var' n'existe pas !", 1);}
+
+
 				$num = (int) substr($name, $pos + 1);
 				if ($num < 1) {
 					throw new Exception("Erreur du DocHistory pour la référence '$name' : Le numéro de la référence doit être supérieur à 1 et être un nombre et pas '$type_var'.", 1);
@@ -25,13 +31,11 @@
 				$docs = array_values($docs); //order by n (without index -> only values)
 
 				$n = count($docs);
-				if ($n < 1) {
-					throw new Exception("Erreur du DocHistory pour la référence '$name' : L'étude ne contient aucun documents du type '$type_var', êtes vous sur que le type '$type_var' existe ?", 1);
+				if (isset($docs[$n - $num])) {
+					return $docs[$n - $num];
+				} else {
+					return new DocEtude(array("type" => $type, "etude" => $this->etude, "n" => 1515));
 				}
-				if ($n < $num) { // strict est important !
-					throw new Exception("Erreur du DocHistory pour la référence '$name' : L'étude ne contient que $n documents du type '$type_var', le document n°$num n'existe donc pas !", 1);
-				}
-				return $docs[$n - $num];	
 			}
 		}
 	}
