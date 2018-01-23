@@ -46,15 +46,16 @@
 
 
           <div ng-controller="TemplatesController" ng-if="doctypes.length > 0">
-            <md-tab label="Templates">
+            <md-tab label="Templates" md-active="true">
               <md-tab-body>
                 <md-list style="padding: 0;">
                   <md-list-item ng-click="edit()"><p style="text-align: center;">Ajouter un template</p></md-list-item>
                   <md-divider></md-divider>
-                  <md-list-item ng-repeat="t in templates | orderBy:'nom'" ng-click="edit(t);">
-                    <span>
-                      {{t.nom}} - {{getId(doctypes, t.type).nom}} <small>({{t.doc.fullName}})</small>
-                    </span>
+                  <md-list-item ng-repeat="t in templates | orderBy:'nom'" ng-click="edit(t);" class="md-2-line">
+                    <div class="md-list-item-text" layout="column">
+                      <p style="font-weight: bold;">{{t.nom}}</p>
+                      <p><small>({{t.doc.fullName}})</small></p>
+                    </div>
                     <md-button class="md-icon-button md-secondary" ng-click="redirect(t.doc.link);"><i class="material-icons">file_download</i></md-button>
                   </md-list-item>
                 </md-list>
