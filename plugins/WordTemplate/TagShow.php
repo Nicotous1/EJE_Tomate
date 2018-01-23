@@ -35,6 +35,9 @@
 				$value = substr(str_shuffle("fes451dfs78ef1"), rand(0,6)) . $value . substr(str_shuffle("48dsq1"), rand(0,3));
 			}*/
 
+			// Exe always
+			$e = new TomateTemplate($value, $scope);
+			$value = $e->compile()->getContent();
 
 			switch ($format) {
 				case null:
@@ -46,8 +49,7 @@
 				case 'ucfirst':
 					return ucfirst($value);
 				case 'exe':
-					$e = new TomateTemplate($value, $scope);
-					return $e->compile()->getContent();
+					return $value;
 				case 'amountStr':
 					return amount2str($value);
 
