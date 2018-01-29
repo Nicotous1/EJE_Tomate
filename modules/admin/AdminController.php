@@ -81,7 +81,7 @@
 			$str = null;
 			foreach ($res as $i => $r) {
 				if ($i > 4) {
-					$str = substr($str, 0, -2) . "... ";
+					$str = substr($str, 0, -2) . "..  ";
 					break;
 				}
 				$str .= "<a href='". $this->routeur->getUrlFor("AdminEdit", array("id" => $r["id"])) ."'>". $r["numero"] . "</a>, ";
