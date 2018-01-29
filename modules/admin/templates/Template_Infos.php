@@ -7,6 +7,11 @@
             <span>Dernières infos</span>
           </div>
         </md-toolbar>
+        <md-toolbar class="md-warn">
+          <div class="md-toolbar-tools">
+            <span><?php echo $SuiviWarning; ?></span>
+          </div>
+        </md-toolbar>
         <md-content>
           <md-list>      
             <md-list-item ng-if="dynamicItems.getLength() == '0'">

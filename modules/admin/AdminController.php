@@ -61,10 +61,47 @@
 		}
 
 		public function LastInfos() {
+			$date_lim = date("Y-m-d", strtotime("-2 weeks"));
+
+			$r = new Request("
+					SELECT e.id id, e.numero numero, MAX(c.date) d
+					FROM etude e
+					LEFT JOIN com c ON c.etude = e.id
+					WHERE
+						e.child IS NULL
+					    AND e.statut < 5
+					GROUP BY e.id 
+					HAVING d < : 
+					ORDER BY e.numero DESC
+				",
+				$date_lim
+			);
+			$res = $r->fetchAll();
+
+			$str = null;
+			foreach ($res as $i => $r) {
+				if ($i > 4) {
+					$str = substr($str, 0, -2) . "... ";
+					break;
+				}
+				$str .= "<a href='". $this->routeur->getUrlFor("AdminEdit", array("id" => $r["id"])) ."'>". $r["numero"] . "</a>, ";
+			}
+			$n = count($res);
+			if ($n > 0) {$str = substr($str, 0, -2);}
+			if ($n == 1) {
+				$str .= " n'a pas été commentée depuis 2 semaines.";
+			} elseif ($n > 1) {
+				$str .= " n'ont pas été commentées depuis 2 semaines.";
+			}
+
+			// var_dump($str);
+			// return;
+
 			//AFFICHAGE
 			$page = new Page();
 		    $page->addFile(dirname(__FILE__) . "/templates/Template_Infos.php")
 		    	 ->addVar("HeaderTitre", "Dernières infos")
+		    	 ->addVar("SuiviWarning", $str)
 		  	;
 		    return $page;
 		}
