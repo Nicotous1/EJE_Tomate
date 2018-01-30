@@ -67,14 +67,16 @@
 					SELECT e.id id, e.numero numero, MAX(c.date) d
 					FROM etude e
 					LEFT JOIN com c ON c.etude = e.id
+					LEFT JOIN admin_etude a ON a.etude_id = e.id
 					WHERE
 						e.child IS NULL
 					    AND e.statut < 5
+                        AND (a.admin_id = :1.id OR :1.quali)
 					GROUP BY e.id 
-					HAVING d < : 
+					HAVING d < :0 
 					ORDER BY e.numero DESC
 				",
-				$date_lim
+				array($date_lim, $this->user)
 			);
 			$res = $r->fetchAll();
 
