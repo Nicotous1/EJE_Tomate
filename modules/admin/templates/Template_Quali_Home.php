@@ -46,7 +46,7 @@
 
 
           <div ng-controller="TemplatesController" ng-if="doctypes.length > 0">
-            <md-tab label="Templates" md-active="true">
+            <md-tab label="Templates">
               <md-tab-body>
                 <md-list style="padding: 0;">
                   <md-list-item ng-click="edit()"><p style="text-align: center;">Ajouter un template</p></md-list-item>
