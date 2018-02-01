@@ -73,7 +73,7 @@
 					    AND e.statut < 5
                         AND (a.admin_id = :1.id OR :1.quali)
 					GROUP BY e.id 
-					HAVING d < :0 
+					HAVING d < :0 OR d IS NULL
 					ORDER BY e.numero DESC
 				",
 				array($date_lim, $this->user)
