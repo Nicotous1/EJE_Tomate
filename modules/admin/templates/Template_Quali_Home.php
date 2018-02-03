@@ -95,7 +95,7 @@
 
           <md-tab label="Doc">
               <md-tab-body>
-                <a href="https://drive.google.com/file/d/0B_a-YfIKjg5vYU5qZFgyaEVoRm8/" target="_blank">La documentation</a>
+                <a href="https://docs.google.com/document/d/1v0gegDCOVQLrfvbYBzyotreoE9vCjBkQXqwdQTwoEzk" target="_blank">La documentation</a>
               </md-tab-body>
           </md-tab>
 
