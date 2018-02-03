@@ -52,6 +52,8 @@
 					return $value;
 				case 'amountStr':
 					return amount2str($value);
+				case 'price':
+					return price($value);
 
 				default:
 					throw new Exception("Le format '$format' est inconnu !", 1);
@@ -147,5 +149,28 @@ function date_french($str) {
         $english_months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
         $french_months = array('janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre');
         return str_replace($english_months, $french_months, str_replace($english_days, $french_days, $str));
+}
+
+function price($p) {
+	$n = floor($p);
+	$decimal = $p - $n;
+
+	$res = ($decimal > 0) ? "." . round($decimal, 2)*100 : '';
+	return str_split_r($n, 3) . $res;
+}
+
+function str_split_r($s) {
+	$s = strval($s);
+	$n = strlen($s);
+	if ($n < 1) {return $s;}
+	$res = '';
+	for ($i=0; $i < $n; $i++) { 
+		$j = $n - $i - 1;
+		if (($i % 3) == 0) {
+			$res = ' ' . $res;
+		}
+		$res = $s[$j] . $res;
+	}
+	return substr($res, 0, strlen($res) - 1);
 }
 ?>
