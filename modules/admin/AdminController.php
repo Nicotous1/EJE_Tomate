@@ -69,7 +69,7 @@
 					LEFT JOIN com c ON c.etude = e.id
 					LEFT JOIN admin_etude a ON a.etude_id = e.id
 					WHERE
-						e.child IS NULL
+						e.child IS NULL AND e.date_created < :0 
 					    AND e.statut < 5
                         AND (a.admin_id = :1.id OR :1.quali)
 					GROUP BY e.id 
