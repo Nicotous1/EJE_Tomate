@@ -166,11 +166,11 @@ function str_split_r($s) {
 	$res = '';
 	for ($i=0; $i < $n; $i++) { 
 		$j = $n - $i - 1;
-		if (($i % 3) == 0) {
+		if (($i % 3) == 0 && $i != 0) {
 			$res = " " . $res;
 		}
 		$res = $s[$j] . $res;
 	}
-	return substr($res, 0, strlen($res) - 1);
+	return $res;
 }
 ?>
