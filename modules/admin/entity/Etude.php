@@ -383,5 +383,10 @@
 			}
 			return $this->etudiants;
 		}
+
+		public function getOld() {
+			$parent = $this->get("parent");
+			return (count($parent) > 0) ? $parent[0] : null;
+		}
 	}
 ?>
