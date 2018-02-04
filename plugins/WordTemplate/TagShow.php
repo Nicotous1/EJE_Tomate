@@ -167,7 +167,7 @@ function str_split_r($s) {
 	for ($i=0; $i < $n; $i++) { 
 		$j = $n - $i - 1;
 		if (($i % 3) == 0) {
-			$res = ' ' . $res;
+			$res = " " . $res;
 		}
 		$res = $s[$j] . $res;
 	}
