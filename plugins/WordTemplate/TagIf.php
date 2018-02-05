@@ -27,11 +27,11 @@
 			$else = $this->find($this->elseTag);
 			$end = $this->getCloseTagPos();
 			if ($else === False) {
-				$true = $this->str->substr_pos($then[1],$end[0])->content();
+				$true = $this->str->substr_pos($then[1],$end[0]);
 				$false = null;
 			} else {
-				$true = $this->str->substr_pos($then[1],$else[0])->content();
-				$false = $this->str->substr_pos($else[1],$end[0])->content();
+				$true = $this->str->substr_pos($then[1],$else[0]);
+				$false = $this->str->substr_pos($else[1],$end[0]);
 			}
 
 			$res = ($bool) ? $true : $false;
