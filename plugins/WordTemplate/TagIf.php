@@ -7,80 +7,101 @@
 		protected $openTag = "{if[";
 		protected $closeTag = "]if}";
 		
-		protected $midTag = "]then[";
-		protected $midTagPos;
-
+		protected $thenTag = "]then[";
 		protected $elseTag = "]else[";
-
-		public function getMidTagPos() {
-			if ($this->midTagPos === null) {
-				$start = $this->getOpenTagPos();
-				if ($start === false) {throw new Exception("DSI -> Should not compiled what doesn't exist !", 1);}
-				$this->midTagPos = $this->str->strpos($this->midTag, $start[1]);
-			}
-			return $this->midTagPos;
-		}
 		
 		public function compile(Scope $scope) {
-			if (!$this->exists()) {throw new Exception("DSI -> You should not compiled a tag that not exists !", 1);}
 			$start = $this->getOpenTagPos();
-			$mid = $this->getMidTagPos();
-			if ($mid === false) {throw new Exception("Il manque '$this->midTag' à un TagIf près de '" . $this->str->extract($start[0]) . "' !", 1);}
+			
+			$then = $this->find($this->thenTag);
+			if ($then === false) {$this->error("Il manque '$this->thenTag' à un TagIf.");}
+
+			// Clean the param string
+			$param_str = $this->str->substr_pos($start[1],$then[0])->content();
+			$param_str = str_replace( chr( 194 ) . chr( 160 ), ' ', $param_str );
+			$param_str = trim($param_str);
+			$param_str = preg_replace('/\s+/', ' ',$param_str);
+
+			$bool = $this->eval($param_str, $scope);
+
+			$else = $this->find($this->elseTag);
 			$end = $this->getCloseTagPos();
+			if ($else === False) {
+				$true = $this->str->substr_pos($then[1],$end[0])->content();
+				$false = null;
+			} else {
+				$true = $this->str->substr_pos($then[1],$else[0])->content();
+				$false = $this->str->substr_pos($else[1],$end[0])->content();
+			}
 
-			$param = $this->str->substr_pos($start[1],$mid[0])->content();
-			$template = $this->str->substr_pos($mid[1],$end[0]);
+			$res = ($bool) ? $true : $false;
 
-			$param = str_replace( chr( 194 ) . chr( 160 ), ' ', $param );
-			$param = trim($param);
-			$p = strpos($param, ' ');
-			$var_name = $param; $cond = 'exist'; $value = null; //Default
-			if ($p !== false) {
-				$var_name = substr($param, 0, $p);
-				$param = trim(substr($param, $p));
-				$p = strpos($param, ' ');
-				if ($p === false) {
-					$cond = $param;
-				} else {
-					$cond = substr($param, 0, $p);
-					$param = trim(substr($param, $p));
-					$t = preg_match("#\|(.+)\|#", $param, $m);
-					if (!$t && !empty($param)) {throw new Exception("La valeur d'un TagIf doit être entourée de '|' -> '|##VALUE##|' !", 1);
-					}
-					$value = $t ? $m[1] : null;
+			return $this->render($res, $scope);
+		}
+
+		protected function eval($param_str, Scope $scope) {
+			$param_str = str_replace("|", "", $param_str); // Remove old format '|'
+			$params = explode(" ", $param_str); // Ca ne marche pas avec les strings -> interdire ?
+
+			$n = count($params);
+			if ($n < 1 || 3 < $n) {
+				$this->error("La condition n'est pas correcte !");
+			}
+
+			$a_str = $params[0];
+			$a = (is_numeric($a_str)) ? floatval($a_str) : $scope->get($a_str);
+
+			$b_str = ($n > 2) ? $params[2] : False;
+
+			$cond_str = ($n > 1) ? $params[1] : 'exist';
+			$inv = (substr($cond_str, 0, 1) == "!");
+			if ($inv) {$cond_str = substr($cond_str, 1);}
+			
+			if ($b_str === False) {
+				switch ($cond_str) {
+					case 'empty':
+						$res = empty($a); break;
+					case 'exist':
+						$res = !empty($a); break;
+					case 'multiple':
+						$res = count($a) > 1; break;
+					case 'alone':
+						$res = count($a) == 1; break;
+					default:
+						$this->error("La condition '$cond_str' n'existe pas.");	
+				}				
+			}
+			else {
+				$b = (is_numeric($b_str)) ? floatval($b_str) : $scope->get($b_str);
+				
+				$a = $this->check($a);
+				$b = $this->check($b);
+				
+				switch ($cond_str) {
+					case '=':
+						$res = ($a == $b); break;
+					case '&lt;':
+						$res = ($a < $b); break;
+					case '&lt;=':
+						$res = ($a <= $b); break;
+					case '&gt;':
+						$res = ($a > $b); break;
+
+					default:
+						$this->error("La condition '$cond_str' n'existe pas pour comparer deux éléments.");	
 				}
 			}
-			$var = $scope->get($var_name);
-			switch ( ($cond[0] == '!') ? substr($cond, 1) : $cond ) {
-				case 'empty':
-					$res = empty($var); break;
-				case 'exist':
-					$res = !empty($var); break;
-				case 'multiple':
-					$res = count($var) > 1; break;
-				case 'alone':
-					$res = count($var) == 1; break;
-				case '=':
-					$res = ($var == $value); break;
 
-				default:
-					throw new Exception("La condition '$cond' n'existe pas !", 1);	
-			}
-			if ($cond[0] == "!") {$res = !$res;}
 
-			$elsePos = $template->strpos($this->elseTag);
-			if ($elsePos !== false) {
-				$ifTrue = $template->substr(0, $elsePos[0]);
-				$ifFalse = $template->substr($elsePos[1]);		
+			return ($inv) ? !$res : $res;
+		}
+
+		protected function check($a) {
+			if (is_numeric($a)) {
+				return floatval($a);
 			} else {
-				$ifTrue = $template;
-				$ifFalse = new StringPos();
+				$this->error("'$a_str' n'est pas un nombre ('".gettype($a)."'). Vous ne pouvez comparer que des entiers.");
 			}
-
-			$template = ($res) ? $ifTrue : $ifFalse;
-
-			$tomateTemplate = new TomateTemplate($template, $scope);
-			return $tomateTemplate->compile()->getContent();
 		}
 	} 
 ?>

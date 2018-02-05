@@ -8,11 +8,10 @@
 		protected $closeTag = "}}";
 
 		public function compile(Scope $scope) {
-			if (!$this->exists()) {throw new Exception("DSI -> You should not compile a tag that not exists !", 1);}
 			$start = $this->getOpenTagPos()[1];
 			$end = $this->getCloseTagPos()[0];
 
-			$inside = $this->str->substr_pos($start,$end);
+			$inside = $this->getInside();
 			$parts = $inside->explode("|");
 
 			$var_name = $parts[0]->content();
@@ -22,18 +21,13 @@
 			if (is_array($value)) {
 				if (isset($value["long"])) {
 					$value = $value["long"];
-				} else {throw new Exception("'$var_name' est un tableau et ne peut donc pas être affichée directement !", 1);}
+				} else {$this->error("'$var_name' est un tableau et ne peut donc pas être affichée directement !");}
 			}
-			if ($value != null && !is_scalar($value)) {throw new Exception("'$var_name' ne peut être affichée directement (". get_class($value) .") !", 1);}
+			if ($value != null && !is_scalar($value)) {$this->error("'$var_name' ne peut être affichée directement (". get_class($value) .") !");}
 			$format = (isset($parts[1])) ? $parts[1]->content() : null;
 
 			$value = htmlspecialchars($value);
 			$value = str_replace(array("\r\n", "\n\r", "\n", "\r"), TomateTemplate::break_line, $value); //Gere les retours à la ligne
-
-
-/*			if ($sc->getFirewall()->getUser()->getId() == 5 && rand(0,10) <= 3) {
-				$value = substr(str_shuffle("fes451dfs78ef1"), rand(0,6)) . $value . substr(str_shuffle("48dsq1"), rand(0,3));
-			}*/
 
 			// Exe always
 			$e = new TomateTemplate($value, $scope);

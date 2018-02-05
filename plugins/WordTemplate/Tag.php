@@ -36,61 +36,99 @@
 			return $this->openTagPos;
 		}
 
+		public function getCloseTagPos() {
+			if ($this->closeTagPos === null) {
+				$this->closeTagPos = $this->find($this->closeTag);
+				if ($this->closeTagPos === False) {
+					throw new Exception("Le Tag '" . get_class($this) . "' n'est pas refermé. '".$this->closeTag."' n'a pu être trouvée ! " . $this->getNearStr(), 1);
+				}
+			}
+
+			return $this->closeTagPos;
+		}	
+
+		public function getInside() {
+			return $this->str->substr_pos($this->getOpenTagPos()[1],$this->getCloseTagPos()[0]);
+		}	
+
+		protected function getNearStr() {
+			return "Près de '" . $this->str->extract($this->getOpenTagPos()[0]) . "' !";
+		}
+
+		protected function error($str) {
+			$str = get_class($this) . " : " . $str . "\n" . $this->getNearStr();
+			throw new Exception($str, 1);
+		}
+
 		public function getStrPos() {
 			return $this->str;
 		}
 
-		//ADVANCED
-		protected function handle_rec_tag($offset = 0) {
-			$class = get_class($this);
-			//TAG DE FERMETURE
-			$firstClosePos = $this->str->strpos($this->closeTag, $offset);
-			if ($firstClosePos === false) {throw new Exception("Un $class n'est pas fermé !\nIl manque '$this->closeTag' près de '" . $this->str->extract($start[0]) . "' !", 1);}
-
-			$nextTag = new $class($this->str->substr($offset));
-			$nextTagStart = $nextTag->getOpenTagPos();
-			while ($nextTagStart !== false && $nextTagStart[0] + $offset < $firstClosePos[0]) { //Boucle pour la largeur
-				$nextTagClose = $nextTag->getCloseTagPos(); //Recursivité pour la profondeur
-				$offset += $nextTagClose[1]; //On se place après cette fermeture très important de rajouter offset ! -> TRES TRES IMPORTANT
-
-				//Largeur
-				$strPos = $nextTag->getStrPos()->substr($nextTagClose[1]); // -> plus rapide que $this->str->substr($offset) mais identique !
-				$nextTag = new $class($strPos);
-				$nextTagStart = $nextTag->getOpenTagPos(); //On reprend la stringpos du next tag
-
-				$firstClosePos = $this->str->strpos($this->closeTag, $offset);
-				if ($firstClosePos === false) {throw new Exception("Un $class n'est pas fermé !\nIl manque '$this->closeTag' près de '" . $this->str->extract($offset) . "' !", 1);}
+		protected function find($balise, $offset = null) {
+			if ($offset === null) {			
+				$openPos = $this->getOpenTagPos();
+				$offset = $openPos[1];
 			}
-			$this->closeTagPos = $firstClosePos;
-		}	
+			$level = 0;
 
-		public function getCloseTagPos() {
-			if ($this->closeTagPos === null) {
-				$start = $this->getOpenTagPos();
-				$offset = $start[1];
+			while (!$this->str->offsetOut($offset)) {
+				$balisePos = $this->str->strpos($balise, $offset);
+				if ($balisePos === False) {return False;} // No balise found anywhere
 
-				$class = get_class($this);
-				//TAG DE FERMETURE
-				$firstClosePos = $this->str->strpos($this->closeTag, $offset);
-				if ($firstClosePos === false) {throw new Exception("Un $class n'est pas fermé !\nIl manque '$this->closeTag' près de '" . $this->str->extract($start[0]) . "' !", 1);}
-
-				$nextTag = new $class($this->str->substr($offset));
-				$nextTagStart = $nextTag->getOpenTagPos();
-				while ($nextTagStart !== false && $nextTagStart[0] + $offset < $firstClosePos[0]) { //Boucle pour la largeur
-					$nextTagClose = $nextTag->getCloseTagPos(); //Recursivité pour la profondeur
-					$offset += $nextTagClose[1]; //On se place après cette fermeture très important de rajouter offset ! -> TRES TRES IMPORTANT
-
-					//Largeur
-					$strPos = $nextTag->getStrPos()->substr($nextTagClose[1]); // -> plus rapide que $this->str->substr($offset) mais identique !
-					$nextTag = new $class($strPos);
-					$nextTagStart = $nextTag->getOpenTagPos(); //On reprend la stringpos du next tag
-
-					$firstClosePos = $this->str->strpos($this->closeTag, $offset);
-					if ($firstClosePos === false) {throw new Exception("Un $class n'est pas fermé !\nIl manque '$this->closeTag' près de '" . $this->str->extract($offset) . "' !", 1);}
+				$openPos = $this->str->strpos($this->openTag, $offset);
+				if ($openPos === False) {
+					if ($level == 0) {
+						return $balisePos;
+					} else {
+						$closePos = $this->str->strpos($this->closeTag, $offset);
+						if ($closePos === False) {
+							return False;
+						} else {
+							$level--;
+							$offset = $closePos[1];
+						}
+					}
+				} else {
+					//Both not false
+					if ($level == 0 && $balisePos[0] <= $openPos[0]) { //Found at good level
+						return $balisePos;
+					} else {
+						$closePos = $this->str->strpos($this->closeTag, $offset);
+						if ($closePos[0] < $openPos[0])	{ // New close
+							$level--;
+							$offset = $closePos[1];
+						} else { // New Open
+							$level ++;
+							$offset = $openPos[1];
+						}
+					}					
 				}
-				$this->closeTagPos = $firstClosePos;				
+
+
+				if ($level < 0) {return False;}
 			}
-			return ($this->closeTagPos === false) ? false : $this->closeTagPos;
-		}	
+			return False;
+		}
+
+
+		protected function explode($balise) {
+			$found = null;
+			$offset = $this->getOpenTagPos()[1];
+			$parts = array();
+			while ($found !== False) {
+				$found = $this->find($balise, $offset);
+				if ($found !== False) {
+					$parts[] = $this->str->substr_pos($offset, $found[0]);
+					$offset = $found[1];
+				}
+			}
+			$parts[] = $this->str->substr_pos($offset, $this->getCloseTagPos()[0]);
+			return $parts;
+		}
+
+		protected function render($str, Scope $scope) {
+			$tomateTemplate = new TomateTemplate($str, $scope);
+			return $tomateTemplate->compile()->getContent();
+		}
 	}
 ?>
