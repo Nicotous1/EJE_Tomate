@@ -57,7 +57,7 @@
 		}
 
 		protected function error($str, $nearTag = null) {
-			$str = get_class($this) . " : " . $str . "<br>" . $this->getNearStr($nearTag);
+			$str = get_class($this) . " : " . $str . " " . $this->getNearStr($nearTag);
 			throw new Exception($str, 1);
 		}
 
