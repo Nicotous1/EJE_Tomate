@@ -51,12 +51,13 @@
 			return $this->str->substr_pos($this->getOpenTagPos()[1],$this->getCloseTagPos()[0]);
 		}	
 
-		protected function getNearStr() {
-			return "Près de '" . $this->str->extract($this->getOpenTagPos()[0]) . "' !";
+		protected function getNearStr($nearTag = null) {
+			if ($nearTag === null) {$nearTag = $this->getOpenTagPos();}
+			return "Près de '" . $this->str->extract($nearTag[0]) . "' !";
 		}
 
-		protected function error($str) {
-			$str = get_class($this) . " : " . $str . "\n" . $this->getNearStr();
+		protected function error($str, $nearTag = null) {
+			$str = get_class($this) . " : " . $str . "\n" . $this->getNearStr($nearTag);
 			throw new Exception($str, 1);
 		}
 

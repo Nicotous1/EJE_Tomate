@@ -23,7 +23,7 @@
 					$offset = $openTagPos1[0] - $this->str->size();
 					$openExtPos = strrpos($this->str->source(), $this->openExtTag , $offset); //On utilise pas $this->strPos car on recherche une balise Word qui serait ignorée !
 					if ($openExtPos === false) {
-						$this->error("Le tag n'est pas placé à l'interieur d'une ligne de tableau Word.");
+						$this->error("Le tag n'est pas placé à l'interieur d'une ligne de tableau Word.", $openTagPos1);
 					}
 					$this->openExtTagPos = array($openExtPos, $openExtPos + strlen($this->openExtTag));
 				} else  {
