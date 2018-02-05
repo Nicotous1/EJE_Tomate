@@ -74,21 +74,21 @@
 			else {
 				$b = (is_numeric($b_str)) ? floatval($b_str) : $scope->get($b_str);
 				
-				$a = $this->check($a);
-				$b = $this->check($b);
-				
-				switch ($cond_str) {
-					case '=':
-						$res = ($a == $b); break;
-					case '&lt;':
-						$res = ($a < $b); break;
-					case '&lt;=':
-						$res = ($a <= $b); break;
-					case '&gt;':
-						$res = ($a > $b); break;
-
-					default:
-						$this->error("La condition '$cond_str' n'existe pas pour comparer deux éléments.");	
+				if ($cond_str == "=") {
+					$res = ($a == $b);
+				} else {
+					$a = $this->check($a, $a_str);
+					$b = $this->check($b, $b_str);
+					switch ($cond_str) {
+						case '&lt;':
+							$res = ($a < $b); break;
+						case '&lt;=':
+							$res = ($a <= $b); break;
+						case '&gt;':
+							$res = ($a > $b); break;
+						default:
+							$this->error("La condition '$cond_str' n'existe pas pour comparer deux éléments.");	
+					}
 				}
 			}
 
@@ -96,7 +96,7 @@
 			return ($inv) ? !$res : $res;
 		}
 
-		protected function check($a) {
+		protected function check($a, $a_str) {
 			if (is_numeric($a)) {
 				return floatval($a);
 			} else {
