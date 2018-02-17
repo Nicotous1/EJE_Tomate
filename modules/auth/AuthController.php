@@ -87,6 +87,9 @@
 		}
 
 		protected function getSuccessUrl() {
+			return $this->firewall->getUrlFor("success_road");
+
+			// Not usefull for this project
 			$sessions = new SessionController();
 			$url = ($sessions->isset("firewall_last_refused_url")) ? $sessions->get("firewall_last_refused_url") : $this->firewall->getUrlFor("success_road");
 			$sessions->remove("firewall_last_refused_url");
