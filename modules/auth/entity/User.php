@@ -54,7 +54,7 @@
 		);
 
 		public static $titreArray = array(
-			array("id" => 1, "titre" => "Mr", "long" => "Monsieur"),
+			array("id" => 1, "titre" => "M.", "long" => "Monsieur"),
 			array("id" => 2, "titre" => "Mme", "long" => "Madame"),
 		);
 
