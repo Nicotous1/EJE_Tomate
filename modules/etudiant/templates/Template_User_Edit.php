@@ -13,7 +13,7 @@
             <div layout="row">
               <md-input-container>
                 <label>Titre</label>
-                <md-select ng-model="user.titre" placeholder="Titre" required>
+                <md-select ng-model="user.titre" placeholder="Civilité" required>
                   <md-option ng-value="t.id" ng-repeat="t in formEtudiant.titres track by t.id">{{t.titre}}</md-option>
                 </md-select>
               </md-input-container>

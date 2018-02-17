@@ -38,7 +38,7 @@
 		);
 
 		public static $domaineArray = array(
-			array("id" => 1, "long" => "Statistique Descriptives"),
+			array("id" => 1, "long" => "Statistique descriptives"),
 			array("id" => 2, "long" => "Analyse de données"),
 			array("id" => 3, "long" => "Enquête/Sondage"),
 			array("id" => 4, "long" => "Finance"),

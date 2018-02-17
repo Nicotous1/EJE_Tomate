@@ -61,7 +61,7 @@
 							<md-subheader>Quelques informations</md-subheader>
 							<div layout="column" layout-gt-sm="row">
 				                <md-input-container class="md-block">
-				                  <md-select ng-model="etudiant.titre" placeholder="Titre" required>  
+				                  <md-select ng-model="etudiant.titre" placeholder="Civilité" required>  
 				                    <md-option ng-value="t.id" ng-repeat="t in formEtudiant.titres track by t.id">{{t.titre}}</md-option>
 				                  </md-select>
 				                </md-input-container>
