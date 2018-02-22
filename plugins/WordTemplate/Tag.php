@@ -127,7 +127,8 @@
 			return $parts;
 		}
 
-		protected function render(StringPos $str, Scope $scope) {
+		protected function render($str, Scope $scope) {
+			if ($str === null) {return "";}
 			$tomateTemplate = new TomateTemplate($str, $scope);
 			return $tomateTemplate->compile()->getContent();
 		}
