@@ -152,6 +152,7 @@
 		public function infant() {
 			$child = clone $this;
 			$child->set("id", null)
+				  ->set("date_created", new Datetime())
 				  ->set("child", null)
 				  ->set("locked", false)
 				  ->set("admins", $this->get_Ids("admins"))
