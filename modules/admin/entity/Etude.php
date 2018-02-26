@@ -38,14 +38,14 @@
 		);
 
 		public static $domaineArray = array(
-			array("id" => 1, "long" => "Statistique descriptives"),
+			array("id" => 1, "long" => "Statistique descriptive"),
 			array("id" => 2, "long" => "Analyse de données"),
 			array("id" => 3, "long" => "Enquête/Sondage"),
 			array("id" => 4, "long" => "Finance"),
 			array("id" => 5, "long" => "Économie"),
 			array("id" => 6, "long" => "Informatique"),
 			array("id" => 7, "long" => "Économétrie"),
-			array("id" => 8, "long" => "Série temporelles"),
+			array("id" => 8, "long" => "Séries temporelles"),
 			array("id" => 9, "long" => "Mathématiques"),
 			array("id" => 10, "long" => "Machine Learning"),
 		);
