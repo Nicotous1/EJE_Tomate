@@ -53,7 +53,7 @@
 
 			$b_str = ($n > 2) ? $params[2] : False;
 
-			$cond_str = ($n > 1) ? $params[1] : 'exist';
+			$cond_str = ($n > 1) ? $params[1] : 'bool';
 			$inv = (substr($cond_str, 0, 1) == "!");
 			if ($inv) {$cond_str = substr($cond_str, 1);}
 			
@@ -67,6 +67,8 @@
 						$res = count($a) > 1; break;
 					case 'alone':
 						$res = count($a) == 1; break;
+					case 'bool':
+						$res = boolval($a); break;
 					default:
 						$this->error("La condition '$cond_str' n'existe pas.");	
 				}				

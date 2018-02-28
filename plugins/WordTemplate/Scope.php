@@ -11,6 +11,9 @@
 		public function __construct($data) {
 			$this->piles = array($data);
 			$this->level = 0;
+
+			$this->add("true", true);
+			$this->add("false", false);
 		}
 
 		public function setContext($context) {
@@ -31,6 +34,7 @@
 		public function get($ref, $for_func = false) {
 			// Remove space and invisible character
 			$ref = $this->clean_str($ref);
+			$ref = strtolower($ref);
 
 			$parts = $this->split_comma($ref);
 
