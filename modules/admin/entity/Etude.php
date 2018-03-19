@@ -109,8 +109,8 @@
 				"break_jeh" => 0,
 				"statut" => 0,
 				"locked" => false,
-				"p_jeh" => 340,
-				"per_rem" => 60,
+				"p_jeh" => 400,
+				"per_rem" => 65,
 			);
 		}
 
