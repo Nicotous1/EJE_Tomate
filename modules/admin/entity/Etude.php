@@ -230,7 +230,7 @@
 
 		public function getP_jeh() {
 			if ($this->p_jeh < 180) {$this->p_jeh = 180;}
-			if ($this->p_jeh > 340) {$this->p_jeh = 340;}
+			if ($this->p_jeh > 400) {$this->p_jeh = 400;}
 			return $this->p_jeh;
 		}
 
