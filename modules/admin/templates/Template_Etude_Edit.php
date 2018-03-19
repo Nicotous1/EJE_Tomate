@@ -191,7 +191,7 @@
 
                         <md-input-container  class="md-block flex">
                           <label>Prix de la JEH</label>
-                          <input type="number" min="80" max="340" ng-model="etude.p_jeh" step="10" ng-disabled="etude.locked">
+                          <input type="number" min="80" max="400" ng-model="etude.p_jeh" step="10" ng-disabled="etude.locked">
                         </md-input-container>    
 
                         <md-input-container class="md-block flex" ng-disabled="etude.locked">
