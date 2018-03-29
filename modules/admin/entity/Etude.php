@@ -109,7 +109,7 @@
 				"break_jeh" => 0,
 				"statut" => 0,
 				"locked" => false,
-				"p_jeh" => 400,
+				"p_jeh" => 340,
 				"per_rem" => 65,
 			);
 		}
@@ -226,12 +226,6 @@
 		public function getLocked() {
 			return !empty($this->get_Ids("child"));
 			//return ($this->locked || !empty($this->get_Ids("child")));
-		}
-
-		public function getP_jeh() {
-			if ($this->p_jeh < 180) {$this->p_jeh = 180;}
-			if ($this->p_jeh > 400) {$this->p_jeh = 400;}
-			return $this->p_jeh;
 		}
 
 		public function isRequestable() {
