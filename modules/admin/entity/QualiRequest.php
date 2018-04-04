@@ -10,9 +10,10 @@
 			return array(
 				"atts" => array(
 					array("att" => "date", "type" => AttSQL::TYPE_DATE),
+					array("att" => "com", "type" => AttSQL::TYPE_STR),
 
 					array("att" => "etude", "type" => AttSQL::TYPE_DREF, "class"=>"Etude", "null" => false),
-					array("att" => "doc", "type" => AttSQL::TYPE_DREF, "class"=>"DocTemplate", "null" => false),
+					array("att" => "template", "type" => AttSQL::TYPE_DREF, "class"=>"DocTemplate", "null" => false),
 					array("att" => "author", "type" => AttSQL::TYPE_USER),
 				),
 			);

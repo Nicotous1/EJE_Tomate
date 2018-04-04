@@ -20,10 +20,16 @@
 
         <md-input-container class="md-block flex">
           <label>Type de document</label>
-          <md-select ng-model="doc.template" placeholder="Choisir un template" required>
+          <md-select ng-model="req.template" placeholder="Choisir un template" required>
             <md-option ng-value="doct.id" ng-repeat="doct in doctemplates | orderBy:'nom' track by doct.id">{{doct.nom}}</md-option>
           </md-select>
         </md-input-container>
+
+        <md-input-container  class="md-block flex">
+          <label>Commentaire</label>
+          <textarea ng-model="req.com"  rows="4"></textarea>
+        </md-input-container>
+
         <p style="color:red; text-align: center;">{{error}}</p>
       </div>
     </md-dialog-content>

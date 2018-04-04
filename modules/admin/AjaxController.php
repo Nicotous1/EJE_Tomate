@@ -142,17 +142,17 @@
 
 		public function MakeRequestQuali() {
 			$params = $this->httpRequest->post(array(
-				"etude", "doc"
+				"etude", "template", "com"
 			));
 
 			$r = new QualiRequest($params);
 			if ($r->get("etude") === null) {return $this->error("Cette étude n'existe plus !");}
-			if ($r->get("doc") === null) {return $this->error("Ce template n'existe plus !");}
+			if ($r->get("template") === null) {return $this->error("Ce template n'existe plus !");}
 
 			$res = $this->pdo->save($r);
 
 			if ($res) {
-				$r = new Request("DELETE FROM #^ WHERE #doc~ AND #etude~ AND id != :id", $r);
+				$r = new Request("DELETE FROM #^ WHERE #template~ AND #etude~ AND id != :id", $r);
 				//var_dump($r->getStr());
 				$r->execute();
 				return $this->success();

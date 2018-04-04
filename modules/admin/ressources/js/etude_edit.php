@@ -692,7 +692,7 @@
 
       function DocDialogController(etude_id, doctemplates, etapes, etude, $scope, $mdDialog, $http, $mdToast) {
         $scope.doctemplates = doctemplates;
-        $scope.doc = {etude : etude_id};
+        $scope.req = {etude : etude_id};
 
         $scope.etude = etude;
 
@@ -704,8 +704,10 @@
         });
         $scope.n_jeh = n_jeh;
 
-        $scope.date_start = etapes[0].date_start;
-        $scope.date_end = etapes[etapes.length - 1].date_end;
+        if (etapes.length > 0) {
+          $scope.date_start = etapes[0].date_start;
+          $scope.date_end = etapes[etapes.length - 1].date_end;       
+        }
 
         $scope.sending = false;
 
@@ -719,7 +721,7 @@
             },
             all : function(data, msg) {$scope.sending = false;}, 
           });
-          $http.post(url, {etude : $scope.doc.etude, doc : $scope.doc.template}).then(resHandler, resHandler);  
+          $http.post(url, $scope.req).then(resHandler, resHandler);  
         };
 
         $scope.close = function() {

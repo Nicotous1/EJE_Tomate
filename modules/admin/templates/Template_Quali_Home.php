@@ -32,13 +32,21 @@
           <div ng-controller="QualifierController">
             <md-tab label="À qualifier ({{requests.length}})" md-active="requests.length > 0">
               <md-tab-body>
-                <md-list-item ng-if="requests.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à qualifier !</p></md-list-item>
+
                 <md-list style="padding: 0;">
-                  <md-list-item class="md-2-line" ng-repeat="r in requests | orderBy:'date'" md-on-demand ng-click="edit(r.etude)">
-                    <p>#{{r.etude.numero}} : {{getId(templates,r.doc).nom}}</p>
-                    <p style="text-align: right;">{{r.date | time_past }}</p>
+
+
+                  <md-list-item ng-if="requests.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à qualifier !</p></md-list-item>
+
+
+                  <md-list-item class="md-2-line" ng-click="edit(r.etude)" ng-repeat="r in requests | orderBy:'date'">
+                    <div class="md-list-item-text" layout="column">
+                      <p><span style="font-weight: bold;">#{{r.etude.numero}} : {{getId(templates,r.template).nom}}</span></p>
+                      <p style="white-space: pre-line;"><span ng-if="r.com">{{r.com}} - </span>{{r.date | time_past }}</p>
+                    </div>
                     <md-button class="md-icon-button md-secondary" ng-click="delete(r, $event)" ng-disabled="sending"><md-tooltip md-direction="top">Marquer comme terminée.</md-tooltip><i class="material-icons">delete</i></md-button>
                   </md-list-item>
+
                 </md-list>
               </md-tab-body>
             </md-tab> 
