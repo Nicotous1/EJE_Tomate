@@ -34,7 +34,7 @@
 				if (isset($docs[$n - $num])) {
 					return $docs[$n - $num];
 				} else {
-					return new DocEtude(array("type" => $type, "etude" => $this->etude, "n" => 1515));
+					return new DocEtude(array("type" => $type, "etude" => $this->etude, "n" => 1));
 				}
 			}
 		}
