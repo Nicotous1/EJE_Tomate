@@ -65,6 +65,12 @@
 				}
 			}
 
+
+			// No token
+			$this->user = new User();
+			return $this;
+
+			// not user -> because no token
 			//Recuperation par Token (remenber)
 			$tokenController = new TokenController();
 			$token = $tokenController->getOfRaw($this->cookies->get("auth_token"));
