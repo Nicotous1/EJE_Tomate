@@ -99,7 +99,7 @@
 		}
 
 		public function extract($str) {
-			if ($str == null or strlen($str) != Token::SIZE_TOKEN) {return null;}
+			if ($str == null or strlen($str) != (Token::SIZE_SELECTOR + Token::SIZE_VALIDATOR)) {return null;}
 			return new Token(array(
 				"selector" => substr($str, 0,Token::SIZE_SELECTOR),
 				"validator" => substr($str,-(Token::SIZE_VALIDATOR)),
