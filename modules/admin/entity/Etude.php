@@ -340,7 +340,7 @@
 				}
 			}
 
-			return ($this->get("per_rem")/100)*$this->get("p_jeh")*$this->get("n_jeh");
+			return ($this->get("per_rem")/100)*$this->get("p_jeh")*$n;
 		}
 
 		public function getNjeh_ed($ed) {
