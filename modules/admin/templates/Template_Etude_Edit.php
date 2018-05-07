@@ -74,6 +74,13 @@
                             <md-option ng-value="statut.id" ng-repeat="statut in formEtude.statuts track by statut.id">{{statut.name}}</md-option>
                           </md-select>
                         </md-input-container>
+
+                        <md-input-container class="md-block flex-20" ng-if="etude.compt_statut">
+                          <label>Statut comptable</label>
+                          <md-select ng-model="etude.compt_statut" placeholder="Statut" ng-disabled="etude.locked">  
+                            <md-option ng-value="statut.id" ng-repeat="statut in formEtude.statuts_compt track by statut.id">{{statut.name}}</md-option>
+                          </md-select>
+                        </md-input-container>
                       </div>
 
                       <div layout="row">  
