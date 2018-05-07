@@ -203,6 +203,13 @@
                           <label>Frais rupture</label>
                           <input type="number" ng-model="etude.break_fee" ng-disabled="etude.locked" step="0.01">
                         </md-input-container>
+
+                        <md-input-container class="md-block flex">
+                          <label>Statut</label>
+                          <md-select ng-model="etude.compt_statut" placeholder="Statut" ng-disabled="etude.locked">  
+                            <md-option ng-value="statut.id" ng-repeat="statut in formEtude.statuts_compt track by statut.id">{{statut.name}}</md-option>
+                          </md-select>
+                        </md-input-container>
                     </div>
                   </md-tab-body>
                 </md-tab>

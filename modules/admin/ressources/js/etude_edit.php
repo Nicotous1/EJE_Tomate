@@ -33,6 +33,7 @@
     $scope.formEtude = {
      provs : <?php echo json_encode(Etude::$provenanceArray); ?>,
      statuts : <?php echo json_encode(Etude::$statutArray); ?>,
+     statuts_compt : <?php echo json_encode(Etude::$compt_statutArray); ?>,
      lieux : <?php echo json_encode(Etude::$lieuArray); ?>,
      domaines : <?php echo json_encode(Etude::$domaineArray); ?>,
      entreprises : <?php echo json_encode($entreprises); ?>,

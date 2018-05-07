@@ -31,6 +31,14 @@
 			array("id" => 7, "name" => "À auditer", "icon" => "spellcheck"),// spellcheck
 		);
 
+		public static $compt_statutArray = array(
+			array("id" => 0, "name" => "Non applicable"),
+			array("id" => 1, "name" => "Facturée"),
+			array("id" => 2, "name" => "Payée"),
+			array("id" => 3, "name" => "Rémunération en cours"),
+			array("id" => 4, "name" => "Rémunérée"),
+		);
+
 		public static $lieuArray = array(
 			array("id" => 1, "short" => "A l'ENSAE", "long" => 
 				"dans les locaux d'ENSAE Junior Études"),
@@ -80,6 +88,8 @@
 					array("att" => "provenance", "type" => AttSQL::TYPE_ARRAY, "list" => self::$provenanceArray),
 					array("att" => "statut", "type" => AttSQL::TYPE_ARRAY, "list" => self::$statutArray),
 					array("att" => "lieu", "type" => AttSQL::TYPE_ARRAY, "list" => self::$lieuArray),
+					array("att" => "compt_statut", "type" => AttSQL::TYPE_ARRAY, "list" => self::$compt_statutArray),
+
 
 					array("att" => "domaines", "type" => AttSQL::TYPE_MARRAY, "list" => self::$domaineArray),
 					
@@ -111,6 +121,7 @@
 				"locked" => false,
 				"p_jeh" => 340,
 				"per_rem" => 65,
+				"compt_statut" => 0,
 			);
 		}
 
