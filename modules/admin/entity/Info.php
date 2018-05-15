@@ -8,7 +8,7 @@
 
 
 		public static $typeArray = array(
-			array("id" => 0, "str_action" => "a modifé les propriétés", "icon" => "mode_edit"),
+			array("id" => 0, "str_action" => "a modifié les propriétés", "icon" => "mode_edit"),
 			array("id" => 1, "str_action" => "a crée l'étude", "icon" => "mode_edit"),
 			array("id" => 2, "str_action" => "a commenté", "icon" => "insert_comment"),
 			array("id" => 3, "str_action" => "a modifié les étapes", "icon" => "mode_edit"),
