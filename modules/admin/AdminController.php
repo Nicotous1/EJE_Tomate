@@ -113,6 +113,17 @@
 			$page = new Page();
 		    $page->addFile(dirname(__FILE__) . "/templates/Template_LastEtudes.php")
 		    	 ->addVar("HeaderTitre", "Dernières études")
+		    	 ->addVar("archived", false)
+		  	;
+		    return $page;
+		}
+
+		public function ArchivedEtudes() {
+			//AFFICHAGE
+			$page = new Page();
+		    $page->addFile(dirname(__FILE__) . "/templates/Template_LastEtudes.php")
+		    	 ->addVar("HeaderTitre", "Études archivées")
+		    	 ->addVar("archived", true)
 		  	;
 		    return $page;
 		}

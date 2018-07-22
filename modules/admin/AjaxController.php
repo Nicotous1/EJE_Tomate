@@ -24,15 +24,18 @@
 		public function LastEtudes() {
 			$page = (int) $this->httpRequest->post("page");
 			$page_size = (int) $this->httpRequest->post("page_size");
+			$archived = (bool) $this->httpRequest->post("archived", False);
+
+			$sql_archived = ($archived) ? '>' : '<=';
 
 			$offset = $page*$page_size; // pas de +1 car commence à zero
 
 			$res = $this->pdo->get("Admin\Entity\Etude", array(
-				"#s.child IS NULL ORDER BY #s.numero DESC LIMIT :0 OFFSET :1",
-				array($page_size, $offset)
+				"#s.child IS NULL AND #s.statut ".$sql_archived." 4 ORDER BY #s.numero  DESC LIMIT :0 OFFSET :1",
+				array($page_size, $offset, 4)
 			), false);
 
-			$r = new Request("SELECT COUNT(*) AS n FROM #^ WHERE #child IS NULL", Etude::getEntitySQL());
+			$r = new Request("SELECT COUNT(*) AS n FROM #0.^ WHERE #0.child IS NULL AND #0.statut ".$sql_archived." 4", array(Etude::getEntitySQL(), 4));
 			$n = $r->fetch()["n"];
 
 			return $this->success(array("etudes" => $res, "n" => $n));

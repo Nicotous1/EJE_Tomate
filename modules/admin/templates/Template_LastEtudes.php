@@ -4,7 +4,7 @@
       <div class="md-whiteframe-z2" style="padding: 0; margin-bottom: 20px;">
         <md-toolbar>
           <div class="md-toolbar-tools">
-            <span>Dernières études</span>
+            <span><?php echo $HeaderTitre; ?></span>
           </div>
         </md-toolbar>
         <md-content>
@@ -12,7 +12,7 @@
               <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminNew"); ?>"><p style="text-align: center;">Ajouter une étude</p></md-list-item>
               <md-divider></md-divider>  
 
-            <md-virtual-repeat-container style="height: 70%;" md-auto-shrink>                      
+            <md-virtual-repeat-container style="height: 60%; max-height: 600px;" md-auto-shrink>                      
               <md-list-item class="md-2-line" md-virtual-repeat="etude in dynamicItems" md-on-demand ng-href="{{edit(etude)}}">
                 <div class="md-list-item-text" layout="column">
                   <h4><span style="font-weight: bold;">#{{etude.numero}}</span> : {{etude.pseudo}} ({{etude_statuts[etude.statut].name}})</h4>
@@ -105,7 +105,7 @@
           console.log(msg);
         }
       });
-      $http.post(url, {page : pageNumber, page_size : this.PAGE_SIZE}).then(resHandler, resHandler);
+      $http.post(url, {page : pageNumber, page_size : this.PAGE_SIZE, archived : <?php echo ($archived) ? 'true' : 'false' ?> }).then(resHandler, resHandler);
     };
 
     $scope.dynamicItems = new DynamicItems(); 

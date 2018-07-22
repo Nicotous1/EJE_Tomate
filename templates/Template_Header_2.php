@@ -21,6 +21,7 @@
         <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminNew") ?>">Nouvelle étude</md-list-item>
         <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminLastEtudes") ?>">Dernières études</md-list-item>
         <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminLastInfos") ?>">Dernières infos</md-list-item>
+        <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminArchivedEtudes") ?>">Reposent en paix</md-list-item>
 <?php 
       // Beautifull no ?
       $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1^ AND #0.child IS NULL AND #0.statut < 5 ORDER BY e.#0.numero DESC", array(Etude::getEntitySQL(), $user));
