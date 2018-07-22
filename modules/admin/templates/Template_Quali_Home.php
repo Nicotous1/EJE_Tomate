@@ -17,7 +17,7 @@
               <md-tab-body>
                 <md-list-item ng-if="etudes.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à auditer !</p></md-list-item>
                 <md-list style="padding: 0;">
-                  <md-list-item class="md-2-line" ng-repeat="etude in etudes" md-on-demand ng-click="edit(etude)">
+                  <md-list-item class="md-2-line" ng-repeat="etude in etudes" md-on-demand ng-href="{{edit(etude)}}">
                     <div class="md-list-item-text" layout="column">
                       <h4><span style="font-weight: bold;">#{{etude.numero}}</span> : {{etude.pseudo}} ({{etude_statuts[etude.statut].name}})</h4>
                       <p style="white-space: pre-line;">{{etude.but | cut}}</p>
@@ -39,7 +39,7 @@
                   <md-list-item ng-if="requests.length == 0"><p style="text-align: center;">Vous avez bien travaillé. Il n'y a rien à qualifier !</p></md-list-item>
 
 
-                  <md-list-item class="md-2-line" ng-click="edit(r.etude)" ng-repeat="r in requests | orderBy:'date'">
+                  <md-list-item class="md-2-line" ng-href="{{edit(r.etude)}}" ng-repeat="r in requests | orderBy:'date'">
                     <div class="md-list-item-text" layout="column">
                       <p><span style="font-weight: bold;">#{{r.etude.numero}} : {{getId(templates,r.template).nom}}</span></p>
                       <p style="white-space: pre-line;"><span ng-if="r.com">{{r.com}} - </span>{{r.date | time_past }}</p>

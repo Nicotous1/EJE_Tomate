@@ -18,9 +18,9 @@
       <md-list>
       <?php if ($user->isAdmin()) { ?>
         <md-divider></md-divider>
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminNew") ?>')">Nouvelle étude</md-list-item>
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminLastEtudes") ?>')">Dernières études</md-list-item>
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminLastInfos") ?>')">Dernières infos</md-list-item>
+        <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminNew") ?>">Nouvelle étude</md-list-item>
+        <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminLastEtudes") ?>">Dernières études</md-list-item>
+        <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminLastInfos") ?>">Dernières infos</md-list-item>
 <?php 
       // Beautifull no ?
       $r = new Request("SELECT e.#0.id id, e.#0.numero numero, e.#0.pseudo pseudo FROM #0.^ e JOIN #0.admins^ l ON l.#0.admins = e.id WHERE l.#0.admins> = :1^ AND #0.child IS NULL AND #0.statut < 5 ORDER BY e.#0.numero DESC", array(Etude::getEntitySQL(), $user));
@@ -32,7 +32,7 @@
       }
       foreach ($etudes_shortcut as $e) {
 ?>
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminEdit", array("id" => $e["id"])); ?>')"><?php show("#" . $e["numero"] . " : " . $e["pseudo"]); ?></md-list-item>
+        <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminEdit", array("id" => $e["id"])); ?>"><?php show("#" . $e["numero"] . " : " . $e["pseudo"]); ?></md-list-item>
 <?php
       }
 ?>        
@@ -45,13 +45,13 @@
 
 ?>
         <md-divider></md-divider>
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("AdminQuali") ?>')">Pôle Qualité <?php if($n > 0) {echo "($n)";} ?></md-list-item>
+        <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminQuali") ?>">Pôle Qualité <?php if($n > 0) {echo "($n)";} ?></md-list-item>
 <?php } ?>
       <?php } ?>
         <md-divider></md-divider>
 
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("EdEdit") ?>')">Votre profil</md-list-item>
-        <md-list-item ng-click="redirect('<?php echo $routeur->getUrlFor("EdCandidater") ?>')">Postuler</md-list-item>   
+        <md-list-item ng-href="<?php echo $routeur->getUrlFor("EdEdit") ?>">Votre profil</md-list-item>
+        <md-list-item ng-href="<?php echo $routeur->getUrlFor("EdCandidater") ?>">Postuler</md-list-item>   
         <md-divider></md-divider>
         
 <?php if ($user->isAdmin()) { ?>

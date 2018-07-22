@@ -19,14 +19,14 @@
   app.controller('EtudesController', function($scope) {
     $scope.etude_statuts = <?php echo json_encode(Etude::$statutArray); ?>;
     $scope.edit = function(etude) {
-      location.href = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);;
+      return "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);;
     }
   });
 
   app.controller('QualifierController', function($scope, $mdDialog, $mdToast, $http) {
     $scope.sending = false;
     $scope.edit = function(etude) {
-      window.open("<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id), '_blank');
+      return "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);
     }
 
     $scope.delete = function(c, ev) {

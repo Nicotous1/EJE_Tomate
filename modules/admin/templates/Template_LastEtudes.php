@@ -9,11 +9,11 @@
         </md-toolbar>
         <md-content>
           <md-list>
-              <md-list-item ng-click="new()"><p style="text-align: center;">Ajouter une étude</p></md-list-item>
+              <md-list-item ng-href="<?php echo $routeur->getUrlFor("AdminNew"); ?>"><p style="text-align: center;">Ajouter une étude</p></md-list-item>
               <md-divider></md-divider>  
 
             <md-virtual-repeat-container style="height: 70%;" md-auto-shrink>                      
-              <md-list-item class="md-2-line" md-virtual-repeat="etude in dynamicItems" md-on-demand ng-click="edit(etude)">
+              <md-list-item class="md-2-line" md-virtual-repeat="etude in dynamicItems" md-on-demand ng-href="{{edit(etude)}}">
                 <div class="md-list-item-text" layout="column">
                   <h4><span style="font-weight: bold;">#{{etude.numero}}</span> : {{etude.pseudo}} ({{etude_statuts[etude.statut].name}})</h4>
                   <p style="white-space: pre-line;">{{etude.but | cut}}</p>
@@ -43,7 +43,7 @@
 
     $scope.edit = function(etude) {
       var url = "<?php echo $routeur->getUrlFor("AdminEdit", array("id" => 1515)); ?>".replace("1515", etude.id);
-      location.href = url;
+      return url;
     }
 
 
