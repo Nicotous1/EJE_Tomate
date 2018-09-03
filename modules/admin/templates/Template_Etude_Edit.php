@@ -461,7 +461,7 @@
 
                 <div layout="row" ng-if="$parent.etude.child == null" layout-align="center center">
                     <md-button flex ng-click="generate()">Générer</md-button>
-                    <md-button ng-click="ask()" ng-if="user_is_admin()" flex>Demander un document</md-button>                  
+                    <md-button ng-click="ask()" ng-if="user_is_admin() || user.quali" flex>Demander un document</md-button>                  
                     <md-button flex ng-click="add()">Ajouter un document</md-button>
 <?php if ($user->get("quali")) { ?>             
                     <md-button flex ng-click="custom()">Custom</md-button>
