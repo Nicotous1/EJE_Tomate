@@ -173,7 +173,7 @@
 		          $scope.sending = true;
 		          var resHandler = handle_response({
 		            success : function(data, msg) {
-		                        alert("Un email vous a été envoyé avec un lien pour réinitialiser votre mot de passe.")
+		                        alert("Un email vous a été envoyé avec un lien pour réinitialiser votre mot de passe.\n(Cela peut prendre du temps avant d'être reçu par l'ENSAE....)")
 		                        $mdDialog.hide(data.client);
 		                      },
 		            all : function(data, msg) {$scope.sending = false;}, 
