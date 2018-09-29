@@ -19,7 +19,7 @@
             <md-list-item ng-if="dynamicItems.getLength() == '0'">
               <p>On dirait qu'il ne se passe rien dans cette JE.</p>
             </md-list-item>                
-            <md-virtual-repeat-container style="height: 70%;" md-auto-shrink> 
+            <md-virtual-repeat-container style="height: 600px; max-height: 600px;" md-auto-shrink> 
               <md-list-item class="md-3-line" md-virtual-repeat="info in dynamicItems" md-on-demand ng-href="{{redirect_com(info)}}" style="border-bottom: solid 1px rgb(220,220,220);">
                 <div class="md-list-item-text" layout="column">
                   <p style="color: black;"><span style="font-weight: bold;">#{{info.etude.numero}}</span> : {{info.author.prenom}} {{info.author.nom}} {{info.type.str_action}}.</p>
