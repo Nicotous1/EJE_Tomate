@@ -460,9 +460,9 @@
                 <md-divider></md-divider>
 
                 <div layout="row" ng-if="$parent.etude.child == null" layout-align="center center">
-                    <md-button flex ng-click="generate()" ng-if="user.quali">Générer</md-button>
+                    <md-button flex ng-click="generate()">Générer</md-button>
                     <md-button ng-click="ask()" flex>Demander un document</md-button>                  
-                    <md-button flex ng-click="add()">Ajouter un document</md-button>     
+                    <md-button flex ng-click="add()" ng-if="user.quali">Ajouter un document</md-button>     
                     <md-button flex ng-click="custom()" ng-if="user.quali">Custom</md-button>
                 </div>
               </md-tab-body>
