@@ -2,16 +2,17 @@
 /*	
 	To set depending on dev or prod
 */
-	error_reporting(E_ALL);
-	ini_set('display_errors',1);
-	ini_set('html_errors', true);
+
+	error_reporting(0);
+//	ini_set('display_errors',1);
+//	ini_set('html_errors', true);
 
 
 
 function exception_error_handler($errno, $errstr, $errfile, $errline ) {
     throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
 }
-set_error_handler("exception_error_handler");
+//set_error_handler("exception_error_handler");
 
 
 /*
