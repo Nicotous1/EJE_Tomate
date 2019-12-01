@@ -270,15 +270,20 @@
 			}
 			return $p;
 		}
+		
+		public function getPrix_eco() {
+			return $this->get("prix_ht")*0.01;
+		}
 
 		public function getPrix_tot() {
-			return $this->get("prix_ht") + $this->get("fee");
+			return $this->get("prix_ht") + $this->get("fee") + $this->get("prix_eco");
 		}
 
 		public function getPrix_tva() {
 			return $this->get("prix_tot")*0.2;
 		}
-
+		
+		
 		public function getPrix_ttc() {
 			return $this->get("prix_tot")*1.2;
 		}
