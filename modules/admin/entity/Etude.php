@@ -278,6 +278,9 @@
 		public function getPrix_tot() {
 			return $this->get("prix_ht") + $this->get("fee") + $this->get("prix_eco");
 		}
+		public function getPrix_tot_sans_eco() {
+			return $this->get("prix_ht") + $this->get("fee");
+		}
 
 		public function getPrix_tva() {
 			return $this->get("prix_tot")*0.2;
