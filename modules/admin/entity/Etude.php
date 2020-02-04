@@ -263,7 +263,7 @@
 			return $t;
 		}
 
-		public function getPrix_ht() {
+		public function getPrix_ht_sans_eco() {
 			$p = 0;
 			foreach ($this->get("etapes") as $etape) {
 				$p += $etape->getN_jeh()*$this->get("p_jeh");
@@ -272,7 +272,11 @@
 		}
 		
 		public function getPrix_eco() {
-			return $this->get("prix_ht")*0.01;
+			return $this->get("prix_ht_sans_eco")*0.01;
+		}
+		
+		public function getPrix_ht() {
+			return $this->get("prix_ht_sans_eco")*1.01;
 		}
 
 		public function getPrix_tot() {
@@ -285,7 +289,7 @@
 		
 		
 		public function getPrix_ttc() {
-			return $this->get("prix_tot_sans_eco") + $this->get("prix_tva") + $this->get("prix_eco");
+			return $this->get("prix_tot_sans_eco")*1.2;
 		}
 
 		public function getDate_start() {
@@ -319,8 +323,12 @@
 
 
 
-		public function getPrix_ht_break() {
-			return $etape->get("break_jeh")*340;
+		public function getPrix_ht_sans_eco_break() {
+			return $etape->get("break_jeh")*400;
+		}
+		
+		public function getPrix_ht() {
+			return $etape->get("prix_ht_sans_eco_break")*1.01;
 		}
 		
 		public function getPrix_eco_break() {
