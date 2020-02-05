@@ -286,6 +286,14 @@
 			return $this->get("prix_tot")*0.2;
 		}
 		
+		public function getPrix_tva_sans_eco() {
+			return $this->get("prix_tot_sans_eco")*0.2;
+		}
+		
+		public function getPrix_ttc_sans_eco() {
+			return $this->get("prix_tot_sans_eco")*1.2;
+		}
+		
 		
 		public function getPrix_ttc() {
 			return $this->get("prix_tot")*1.2;
