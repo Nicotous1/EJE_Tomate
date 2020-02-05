@@ -289,7 +289,7 @@
 		
 		
 		public function getPrix_ttc() {
-			return $this->get("prix_tot_sans_eco")*1.2;
+			return $this->get("prix_tot")*1.2;
 		}
 
 		public function getDate_start() {
