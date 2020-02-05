@@ -263,7 +263,7 @@
 			return $t;
 		}
 
-		public function getPrix_ht_sans_eco() {
+		public function getPrix_ht() {
 			$p = 0;
 			foreach ($this->get("etapes") as $etape) {
 				$p += $etape->getN_jeh()*$this->get("p_jeh");
@@ -272,14 +272,13 @@
 		}
 		
 		public function getPrix_eco() {
-			return $this->get("prix_ht_sans_eco")*0.01;
-		}
-		
-		public function getPrix_ht() {
-			return $this->get("prix_ht_sans_eco")*1.01;
+			return $this->get("prix_ht")*0.01;
 		}
 
 		public function getPrix_tot() {
+			return $this->get("prix_ht") + $this->get("fee") + $this->get("prix_eco");
+		}
+		public function getPrix_tot_sans_eco() {
 			return $this->get("prix_ht") + $this->get("fee");
 		}
 
@@ -323,18 +322,9 @@
 
 
 
-		public function getPrix_ht_sans_eco_break() {
-			return $etape->get("break_jeh")*400;
+		public function getPrix_ht_break() {
+			return $etape->get("break_jeh")*340;
 		}
-		
-		public function getPrix_ht() {
-			return $etape->get("prix_ht_sans_eco_break")*1.01;
-		}
-		
-		public function getPrix_eco_break() {
-			return $this->get("prix_ht_break")*0.01;
-		}
-
 
 		public function getPrix_tot_break() {
 			return $this->get("prix_ht_break") + $this->get("break_fee");
@@ -345,7 +335,7 @@
 		}
 
 		public function getPrix_ttc_break() {
-			return $this->get("prix_tot_break") + $this->get("prix_tva_break") +$this->get("prix_eco_break");
+			return $this->get("prix_tot_break")*1.2;
 		}
 
 		public function getDocHistory() {
